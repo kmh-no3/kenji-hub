@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next build",
-    "deploy": "npm run build && touch out/.nojekyll && gh-pages -d out --dotfiles"
+    "deploy": "npm run build && touch out/.nojekyll && gh-pages -d out --dotfiles",
+    "deploy-manual": "npm run build && touch out/.nojekyll && gh-pages -d out --dotfiles --branch gh-pages"
   },
   "dependencies": {
     "next": "14.0.0",
