@@ -1,6 +1,8 @@
 import Image from 'next/image'
 
 export default function Home() {
+  const basePath = '/kenji-hub'
+  
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h1>Hello, Next.js!</h1>
@@ -12,7 +14,7 @@ export default function Home() {
         <h2>Image Test</h2>
         <p>Testing Next.js Image component:</p>
         <Image 
-          src="/next.svg" 
+          src={`${basePath}/next.svg`}
           alt="Next.js Logo" 
           width={200} 
           height={100}
@@ -21,7 +23,7 @@ export default function Home() {
         />
         <br />
         <Image 
-          src="/vercel.svg" 
+          src={`${basePath}/vercel.svg`}
           alt="Vercel Logo" 
           width={100} 
           height={50}
@@ -33,17 +35,25 @@ export default function Home() {
       <div style={{ marginTop: '20px' }}>
         <h2>Regular img tag test</h2>
         <p>Testing regular img tags:</p>
-        <img src="/globe.svg" alt="Globe" width="50" height="50" />
-        <img src="/file.svg" alt="File" width="50" height="50" />
-        <img src="/window.svg" alt="Window" width="50" height="50" />
+        <img src={`${basePath}/globe.svg`} alt="Globe" width="50" height="50" />
+        <img src={`${basePath}/file.svg`} alt="File" width="50" height="50" />
+        <img src={`${basePath}/window.svg`} alt="Window" width="50" height="50" />
       </div>
       
       {/* デバッグ情報 */}
       <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f0f0f0' }}>
         <h3>Debug Info</h3>
-        <p>Base Path: /kenji-hub</p>
-        <p>Asset Prefix: /kenji-hub/</p>
+        <p>Base Path: {basePath}</p>
+        <p>Asset Prefix: {basePath}/</p>
         <p>Build Time: {new Date().toLocaleString()}</p>
+        <p>Image URLs:</p>
+        <ul>
+          <li>Next.js Logo: {basePath}/next.svg</li>
+          <li>Vercel Logo: {basePath}/vercel.svg</li>
+          <li>Globe: {basePath}/globe.svg</li>
+          <li>File: {basePath}/file.svg</li>
+          <li>Window: {basePath}/window.svg</li>
+        </ul>
       </div>
     </div>
   )

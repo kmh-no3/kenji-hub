@@ -6,7 +6,8 @@ const nextConfig = {
   trailingSlash: true,
   images: {
     unoptimized: true,
-    loader: 'default'
+    loader: 'default',
+    path: '/kenji-hub'
   }
 }
 
