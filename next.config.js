@@ -8,9 +8,6 @@ const nextConfig = {
     unoptimized: true,
     loader: 'default',
     path: process.env.NODE_ENV === 'production' ? '/kenji-hub' : ''
-  },
-  experimental: {
-    appDir: true
   }
 }
 
