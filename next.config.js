@@ -1,13 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: process.env.NODE_ENV === 'production' ? '/kenji-hub' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/kenji-hub/' : '',
+  basePath: '/kenji-hub',
+  assetPrefix: '/kenji-hub/',
   trailingSlash: true,
   images: {
     unoptimized: true,
-    loader: 'default',
-    path: process.env.NODE_ENV === 'production' ? '/kenji-hub' : ''
+    loader: 'default'
   }
 }
 
