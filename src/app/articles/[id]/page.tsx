@@ -44,7 +44,7 @@ const articles: Article[] = [
     tags: ['Next.js', 'React', 'Web開発'],
     image: '/kenji-hub/next.svg',
     author: {
-      name: '細田健二',
+      name: '細田健司',
       avatar: '/kenji-hub/globe.svg'
     }
   },
@@ -70,7 +70,7 @@ const articles: Article[] = [
     tags: ['Docker', 'DevOps', 'インフラ'],
     image: '/kenji-hub/file.svg',
     author: {
-      name: '細田健二',
+      name: '細田健司',
       avatar: '/kenji-hub/globe.svg'
     }
   }

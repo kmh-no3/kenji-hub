@@ -25,10 +25,10 @@ const articles: Article[] = [
     publishedAt: '2025-01-15',
     readTime: '8分',
     tags: ['Next.js', 'React', 'Web開発'],
-    image: '/kenji-hub/next.svg',
+    image: '/next.svg',
     author: {
       name: '細田健司',
-      avatar: '/kenji-hub/globe.svg'
+      avatar: '/globe.svg'
     }
   },
   {
@@ -38,10 +38,10 @@ const articles: Article[] = [
     publishedAt: '2025-01-10',
     readTime: '12分',
     tags: ['Docker', 'DevOps', 'インフラ'],
-    image: '/kenji-hub/file.svg',
+    image: '/file.svg',
     author: {
       name: '細田健司',
-      avatar: '/kenji-hub/globe.svg'
+      avatar: '/globe.svg'
     }
   },
   {
@@ -51,10 +51,10 @@ const articles: Article[] = [
     publishedAt: '2025-01-05',
     readTime: '10分',
     tags: ['TypeScript', 'JavaScript', '型システム'],
-    image: '/kenji-hub/window.svg',
+    image: '/window.svg',
     author: {
       name: '細田健司',
-      avatar: '/kenji-hub/globe.svg'
+      avatar: '/globe.svg'
     }
   },
   {
@@ -64,10 +64,10 @@ const articles: Article[] = [
     publishedAt: '2025-01-01',
     readTime: '6分',
     tags: ['CSS', 'TailwindCSS', 'UI/UX'],
-    image: '/kenji-hub/vercel.svg',
+    image: '/vercel.svg',
     author: {
       name: '細田健司',
-      avatar: '/kenji-hub/globe.svg'
+      avatar: '/globe.svg'
     }
   }
 ]
@@ -144,17 +144,21 @@ function ArticleCard({ article }: { article: Article }) {
 function Header() {
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16">
-        {/* サイトタイトル */}
-        <h1 className="text-2xl font-bold text-gray-900 mr-8 whitespace-nowrap">HOSODA KENJI</h1>
-        {/* メインナビゲーション */}
-        <nav className="flex space-x-6">
-        <strong><a href="/kenji-hub/about" className="text-gray-700 hover:text-blue-600 transition-colors">ABOUT</a></strong>
-        <strong><a href="/kenji-hub/work" className="text-gray-700 hover:text-blue-600 transition-colors">WORKS</a></strong>
-        <strong><a href="/kenji-hub/blog" className="text-gray-700 hover:text-blue-600 transition-colors">BLOG</a></strong>
-        </nav>
-        {/* SNSリンク */}
-        <div className="ml-auto flex space-x-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-24">
+        {/* 左側: サイトタイトルとナビゲーション */}
+        <div className="flex items-center">
+          {/* サイトタイトル */}
+          <h1 className="text-3xl font-bold text-gray-900 mr-8 whitespace-nowrap tracking-widest">HOSODA KENJI</h1>
+          {/* メインナビゲーション */}
+          <nav className="flex space-x-6">
+            <strong><a href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">ABOUT</a></strong>
+            <strong><a href="/work" className="text-gray-700 hover:text-blue-600 transition-colors">WORKS</a></strong>
+            <strong><a href="/blog" className="text-gray-700 hover:text-blue-600 transition-colors">BLOG</a></strong>
+          </nav>
+        </div>
+        
+        {/* 右側: SNSリンク */}
+        <div className="flex space-x-12">
           <a 
             href="https://twitter.com/your_twitter" 
             target="_blank" 
@@ -162,7 +166,7 @@ function Header() {
             className="text-gray-400 hover:text-blue-500 transition-colors"
             aria-label="Twitter"
           >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
               <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
             </svg>
           </a>
@@ -173,7 +177,7 @@ function Header() {
             className="text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="GitHub"
           >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
           </a>
@@ -184,7 +188,7 @@ function Header() {
             className="text-gray-400 hover:text-blue-600 transition-colors"
             aria-label="Zenn"
           >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
               <path d="M.264 23.771h4.984c.264 0 .498-.147.642-.382L19.614.874c.176-.293-.029-.667-.372-.667H14.24c-.264 0-.498.147-.642.382L.264 23.771zM17.916 23.419l3.254-5.436a.641.641 0 0 0-.642-.382h-4.984l5.436 5.818c.144.235.378.382.642.382h1.744z"/>
             </svg>
           </a>
@@ -201,61 +205,54 @@ export const metadata = {
 }
 
 export default function Home() {
-  const basePath = process.env.NODE_ENV === 'production' ? '/kenji-hub' : ''
-  
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>Hello, Next.js!</h1>
-      <p>This is a test page to verify Next.js is working correctly.</p>
-      <p>If you can see this, Next.js is working properly!</p>
+    <div className="min-h-screen bg-gray-50">
+      <Header />
       
-      {/* 画像の読み込みテスト */}
-      <div style={{ marginTop: '20px' }}>
-        <h2>Image Test</h2>
-        <p>Testing Next.js Image component:</p>
-        <Image 
-          src={`${basePath}/next.svg`}
-          alt="Next.js Logo" 
-          width={200} 
-          height={100}
-          priority
-          unoptimized
-        />
-        <br />
-        <Image 
-          src={`${basePath}/vercel.svg`}
-          alt="Vercel Logo" 
-          width={100} 
-          height={50}
-          unoptimized
-        />
-      </div>
-      
-      {/* 通常のimgタグでのテスト */}
-      <div style={{ marginTop: '20px' }}>
-        <h2>Regular img tag test</h2>
-        <p>Testing regular img tags:</p>
-        <img src={`${basePath}/globe.svg`} alt="Globe" width="50" height="50" />
-        <img src={`${basePath}/file.svg`} alt="File" width="50" height="50" />
-        <img src={`${basePath}/window.svg`} alt="Window" width="50" height="50" />
-      </div>
-      
-      {/* デバッグ情報 */}
-      <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f0f0f0' }}>
-        <h3>Debug Info</h3>
-        <p>Environment: {process.env.NODE_ENV || 'development'}</p>
-        <p>Base Path: {basePath || '(empty)'}</p>
-        <p>Asset Prefix: {basePath ? `${basePath}/` : '(empty)'}</p>
-        <p>Build Time: {new Date().toLocaleString()}</p>
-        <p>Image URLs:</p>
-        <ul>
-          <li>Next.js Logo: {basePath}/next.svg</li>
-          <li>Vercel Logo: {basePath}/vercel.svg</li>
-          <li>Globe: {basePath}/globe.svg</li>
-          <li>File: {basePath}/file.svg</li>
-          <li>Window: {basePath}/window.svg</li>
-        </ul>
-      </div>
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* ヒーローセクション */}
+        <section className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            技術的な知見を共有する
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            モダンなWeb開発技術やコンピュータサイエンスについて、<br/> 
+            実践的な内容を発信しています。
+          </p>
+        </section>
+        
+        {/* タグセクション */}
+        <section className="mt-16 mb-20">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8">タグ一覧</h2>
+          <div className="flex flex-wrap gap-3">
+            {['Next.js', 'React', 'TypeScript', 'Docker', 'DevOps', 'Web開発', 'CSS', 'JavaScript'].map((tag) => (
+              <a
+                key={tag}
+                href="#"
+                className="px-4 py-2 bg-white border border-gray-200 rounded-full text-gray-700 hover:bg-blue-50 hover:border-blue-200 transition-colors"
+              >
+                {tag}
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* 記事一覧 */}
+        <section className="mt-20">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-gray-900">最新記事</h2>
+            <a href="#" className="text-blue-600 hover:text-blue-800 font-medium">
+              すべての記事を見る →
+            </a>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {articles.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        </section>
+      </main>
     </div>
   )
 }
