@@ -72,12 +72,16 @@ function Header() {
         {/* 左側: サイトタイトルとナビゲーション */}
         <div className="flex items-center">
           {/* サイトタイトル */}
-          <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mr-4 sm:mr-8 whitespace-nowrap tracking-widest">HOSODA KENJI</h1>
+          <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mr-4 sm:mr-8 whitespace-nowrap tracking-widest">
+            <a href="https://kmh-no3.github.io/kenji-hub" className="hover:text-blue-600 transition-colors">
+              HOSODA KENJI
+            </a>
+          </h1>
           {/* メインナビゲーション - デスクトップのみ表示 */}
           <nav className="hidden md:flex space-x-4 lg:space-x-6">
             <strong><a href="/about" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">ABOUT</a></strong>
-            <strong><a href="/works" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">WORKS</a></strong>
-            <strong><a href="/articles" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">BLOG</a></strong>
+            <strong><a href="https://kmh-no3.github.io/kenji-hub/works" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">WORKS</a></strong>
+            <strong><a href="https://kmh-no3.github.io/kenji-hub/articles" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">BLOG</a></strong>
           </nav>
         </div>
         
@@ -145,14 +149,14 @@ function Header() {
               ABOUT
             </a>
             <a 
-              href="/works" 
+              href="https://kmh-no3.github.io/kenji-hub/works" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               WORKS
             </a>
             <a 
-              href="/articles" 
+              href="https://kmh-no3.github.io/kenji-hub/articles" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
