@@ -4,142 +4,164 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
-// 記事データの型定義
-interface Article {
+// プロジェクトデータの型定義
+interface Project {
   id: string
   title: string
   description: string
-  publishedAt: string
-  readTime: string
-  tags: string[]
-  image?: string
-  author: {
-    name: string
-    avatar: string
-  }
+  technologies: string[]
+  image: string
+  githubUrl?: string
+  demoUrl?: string
+  status: 'completed' | 'in-progress' | 'planned'
 }
 
-// サンプル記事データ
-const articles: Article[] = [
+// プロジェクトデータ
+const projects: Project[] = [
   {
-    id: '1',
-    title: 'Next.js 14でモダンなWebアプリケーションを構築する',
-    description: 'Next.js 14の新機能を活用して、パフォーマンスと開発体験を向上させる方法を解説します。App Router、Server Components、そして最新の最適化技術について詳しく説明します。',
-    publishedAt: '2025-01-15',
-    readTime: '8分',
-    tags: ['Next.js', 'React', 'Web開発'],
-    image: '/next.svg',
-    author: {
-      name: '細田健司',
-      avatar: '/globe.svg'
-    }
+    id: 'password-generator-web',
+    title: '🔐 PWAパスワードジェネレーター',
+    description: 'セキュアなパスワードを生成するPWAアプリケーション。WebCrypto APIを使用した暗号学的に安全な乱数生成、パスワード履歴、強度チェック機能を実装。オフライン対応でホーム画面に追加可能。',
+    technologies: ['React', 'TypeScript', 'Vite', 'PWA', 'WebCrypto API'],
+    image: '/globe.svg',
+    githubUrl: 'https://github.com/kmh-no3/pwa-password-generator',
+    demoUrl: 'https://kmh-no3.github.io/pwa-password-generator',
+    status: 'completed'
   },
   {
-    id: '2',
-    title: 'Dockerを使った開発環境の構築とベストプラクティス',
-    description: 'Dockerを活用した効率的な開発環境の構築方法と、本番環境での運用について実践的なガイドを提供します。',
-    publishedAt: '2025-01-10',
-    readTime: '12分',
-    tags: ['Docker', 'DevOps', 'インフラ'],
+    id: 'password-generator-haskell',
+    title: 'パスワード生成アプリ（Haskell）',
+    description: 'Haskell学習の一環として作成したローカルパスワード生成アプリ。関数型プログラミングの概念を活用。',
+    technologies: ['Haskell', 'Stack', 'Cabal'],
     image: '/file.svg',
-    author: {
-      name: '細田健司',
-      avatar: '/globe.svg'
-    }
+    githubUrl: 'https://github.com/kmh-no3/password-generator-haskell',
+    status: 'in-progress'
   },
   {
-    id: '3',
-    title: 'TypeScriptで型安全なアプリケーション開発',
-    description: 'TypeScriptの高度な型システムを活用して、バグの少ない堅牢なアプリケーションを開発する方法を学びます。',
-    publishedAt: '2025-01-05',
-    readTime: '10分',
-    tags: ['TypeScript', 'JavaScript', '型システム'],
-    image: '/window.svg',
-    author: {
-      name: '細田健司',
-      avatar: '/globe.svg'
-    }
-  },
-  {
-    id: '4',
-    title: 'TailwindCSSで美しいUIを効率的に構築する',
-    description: 'TailwindCSSのユーティリティファーストアプローチを使って、保守性の高い美しいUIを構築するテクニックを紹介します。',
-    publishedAt: '2025-01-01',
-    readTime: '6分',
-    tags: ['CSS', 'TailwindCSS', 'UI/UX'],
+    id: 'bluesky-app',
+    title: 'Bluesky/AT Protocol 連携アプリ',
+    description: 'BlueskyのAT Protocolを使用したソーシャルメディア連携アプリ。投稿、タイムライン表示、ユーザー管理機能。',
+    technologies: ['Next.js', 'TypeScript', 'AT Protocol', 'TailwindCSS'],
     image: '/vercel.svg',
-    author: {
-      name: '細田健司',
-      avatar: '/globe.svg'
-    }
+    githubUrl: 'https://github.com/kmh-no3/bluesky-app',
+    demoUrl: 'https://bluesky-app.vercel.app',
+    status: 'in-progress'
+  },
+  {
+    id: 'haskell-web-app',
+    title: 'Haskell Web App（会計＆ブロックチェーン）',
+    description: 'Haskellで構築したWebアプリケーション。会計機能とブロックチェーン技術を組み合わせた革新的なシステム。',
+    technologies: ['Haskell', 'Yesod', 'PostgreSQL', 'Blockchain'],
+    image: '/window.svg',
+    githubUrl: 'https://github.com/kmh-no3/haskell-web-app',
+    status: 'planned'
   }
 ]
 
-// 記事カードコンポーネント
-function ArticleCard({ article }: { article: Article }) {
+// プロジェクトカードコンポーネント
+function ProjectCard({ project }: { project: Project }) {
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return 'bg-green-100 text-green-800'
+      case 'in-progress':
+        return 'bg-blue-100 text-blue-800'
+      case 'planned':
+        return 'bg-gray-100 text-gray-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return '完了'
+      case 'in-progress':
+        return '開発中'
+      case 'planned':
+        return '計画中'
+      default:
+        return '不明'
+    }
+  }
+
   return (
-    <Link href={`/articles/${article.id}`} className="block">
-      <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100">
-        {article.image && (
-          <div className="relative h-48 bg-gray-100">
-            <Image
-              src={article.image}
-              alt={article.title}
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          </div>
-        )}
-        <div className="p-6">
-          <div className="flex items-center mb-3">
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-3">
-                <Image
-                  src={article.author.avatar}
-                  alt={article.author.name}
-                  width={24}
-                  height={24}
-                  className="rounded-full"
-                  unoptimized
-                />
-              </div>
-              <span className="text-sm text-gray-600">{article.author.name}</span>
-            </div>
-            <div className="ml-auto text-sm text-gray-500">
-              {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
-            </div>
-          </div>
-          
-          <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 transition-colors">
-            {article.title}
-          </h2>
-          
-          <p className="text-gray-600 mb-4 line-clamp-3">
-            {article.description}
-          </p>
-          
-          <div className="flex items-center justify-between">
-            <div className="flex flex-wrap gap-2">
-              {article.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <div className="flex items-center text-sm text-gray-500">
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {article.readTime}
-            </div>
-          </div>
+    <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100">
+      {/* プロジェクト画像 */}
+      <div className="relative h-48 bg-gray-100">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          className="object-cover"
+          unoptimized
+        />
+        {/* ステータスバッジ */}
+        <div className="absolute top-4 right-4">
+          <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(project.status)}`}>
+            {getStatusText(project.status)}
+          </span>
         </div>
-      </article>
-    </Link>
+      </div>
+      
+      <div className="p-6">
+        {/* プロジェクトタイトル */}
+        <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+          {project.title}
+        </h2>
+        
+        {/* プロジェクト説明 */}
+        <p className="text-gray-600 mb-4 line-clamp-3">
+          {project.description}
+        </p>
+        
+        {/* 使用技術 */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.technologies.map((tech) => (
+            <span
+              key={tech}
+              className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+        
+        {/* リンクボタン */}
+        <div className="flex space-x-3">
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-gray-900 text-white text-center py-2 px-4 rounded-md hover:bg-gray-800 transition-colors text-sm"
+            >
+              GitHub
+            </a>
+          )}
+          {project.demoUrl && (
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex-1 text-white text-center py-2 px-4 rounded-md transition-colors text-sm ${
+                project.demoUrl.includes('localhost') 
+                  ? 'bg-orange-600 hover:bg-orange-700' 
+                  : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+            >
+              {project.demoUrl.includes('localhost') ? 'ローカルデモ' : 'デモ'}
+            </a>
+          )}
+          {!project.githubUrl && !project.demoUrl && (
+            <span className="flex-1 bg-gray-300 text-gray-600 text-center py-2 px-4 rounded-md text-sm">
+              準備中
+            </span>
+          )}
+        </div>
+      </div>
+    </article>
   )
 }
 
@@ -157,12 +179,16 @@ function Header() {
         {/* 左側: サイトタイトルとナビゲーション */}
         <div className="flex items-center">
           {/* サイトタイトル */}
-          <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mr-4 sm:mr-8 whitespace-nowrap tracking-widest">HOSODA KENJI</h1>
+          <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mr-4 sm:mr-8 whitespace-nowrap tracking-widest">
+            <a href="/" className="hover:text-blue-600 transition-colors">
+              HOSODA KENJI
+            </a>
+          </h1>
           {/* メインナビゲーション - デスクトップのみ表示 */}
           <nav className="hidden md:flex space-x-4 lg:space-x-6">
             <strong><a href="/about" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">ABOUT</a></strong>
-            <strong><a href="/work" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">WORKS</a></strong>
-            <strong><a href="/blog" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">BLOG</a></strong>
+            <strong><a href="/" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">WORKS</a></strong>
+            <strong><a href="/articles" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">BLOG</a></strong>
           </nav>
         </div>
         
@@ -230,14 +256,14 @@ function Header() {
               ABOUT
             </a>
             <a 
-              href="/work" 
+              href="/" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               WORKS
             </a>
             <a 
-              href="/blog" 
+              href="/articles" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -263,45 +289,22 @@ export default function Home() {
       <Header />
       
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* ヒーローセクション */}
+        {/* ページヘッダー */}
         <section className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            技術的な知見を共有する
+            WORKS
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            モダンなWeb開発技術やコンピュータサイエンスについて、<br/> 
-            実践的な内容を発信しています。
+            作成したWebアプリケーションやプロジェクトの一覧です。<br/>
+            技術的な挑戦と学びの記録を共有しています。
           </p>
         </section>
         
-        {/* タグセクション */}
-        <section className="mt-16 mb-20">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">タグ一覧</h2>
-          <div className="flex flex-wrap gap-3">
-            {['Next.js', 'React', 'TypeScript', 'Docker', 'DevOps', 'Web開発', 'CSS', 'JavaScript'].map((tag) => (
-              <a
-                key={tag}
-                href="#"
-                className="px-4 py-2 bg-white border border-gray-200 rounded-full text-gray-700 hover:bg-blue-50 hover:border-blue-200 transition-colors"
-              >
-                {tag}
-              </a>
-            ))}
-          </div>
-        </section>
-
-        {/* 記事一覧 */}
-        <section className="mt-20">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">最新記事</h2>
-            <a href="#" className="text-blue-600 hover:text-blue-800 font-medium">
-              すべての記事を見る →
-            </a>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
+        {/* プロジェクト一覧 */}
+        <section>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         </section>
