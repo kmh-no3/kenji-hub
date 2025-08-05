@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { GitHubPagesRouter } from '@/components/GitHubPagesRouter'
 
 export const metadata: Metadata = {
   title: 'HOSODA Kenji',
@@ -20,7 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <GitHubPagesRouter />
+        {children}
+      </body>
     </html>
   )
 } 
