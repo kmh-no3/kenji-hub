@@ -28,13 +28,30 @@ jobs:
           node-version: '18'
           cache: 'npm'
           
+      - name: Debug environment
+        run: |
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          echo "Current directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+          
       - name: Install dependencies
         run: |
+          echo "Installing dependencies..."
           npm ci
-          npm install next@latest
+          echo "Installing latest Next.js..."
+          npm install next@latest react@latest react-dom@latest
+          echo "Dependencies installed successfully"
           
       - name: Build static site
-        run: npm run build:static
+        run: |
+          echo "Building static site..."
+          echo "NODE_ENV: $NODE_ENV"
+          npm run build:static
+          echo "Build completed successfully"
+          echo "Checking out directory:"
+          ls -la out/
         env:
           NODE_ENV: production
           
