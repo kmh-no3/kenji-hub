@@ -178,9 +178,9 @@ function Header() {
           </h1>
           {/* メインナビゲーション - デスクトップのみ表示 */}
           <nav className="hidden md:flex space-x-4 lg:space-x-6">
-            <strong><a href="/about" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">ABOUT</a></strong>
-            <strong><a href="/works" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">WORKS</a></strong>
-            <strong><a href="/articles" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">BLOG</a></strong>
+            <strong><Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">ABOUT</Link></strong>
+            <strong><Link href="/works" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">WORKS</Link></strong>
+            <strong><Link href="/articles" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">BLOG</Link></strong>
           </nav>
         </div>
         
@@ -240,27 +240,27 @@ function Header() {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200">
           <nav className="px-4 py-2 space-y-1">
-            <a 
+            <Link 
               href="/about" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               ABOUT
-            </a>
-            <a 
+            </Link>
+            <Link 
               href="/works" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               WORKS
-            </a>
-            <a 
+            </Link>
+            <Link 
               href="/articles" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               BLOG
-            </a>
+            </Link>
           </nav>
         </div>
       )}
