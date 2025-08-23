@@ -20,6 +20,15 @@ export function GitHubPagesRouter() {
         window.history.replaceState(null, '', newPath)
         router.replace(newPath)
       }
+      
+      // ベースパスの処理（/kenji-hub/の場合）
+      const basePath = '/kenji-hub'
+      if (window.location.pathname.startsWith(basePath)) {
+        const pathWithoutBase = window.location.pathname.replace(basePath, '')
+        if (pathWithoutBase !== window.location.pathname) {
+          window.history.replaceState(null, '', pathWithoutBase || '/')
+        }
+      }
     }
   }, [router])
 

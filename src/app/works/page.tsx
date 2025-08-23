@@ -11,9 +11,10 @@ interface Project {
   description: string
   technologies: string[]
   image: string
-  githubUrl?: string
-  demoUrl?: string
+  githubUrl: string
+  demoUrl: string
   status: 'completed' | 'in-progress' | 'planned'
+  demoAvailable?: boolean
 }
 
 // プロジェクトデータ
@@ -23,40 +24,138 @@ const projects: Project[] = [
     title: '🔐 PWAパスワードジェネレーター',
     description: 'セキュアなパスワードを生成するPWAアプリケーション。WebCrypto APIを使用した暗号学的に安全な乱数生成、パスワード履歴、強度チェック機能を実装。オフライン対応でホーム画面に追加可能。',
     technologies: ['React', 'TypeScript', 'Vite', 'PWA', 'WebCrypto API'],
-    image: '/globe.svg',
+    image: '🔐',
     githubUrl: 'https://github.com/kmh-no3/pwa-password-generator',
     demoUrl: 'https://kmh-no3.github.io/pwa-password-generator',
-    status: 'completed'
+    status: 'completed',
+    demoAvailable: true
   },
   {
-    id: 'password-generator-haskell',
-    title: 'パスワード生成アプリ（Haskell）',
-    description: 'Haskell学習の一環として作成したローカルパスワード生成アプリ。関数型プログラミングの概念を活用。',
-    technologies: ['Haskell', 'Stack', 'Cabal'],
-    image: '/file.svg',
-    githubUrl: 'https://github.com/kmh-no3/password-generator-haskell',
-    status: 'in-progress'
+    id: 'journapi',
+    title: 'JournAPI - 複式簿記システムAPI',
+    description: '複式簿記システムのAPIサーバー。仕訳帳、元帳、試算表の機能を提供し、外部公開を想定したセキュリティ機能を備えたバックエンドエンジニアリングのポートフォリオプロジェクト。',
+    technologies: ['Spring Boot', 'Java 21', 'PostgreSQL', 'Flyway', 'Maven'],
+    image: '📊💰',
+    githubUrl: 'https://github.com/kmh-no3/journAPI',
+    demoUrl: 'https://github.com/kmh-no3/journAPI',
+    status: 'in-progress',
+    demoAvailable: false
   },
-  {
-    id: 'bluesky-app',
-    title: 'Bluesky/AT Protocol 連携アプリ',
-    description: 'BlueskyのAT Protocolを使用したソーシャルメディア連携アプリ。投稿、タイムライン表示、ユーザー管理機能。',
-    technologies: ['Next.js', 'TypeScript', 'AT Protocol', 'TailwindCSS'],
-    image: '/vercel.svg',
-    githubUrl: 'https://github.com/kmh-no3/bluesky-app',
-    demoUrl: 'https://bluesky-app.vercel.app',
-    status: 'in-progress'
-  },
+
   {
     id: 'haskell-web-app',
     title: 'Haskell Web App（会計＆ブロックチェーン）',
     description: 'Haskellで構築したWebアプリケーション。会計機能とブロックチェーン技術を組み合わせた革新的なシステム。',
     technologies: ['Haskell', 'Yesod', 'PostgreSQL', 'Blockchain'],
-    image: '/window.svg',
+    image: 'λ⛓️',
     githubUrl: 'https://github.com/kmh-no3/haskell-web-app',
-    status: 'planned'
+    demoUrl: 'https://github.com/kmh-no3/haskell-web-app',
+    status: 'planned',
+    demoAvailable: false
   }
 ]
+
+// プロジェクトカードコンポーネント
+function ProjectCard({ project }: { project: Project }) {
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return 'bg-green-100 text-green-800'
+      case 'in-progress':
+        return 'bg-blue-100 text-blue-800'
+      case 'planned':
+        return 'bg-gray-100 text-gray-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return '完了'
+      case 'in-progress':
+        return '開発中'
+      case 'planned':
+        return '計画中'
+      default:
+        return '不明'
+    }
+  }
+
+  return (
+    <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
+      {/* プロジェクトサムネイル（絵文字） */}
+      <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-6xl">
+          {project.image}
+        </div>
+        {/* ステータスバッジ */}
+        <div className="absolute top-4 right-4">
+          <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(project.status)}`}>
+            {getStatusText(project.status)}
+          </span>
+        </div>
+      </div>
+      
+      <div className="p-6 flex flex-col flex-grow">
+        {/* プロジェクトタイトル */}
+        <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+          {project.title}
+        </h2>
+        
+        {/* プロジェクト説明 */}
+        <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">
+          {project.description}
+        </p>
+        
+        {/* 使用技術 */}
+        <div className="flex flex-wrap gap-2 mb-4 min-h-[2rem]">
+          {project.technologies.map((tech) => (
+            <span
+              key={tech}
+              className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+        
+        {/* リンクボタン */}
+        <div className="flex space-x-3 mt-auto">
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex-1 text-center py-2 px-4 rounded-md transition-colors text-sm ${
+              project.status === 'planned' 
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                : 'bg-gray-900 text-white hover:bg-gray-800'
+            }`}
+            onClick={project.status === 'planned' ? (e) => e.preventDefault() : undefined}
+          >
+            GitHub
+          </a>
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex-1 text-center py-2 px-4 rounded-md transition-colors text-sm ${
+              project.status === 'planned' || !project.demoAvailable
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : project.demoUrl.includes('localhost') 
+                  ? 'bg-orange-600 hover:bg-orange-700 text-white' 
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+            onClick={(project.status === 'planned' || !project.demoAvailable) ? (e) => e.preventDefault() : undefined}
+          >
+            {project.demoUrl.includes('localhost') ? 'ローカルデモ' : 'デモ'}
+          </a>
+        </div>
+      </div>
+    </article>
+  )
+}
 
 // ヘッダーコンポーネント
 function Header() {
@@ -73,15 +172,15 @@ function Header() {
         <div className="flex items-center">
           {/* サイトタイトル */}
           <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mr-4 sm:mr-8 whitespace-nowrap tracking-widest">
-            <a href="https://kmh-no3.github.io/kenji-hub" className="hover:text-blue-600 transition-colors">
+            <Link href="/works" className="hover:text-blue-600 transition-colors">
               HOSODA KENJI
-            </a>
+            </Link>
           </h1>
           {/* メインナビゲーション - デスクトップのみ表示 */}
           <nav className="hidden md:flex space-x-4 lg:space-x-6">
             <strong><a href="/about" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">ABOUT</a></strong>
-            <strong><a href="https://kmh-no3.github.io/kenji-hub/works" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">WORKS</a></strong>
-            <strong><a href="https://kmh-no3.github.io/kenji-hub/articles" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">BLOG</a></strong>
+            <strong><a href="/works" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">WORKS</a></strong>
+            <strong><a href="/articles" className="text-gray-700 hover:text-blue-600 transition-colors text-sm lg:text-base">BLOG</a></strong>
           </nav>
         </div>
         
@@ -149,14 +248,14 @@ function Header() {
               ABOUT
             </a>
             <a 
-              href="https://kmh-no3.github.io/kenji-hub/works" 
+              href="/works" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               WORKS
             </a>
             <a 
-              href="https://kmh-no3.github.io/kenji-hub/articles" 
+              href="/articles" 
               className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -167,113 +266,6 @@ function Header() {
       )}
     </header>
   );
-}
-
-// プロジェクトカードコンポーネント
-function ProjectCard({ project }: { project: Project }) {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return 'bg-green-100 text-green-800'
-      case 'in-progress':
-        return 'bg-blue-100 text-blue-800'
-      case 'planned':
-        return 'bg-gray-100 text-gray-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return '完了'
-      case 'in-progress':
-        return '開発中'
-      case 'planned':
-        return '計画中'
-      default:
-        return '不明'
-    }
-  }
-
-  return (
-    <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100">
-      {/* プロジェクト画像 */}
-      <div className="relative h-48 bg-gray-100">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover"
-          unoptimized
-        />
-        {/* ステータスバッジ */}
-        <div className="absolute top-4 right-4">
-          <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(project.status)}`}>
-            {getStatusText(project.status)}
-          </span>
-        </div>
-      </div>
-      
-      <div className="p-6">
-        {/* プロジェクトタイトル */}
-        <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-          {project.title}
-        </h2>
-        
-        {/* プロジェクト説明 */}
-        <p className="text-gray-600 mb-4 line-clamp-3">
-          {project.description}
-        </p>
-        
-        {/* 使用技術 */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.technologies.map((tech) => (
-            <span
-              key={tech}
-              className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-        
-        {/* リンクボタン */}
-        <div className="flex space-x-3">
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 bg-gray-900 text-white text-center py-2 px-4 rounded-md hover:bg-gray-800 transition-colors text-sm"
-            >
-              GitHub
-            </a>
-          )}
-          {project.demoUrl && (
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`flex-1 text-white text-center py-2 px-4 rounded-md transition-colors text-sm ${
-                project.demoUrl.includes('localhost') 
-                  ? 'bg-orange-600 hover:bg-orange-700' 
-                  : 'bg-blue-600 hover:bg-blue-700'
-              }`}
-            >
-              {project.demoUrl.includes('localhost') ? 'ローカルデモ' : 'デモ'}
-            </a>
-          )}
-          {!project.githubUrl && !project.demoUrl && (
-            <span className="flex-1 bg-gray-300 text-gray-600 text-center py-2 px-4 rounded-md text-sm">
-              準備中
-            </span>
-          )}
-        </div>
-      </div>
-    </article>
-  )
 }
 
 export default function WorksPage() {

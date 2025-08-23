@@ -8,71 +8,238 @@ interface Article {
   description: string
   content: string
   publishedAt: string
-  readTime: string
   tags: string[]
   image?: string
-  author: {
-    name: string
-    avatar: string
-  }
 }
 
-// サンプル記事データ
+// 記事データ（Container_VMリポジトリの内容を基に作成）
 const articles: Article[] = [
   {
-    id: '1',
-    title: 'Next.js 14でモダンなWebアプリケーションを構築する',
-    description: 'Next.js 14の新機能を活用して、パフォーマンスと開発体験を向上させる方法を解説します。App Router、Server Components、そして最新の最適化技術について詳しく説明します。',
+    id: 'container-vm-development-comparison',
+    title: '開発環境比較検証：Native vs Docker での開発体験の違い（VM環境は準備中）',
+    description: '異なる開発環境（Native、Docker）での開発パターンを比較検証した結果をまとめました。VM環境の比較は現在準備中です。セットアップの複雑さ、環境の一貫性、パフォーマンスなど、実践的な観点から詳しく解説します。',
     content: `
       <h2>はじめに</h2>
-      <p>Next.js 14は、Reactアプリケーションの開発をより効率的にするための多くの新機能を提供します。この記事では、App Router、Server Components、そして最新の最適化技術について詳しく解説します。</p>
+      <p>このプロジェクトは、異なる開発環境（Native、Docker、VM）での開発パターンを比較検証することを目的としています。<strong>現在は、Native環境とDocker環境の比較結果のみをまとめており、VM環境の検証は今後の課題として残っています。</strong></p>
       
-      <h2>App Routerの利点</h2>
-      <p>App Routerは、ファイルシステムベースのルーティングを提供し、より直感的なページ構造を作成できます。また、Server ComponentsとClient Componentsを適切に使い分けることで、パフォーマンスを向上させることができます。</p>
+      <h2>プロジェクト概要</h2>
+      <p><strong>現在完了している部分</strong>：Native環境とDocker環境で同じTODOアプリケーションを実装し、以下の仕様で比較検証を行いました：</p>
+      <ul>
+        <li><strong>フレームワーク</strong>: Express.js</li>
+        <li><strong>データベース</strong>: PostgreSQL</li>
+        <li><strong>API エンドポイント</strong>: GET /todos（TODO一覧取得）、POST /todos（新しいTODO作成）</li>
+        <li><strong>ポート</strong>: 3000番</li>
+      </ul>
+
+      <h2>環境別セットアップ比較（現在完了分）</h2>
       
-      <h2>Server Componentsの活用</h2>
-      <p>Server Componentsを使用することで、サーバーサイドでレンダリングされたコンポーネントをクライアントに送信できます。これにより、初期ページロードの速度が向上し、SEOも改善されます。</p>
+      <h3>Native環境</h3>
+      <p>Native環境でのセットアップは以下の手順で行いました：</p>
+      <pre><code># 必要なソフトウェアのインストール
+brew install postgresql
+brew services start postgresql
+
+# プロジェクト初期化
+npm init -y
+npm install express pg
+
+# データベース設定
+createdb todo_app
+psql -d todo_app -c "CREATE TABLE todos (id SERIAL PRIMARY KEY, task TEXT);"</code></pre>
+
+      <h3>Docker環境</h3>
+      <p>Docker環境でのセットアップは以下の手順で行いました：</p>
+      <pre><code># 必要なソフトウェアのインストール
+# Docker Desktopのみ必要
+
+# プロジェクト初期化
+npm init -y
+npm install express pg
+
+# コンテナ化設定
+# Dockerfileとdocker-compose.ymlを作成</code></pre>
+
+      <h2>詳細比較結果（Native vs Docker）</h2>
       
-      <h2>最適化技術</h2>
-      <p>Next.js 14では、画像の最適化、フォントの最適化、そしてコード分割が自動的に行われます。これらの機能を活用することで、ユーザー体験を大幅に向上させることができます。</p>
+      <table class="w-full border-collapse border border-gray-300 my-6">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 px-4 py-2 text-left">項目</th>
+            <th class="border border-gray-300 px-4 py-2 text-left">Native環境</th>
+            <th class="border border-gray-300 px-4 py-2 text-left">Docker環境</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>セットアップの複雑さ</strong></td>
+            <td class="border border-gray-300 px-4 py-2">中（OS依存の設定が必要）</td>
+            <td class="border border-gray-300 px-4 py-2">低（Dockerのみ）</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2"><strong>環境の一貫性</strong></td>
+            <td class="border border-gray-300 px-4 py-2">低（OS依存）</td>
+            <td class="border border-gray-300 px-4 py-2">高（コンテナ化）</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>依存関係管理</strong></td>
+            <td class="border border-gray-300 px-4 py-2">手動（brew、npm）</td>
+            <td class="border border-gray-300 px-4 py-2">自動（Dockerfile）</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2"><strong>データベース設定</strong></td>
+            <td class="border border-gray-300 px-4 py-2">手動（PostgreSQL設定）</td>
+            <td class="border border-gray-300 px-4 py-2">自動（docker-compose）</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>起動時間</strong></td>
+            <td class="border border-gray-300 px-4 py-2">短（直接実行）</td>
+            <td class="border border-gray-300 px-4 py-2">中（コンテナビルド）</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2"><strong>リソース使用量</strong></td>
+            <td class="border border-gray-300 px-4 py-2">低（直接実行）</td>
+            <td class="border border-gray-300 px-4 py-2">中（コンテナオーバーヘッド）</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>開発者体験</strong></td>
+            <td class="border border-gray-300 px-4 py-2">シンプル</td>
+            <td class="border border-gray-300 px-4 py-2">統一された環境</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-300 px-4 py-2"><strong>本番環境との差異</strong></td>
+            <td class="border border-gray-300 px-4 py-2">大（環境依存）</td>
+            <td class="border border-gray-300 px-4 py-2">小（コンテナ化）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>パフォーマンス比較（Native vs Docker）</h2>
       
-      <h2>まとめ</h2>
-      <p>Next.js 14の新機能を活用することで、より高速で保守性の高いWebアプリケーションを構築できます。App RouterとServer Componentsを適切に使用し、最適化技術を活用することで、ユーザーに最高の体験を提供できます。</p>
+      <h3>起動時間</h3>
+      <ul>
+        <li><strong>Native</strong>: ~1秒（直接実行）</li>
+        <li><strong>Docker</strong>: ~30秒（初回ビルド時）、~5秒（2回目以降）</li>
+      </ul>
+
+      <h3>メモリ使用量（実測値）</h3>
+      <ul>
+        <li><strong>Native</strong>: ~38MB（Node.js + Express）</li>
+        <li><strong>Docker</strong>: ~38MB（アプリコンテナ20MB + DBコンテナ18MB）</li>
+      </ul>
+
+      <h3>ディスク使用量（実測値）</h3>
+      <ul>
+        <li><strong>Native</strong>: ~4.7MB（プロジェクト全体、node_modules: 4.6MB）</li>
+        <li><strong>Docker</strong>: ~846MB（アプリイメージ196MB + PostgreSQLイメージ650MB）</li>
+      </ul>
+
+      <h2>メリット・デメリット分析</h2>
+      
+      <h3>Native環境</h3>
+      <h4>メリット:</h4>
+      <ul>
+        <li>シンプルなセットアップ</li>
+        <li>高速な起動</li>
+        <li>リソース使用量が少ない</li>
+        <li>直接的なデバッグが可能</li>
+      </ul>
+      <h4>デメリット:</h4>
+      <ul>
+        <li>OS依存の設定が必要</li>
+        <li>環境の一貫性が保ちにくい</li>
+        <li>チーム間での環境差異が生じやすい</li>
+        <li>本番環境との差異が大きい</li>
+      </ul>
+
+      <h3>Docker環境</h3>
+      <h4>メリット:</h4>
+      <ul>
+        <li>環境の一貫性が高い</li>
+        <li>依存関係の管理が自動化</li>
+        <li>チーム間での環境統一が容易</li>
+        <li>本番環境との差異が小さい</li>
+        <li>マイクロサービスアーキテクチャに適している</li>
+      </ul>
+      <h4>デメリット:</h4>
+      <ul>
+        <li>学習コストが高い</li>
+        <li>コンテナオーバーヘッド</li>
+        <li>ビルド時間がかかる</li>
+        <li>デバッグが複雑になる場合がある</li>
+      </ul>
+
+      <h2>推奨用途</h2>
+      
+      <h3>Native環境が適している場合</h3>
+      <ul>
+        <li>個人開発・学習</li>
+        <li>シンプルなプロトタイプ</li>
+        <li>リソースが限られた環境</li>
+        <li>高速な開発サイクルが必要</li>
+      </ul>
+
+      <h3>Docker環境が適している場合</h3>
+      <ul>
+        <li>チーム開発</li>
+        <li>マイクロサービスアーキテクチャ</li>
+        <li>CI/CDパイプライン</li>
+        <li>本番環境との一貫性が重要</li>
+        <li>複数のサービスを統合</li>
+      </ul>
+
+      <h2>現在の結論（Native vs Docker）</h2>
+      <p>現在完了しているNative環境とDocker環境の比較では、両環境とも同じTODOアプリケーションを正常に動作させることができましたが、開発体験と運用面で大きな違いがあります。</p>
+      
+      <ul>
+        <li><strong>Native環境</strong>は、シンプルで高速な開発に適しており、個人開発や学習用途に最適です。</li>
+        <li><strong>Docker環境</strong>は、チーム開発や本番環境との一貫性が重要な場合に適しており、現代的な開発プラクティスに合致しています。</li>
+      </ul>
+      
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-yellow-700">
+              <strong>注意：</strong>VM環境の比較検証はまだ完了していません。完全な3環境比較は今後の更新で提供予定です。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <h2>今後の予定</h2>
+      <div class="bg-blue-50 border-l-4 border-blue-400 p-4 my-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-blue-700">
+              <strong>進行中：</strong>VM環境での開発パターン実装と3環境の包括的比較を準備中です。
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <ul>
+        <li><strong>VM環境での開発パターン実装</strong> - 現在準備中</li>
+        <li><strong>3環境の包括的比較</strong> - Native vs Docker vs VM</li>
+        <li><strong>パフォーマンスベンチマーク</strong> - 3環境での詳細な性能測定</li>
+        <li><strong>セキュリティ比較</strong> - 各環境のセキュリティ特性分析</li>
+        <li><strong>運用コスト比較</strong> - 開発・運用コストの定量的評価</li>
+      </ul>
+
+      <h2>参考リンク</h2>
+      <p>この検証で使用したリポジトリは <a href="https://github.com/kmh-no3/Container_VM" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800">GitHub - kmh-no3/Container_VM</a> で公開されています。</p>
     `,
-    publishedAt: '2024-01-15',
-    readTime: '8分',
-    tags: ['Next.js', 'React', 'Web開発'],
-    image: '/kenji-hub/next.svg',
-    author: {
-      name: '細田健司',
-      avatar: '/kenji-hub/globe.svg'
-    }
-  },
-  {
-    id: '2',
-    title: 'Dockerを使った開発環境の構築とベストプラクティス',
-    description: 'Dockerを活用した効率的な開発環境の構築方法と、本番環境での運用について実践的なガイドを提供します。',
-    content: `
-      <h2>Dockerとは</h2>
-      <p>Dockerは、アプリケーションをコンテナ化することで、一貫した環境でアプリケーションを実行できるツールです。開発環境から本番環境まで、同じ環境でアプリケーションを動作させることができます。</p>
-      
-      <h2>開発環境の構築</h2>
-      <p>Docker Composeを使用することで、複数のサービスを簡単に管理できます。データベース、Webサーバー、キャッシュサーバーなど、必要なサービスを定義ファイルで管理し、一つのコマンドで起動できます。</p>
-      
-      <h2>本番環境での運用</h2>
-      <p>本番環境では、マルチステージビルドを使用して、最終的なイメージサイズを小さくすることが重要です。また、セキュリティのベストプラクティスに従い、必要最小限の権限でコンテナを実行する必要があります。</p>
-      
-      <h2>監視とログ</h2>
-      <p>本番環境では、コンテナの監視とログの収集が重要です。Prometheus、Grafana、ELKスタックなどを使用して、アプリケーションの健全性を監視し、問題の早期発見に努めましょう。</p>
-    `,
-    publishedAt: '2024-01-10',
-    readTime: '12分',
-    tags: ['Docker', 'DevOps', 'インフラ'],
-    image: '/kenji-hub/file.svg',
-    author: {
-      name: '細田健司',
-      avatar: '/kenji-hub/globe.svg'
-    }
+    publishedAt: '2025-08-23',
+    tags: ['Docker', '開発環境', '比較検証', 'Node.js', 'PostgreSQL'],
+    image: '🐳⚡💻' // Docker + 高速化 + 開発環境の絵文字
   }
 ]
 
@@ -97,13 +264,12 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   return {
     title: `${article.title} - Kenji Hub`,
     description: article.description,
-    openGraph: {
-      title: article.title,
-      description: article.description,
-      type: 'article',
-      publishedTime: article.publishedAt,
-      authors: [article.author.name],
-    },
+          openGraph: {
+        title: article.title,
+        description: article.description,
+        type: 'article',
+        publishedTime: article.publishedAt,
+      },
   }
 }
 
@@ -138,9 +304,9 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
             
             {/* メインナビゲーション */}
             <nav className="flex space-x-6">
-              <Link href="/kenji-hub/about" className="text-gray-700 hover:text-blue-600 transition-colors">About</Link>
-              <Link href="/kenji-hub/work" className="text-gray-700 hover:text-blue-600 transition-colors">Work</Link>
-              <Link href="/kenji-hub/blog" className="text-gray-700 hover:text-blue-600 transition-colors">Blog</Link>
+              <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">About</Link>
+              <Link href="/works" className="text-gray-700 hover:text-blue-600 transition-colors">Works</Link>
+              <Link href="/articles" className="text-gray-700 hover:text-blue-600 transition-colors font-bold">Blog</Link>
             </nav>
             
             {/* SNSリンク */}
@@ -187,37 +353,20 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
         {/* 記事ヘッダー */}
         <article className="bg-white rounded-lg shadow-md overflow-hidden">
           {article.image && (
-            <div className="relative h-64 bg-gray-100">
-              <Image
-                src={article.image}
-                alt={article.title}
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            </div>
+            <Link href={`/articles/${article.id}`}>
+              <div className="relative h-64 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center hover:from-blue-100 hover:to-indigo-200 transition-all duration-300 cursor-pointer">
+                <div className="text-7xl">
+                  {article.image}
+                </div>
+              </div>
+            </Link>
           )}
           
           <div className="p-8">
             {/* 記事メタ情報 */}
             <div className="flex items-center mb-6">
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
-                  <Image
-                    src={article.author.avatar}
-                    alt={article.author.name}
-                    width={32}
-                    height={32}
-                    className="rounded-full"
-                    unoptimized
-                  />
-                </div>
-                <div>
-                  <span className="text-sm text-gray-600">{article.author.name}</span>
-                  <div className="text-xs text-gray-500">
-                    {new Date(article.publishedAt).toLocaleDateString('ja-JP')} • {article.readTime}
-                  </div>
-                </div>
+              <div className="text-sm text-gray-500">
+                {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
               </div>
             </div>
 
@@ -265,14 +414,10 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
                   className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100"
                 >
                   {relatedArticle.image && (
-                    <div className="relative h-32 bg-gray-100">
-                      <Image
-                        src={relatedArticle.image}
-                        alt={relatedArticle.title}
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
+                    <div className="relative h-32 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+                      <div className="text-3xl">
+                        {relatedArticle.image}
+                      </div>
                     </div>
                   )}
                   <div className="p-4">
@@ -284,8 +429,6 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
                     </p>
                     <div className="flex items-center mt-3 text-xs text-gray-500">
                       <span>{new Date(relatedArticle.publishedAt).toLocaleDateString('ja-JP')}</span>
-                      <span className="mx-2">•</span>
-                      <span>{relatedArticle.readTime}</span>
                     </div>
                   </div>
                 </Link>

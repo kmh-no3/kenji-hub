@@ -7,13 +7,23 @@
         // GitHub Pages用のSPAルーティング
         var pathSegmentsToKeep = 1;
         var l = window.location;
-        l.replace(
-            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-            l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-            l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        
+        // ベースパス（/kenji-hub）を考慮
+        var basePath = '/kenji-hub';
+        var currentPath = l.pathname;
+        
+        // ベースパスが含まれている場合は除去
+        if (currentPath.startsWith(basePath)) {
+            currentPath = currentPath.replace(basePath, '');
+        }
+        
+        // リダイレクトURLを構築
+        var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+            basePath + '/?/' + currentPath.slice(1).replace(/&/g, '~and~') +
             (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-            l.hash
-        );
+            l.hash;
+            
+        l.replace(redirectUrl);
     </script>
 </head>
 <body>
