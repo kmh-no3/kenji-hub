@@ -1,6 +1,9 @@
 # 開発環境用Dockerfile
 FROM node:18-alpine
 
+# Gitをインストール
+RUN apk add --no-cache git
+
 # 作業ディレクトリを設定
 WORKDIR /app
 
@@ -16,5 +19,5 @@ COPY . .
 # 開発サーバーのポートを公開
 EXPOSE 3000
 
-# 開発サーバーを起動
-CMD ["npm", "run", "dev"] 
+# 開発サーバーを起動（turboを使わずに直接Next.jsを起動）
+CMD ["npm", "run", "dev:next"] 
