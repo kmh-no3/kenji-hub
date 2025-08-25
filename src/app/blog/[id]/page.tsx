@@ -244,13 +244,16 @@ npm install express pg
   }
 ]
 
-
-
-
+// 静的パラメータを生成する関数
+export async function generateStaticParams() {
+  return articles.map((article) => ({
+    id: article.id,
+  }))
+}
 
 // 記事詳細ページコンポーネント
-export default function ArticlePage({ params }: { params: { id: string } }) {
-  const { id } = params
+export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const article = articles.find(a => a.id === id)
 
   if (!article) {
