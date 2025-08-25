@@ -11,17 +11,18 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
-    command: npm run dev:next
+    command: npm run dev
 
   # 本番環境
   prod:
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "8080:3000"
     environment:
       - NODE_ENV=production
+    command: npm run start
 
   # 開発環境（ホットリロード対応）
   dev-hot:

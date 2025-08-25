@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description: 'Next.js、Docker、TypeScriptなど、モダンなWeb開発技術について実践的な内容を発信する技術ブログです。',
   keywords: ['Next.js', 'React', 'TypeScript', 'Docker', 'Web開発', '技術ブログ'],
   authors: [{ name: '細田健司' }],
+  icons: {
+    icon: '/favicon.ico',
+  },
   openGraph: {
     title: 'HOSODA Kenji',
     description: 'モダンなWeb開発技術について実践的な内容を発信',
