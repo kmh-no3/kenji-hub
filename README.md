@@ -107,15 +107,3 @@ npm run deploy          # GitHub Pagesデプロイ
 
 - **開発環境**: http://localhost:3000
 - **本番環境**: https://kmh-no3.github.io/kenji-hub/
-
-## 🤝 貢献
-
-1. このリポジトリをフォーク
-2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
-
-## 📄 ライセンス
-
-このプロジェクトはMITライセンスの下で公開されています。

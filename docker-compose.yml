@@ -9,9 +9,13 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/.next
     environment:
       - NODE_ENV=development
+      - WATCHPACK_POLLING=true
     command: npm run dev
+    stdin_open: true
+    tty: true
 
   # 本番環境
   prod:
@@ -22,7 +26,7 @@ services:
       - "8080:3000"
     environment:
       - NODE_ENV=production
-    command: npm run start
+    command: npm run build && npm run start
 
   # 開発環境（ホットリロード対応）
   dev-hot:
@@ -34,7 +38,11 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/.next
     environment:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true
-    command: npm run dev 
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev
+    stdin_open: true
+    tty: true 

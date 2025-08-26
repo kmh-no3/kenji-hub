@@ -1,26 +1,27 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import { GitHubPagesRouter } from '@/components/GitHubPagesRouter'
+import type { Metadata } from 'next';
+import './globals.css';
+import { GitHubPagesRouter } from '@/components/GitHubPagesRouter';
+import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
-  title: 'HOSODA Kenji',
-  description: 'Next.js、Docker、TypeScriptなど、モダンなWeb開発技術について実践的な内容を発信する技術ブログです。',
-  keywords: ['Next.js', 'React', 'TypeScript', 'Docker', 'Web開発', '技術ブログ'],
-  authors: [{ name: '細田健司' }],
+  title: siteConfig.name,
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.author }],
   icons: {
     icon: '/favicon.ico',
   },
   openGraph: {
-    title: 'HOSODA Kenji',
-    description: 'モダンなWeb開発技術について実践的な内容を発信',
+    title: siteConfig.name,
+    description: siteConfig.description,
     type: 'website',
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="ja">
@@ -29,5 +30,5 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  )
+  );
 } 

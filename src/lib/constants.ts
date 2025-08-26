@@ -33,7 +33,7 @@ export const ARTICLE_CATEGORIES = [
 
 // ソーシャルリンク
 export const SOCIAL_LINKS = {
-  github: 'https://github.com/yourusername',
+  github: 'https://github.com/kmh-no3',
   linkedin: 'https://linkedin.com/in/yourusername',
   twitter: 'https://twitter.com/yourusername',
   email: 'contact@example.com',
