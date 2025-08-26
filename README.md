@@ -100,8 +100,8 @@ npm run deploy          # GitHub Pagesデプロイ
 詳細なドキュメントは [`docs/`](./docs/) ディレクトリを参照してください：
 
 - [開発ガイド](./docs/DEVELOPMENT.md)
-- [ページ遷移仕様書](./docs/page-navigation-flow.md)
-- [簡易ナビゲーション仕様書](./docs/simple-navigation.md)
+- [ナビゲーション詳細仕様書](./docs/navigation-details.md)
+- [ナビゲーション概要仕様書](./docs/navigation-overview.md)
 
 ## 🌐 アクセス
 

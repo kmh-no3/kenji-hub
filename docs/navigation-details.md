@@ -1,54 +1,55 @@
-# Kenji Hub - ページ遷移図
+# Kenji Hub - ナビゲーション詳細
 
 ## サイト全体のページ遷移フロー
 
 ```mermaid
-graph TD
-    %% メインページ（同じ内容）
-    A[🏠 プロジェクト紹介<br/>/] --> B[📚 記事一覧<br/>/blog]
-    A --> C[💼 作品一覧<br/>/works]
-    A --> D[ℹ️ About<br/>/about]
+flowchart LR
+    %% エントリーポイント
+    Root[🏠 ルート<br/>/]
     
-    %% 同じ内容のページを強調
-    C -.->|同じ内容| A
+    %% メインナビゲーション
+    subgraph "メインナビゲーション"
+        Works[💼 作品一覧<br/>/works]
+        Blog[📚 記事一覧<br/>/blog]
+        About[ℹ️ About<br/>/about]
+    end
     
-    %% 記事関連
-    B --> E[📄 記事詳細<br/>/blog/[id]]
-    E --> B
-    E --> A
-    
-    %% 作品関連
-    C --> F[🔗 GitHub<br/>外部リンク]
-    C --> G[🌐 Demo<br/>外部リンク]
-    
-    %% ナビゲーション
-    B --> A
-    B --> C
-    B --> D
-    C --> A
-    C --> B
-    C --> D
-    E --> A
-    E --> B
-    E --> C
-    E --> D
+    %% 詳細ページ
+    ArticleDetail[📄 記事詳細<br/>/blog/container-vm-development-comparison]
     
     %% 外部リンク
-    A --> H[🐦 Twitter<br/>外部リンク]
-    A --> I[🐙 GitHub<br/>外部リンク]
-    A --> J[📝 Zenn<br/>外部リンク]
+    subgraph "外部リンク"
+        GitHub[🐙 GitHub<br/>外部リンク]
+        Demo[🌐 Demo<br/>外部リンク]
+    end
+    
+    %% ルートページのリダイレクト
+    Root -.->|リダイレクト| Works
+    
+    %% メインナビゲーション間の双方向遷移
+    Works <--> Blog
+    Works <--> About
+    Blog <--> About
+    
+    %% ブログ関連の遷移（双方向1本）
+    Blog <--> ArticleDetail
+    
+    %% 記事詳細からの遷移
+    ArticleDetail --> Works
+    ArticleDetail --> About
+    
+    %% 外部リンク
+    Works --> GitHub
+    Works --> Demo
     
     %% スタイル設定
-    classDef mainPage fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef subPage fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef externalLink fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef dynamicPage fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
-    classDef sameContent fill:#fff8e1,stroke:#f57c00,stroke-width:3px,stroke-dasharray: 5 5
-    
-    class A,C sameContent
-    class B,D subPage
-    class E dynamicPage
-    class F,G,H,I,J externalLink
+    style Works fill:#f3e5f5
+    style Blog fill:#f3e5f5
+    style About fill:#f3e5f5
+    style ArticleDetail fill:#e8f5e8
+    style Root fill:#e0f2f1,stroke:#00695c,stroke-width:2px,stroke-dasharray: 5 5
+    style GitHub fill:#fff3e0
+    style Demo fill:#fff3e0
 ```
 
 ## 詳細なページ構造
@@ -56,17 +57,17 @@ graph TD
 ```mermaid
 graph TD
     %% ルート構造
-    Root[🌐 Kenji Hub] --> Home[🏠 プロジェクト紹介<br/>/]
+    Root[🌐 Kenji Hub] --> EntryPoint[🏠 ルート<br/>/]
+    Root --> Works[💼 作品一覧<br/>/works]
     Root --> Articles[📚 記事セクション<br/>/blog]
-    Root --> Works[💼 作品セクション<br/>/works]
     Root --> About[ℹ️ About<br/>/about]
     
-    %% 同じ内容のページを強調
-    Home -.->|同じ内容| Works
+    %% ルートページのリダイレクト
+    EntryPoint -.->|リダイレクト| Works
     
     %% 記事セクション詳細
     Articles --> ArticleList[📋 記事一覧<br/>/blog]
-    Articles --> ArticleDetail[📄 記事詳細<br/>/blog/[id]]
+    Articles --> ArticleDetail[📄 記事詳細<br/>/blog/id]
     
     %% 記事詳細の内容
     ArticleDetail --> ContainerVM[🐳 Container VM比較<br/>/blog/container-vm-development-comparison]
@@ -86,18 +87,18 @@ graph TD
     
     %% スタイル設定
     classDef root fill:#e3f2fd,stroke:#1565c0,stroke-width:3px
-    classDef page fill:#f1f8e9,stroke:#33691e,stroke-width:2px
-    classDef article fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef mainNav fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef article fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
     classDef project fill:#fce4ec,stroke:#880e4f,stroke-width:2px
-    classDef external fill:#e0f2f1,stroke:#004d40,stroke-width:2px
-    classDef sameContent fill:#fff8e1,stroke:#f57c00,stroke-width:3px,stroke-dasharray: 5 5
+    classDef external fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef entryPoint fill:#e0f2f1,stroke:#00695c,stroke-width:2px,stroke-dasharray: 5 5
     
     class Root root
-    class Home,Works sameContent
-    class About page
+    class Works,About mainNav
     class ArticleList,ArticleDetail,ContainerVM article
     class WorksList,Project1,Project2,Project3 project
     class Demo1,GitHub1,GitHub2,GitHub3,GitHub4 external
+    class EntryPoint entryPoint
 ```
 
 ## ナビゲーション構造
@@ -105,36 +106,30 @@ graph TD
 ```mermaid
 graph LR
     %% ヘッダーナビゲーション
-    Header[📱 ヘッダー] --> Logo[HOSODA KENJI<br/>ロゴ]
+    Header[📱 ヘッダー] --> Logo[HOSODA KENJI<br/>ロゴ → /works]
     Header --> Nav[🧭 ナビゲーション]
     
     %% メインナビゲーション
-    Nav --> AboutLink[ABOUT<br/>/about]
+    Nav --> AboutLink[ABOUT<br/>準備中]
     Nav --> WorksLink[WORKS<br/>/works]
     Nav --> BlogLink[BLOG<br/>/blog]
     
     %% SNSリンク
     Header --> SNS[📱 SNSリンク]
-    SNS --> Twitter[🐦 Twitter]
-    SNS --> GitHub[🐙 GitHub]
-    SNS --> Zenn[📝 Zenn]
-    
-    %% フッターナビゲーション
-    Footer[🦶 フッター] --> FooterNav[🧭 フッターナビ]
-    FooterNav --> AboutFooter[ABOUT<br/>/about]
-    FooterNav --> WorksFooter[WORKS<br/>/works]
-    FooterNav --> ArticlesFooter[BLOG<br/>/blog]
+    SNS --> Twitter[🐦 Twitter<br/>準備中]
+    SNS --> GitHub[🐙 GitHub<br/>https://github.com/kmh-no3]
+    SNS --> Zenn[📝 Zenn<br/>準備中]
     
     %% スタイル設定
     classDef header fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
     classDef nav fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
     classDef sns fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    classDef footer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef disabled fill:#f5f5f5,stroke:#9e9e9e,stroke-width:1px
     
     class Header,Logo header
-    class Nav,AboutLink,WorksLink,BlogLink nav
-    class SNS,Twitter,GitHub,Zenn sns
-    class Footer,FooterNav,AboutFooter,WorksFooter,ArticlesFooter footer
+    class Nav,WorksLink,BlogLink nav
+    class GitHub sns
+    class AboutLink,Twitter,Zenn disabled
 ```
 
 ## データフロー
@@ -213,22 +208,16 @@ graph TD
 ```mermaid
 graph TD
     %% 各ページでのロゴリンク先
-    RootPage[🏠 ルートページ<br/>/] --> LogoLink1[HOSODA KENJI<br/>→ /works]
-    WorksPage[💼 作品ページ<br/>/works] --> LogoLink2[HOSODA KENJI<br/>→ /works]
-    BlogPage[📚 ブログページ<br/>/blog] --> LogoLink3[HOSODA KENJI<br/>→ /blog]
-    BlogDetailPage[📄 記事詳細<br/>/blog/[id]] --> LogoLink4[HOSODA KENJI<br/>→ /blog]
-    
-    %% 同じ内容のページを強調
-    RootPage -.->|同じ内容| WorksPage
+    LogoLink[HOSODA KENJI<br/>→ /works] -.->|リダイレクト| WorksPage[💼 作品ページ<br/>/works]
+    BlogPage[📚 ブログページ<br/>/blog] --> LogoLink
+    BlogDetailPage[📄 記事詳細<br/>/blog/id] --> LogoLink
     
     %% スタイル設定
-    classDef page fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
-    classDef logo fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    classDef sameContent fill:#fff8e1,stroke:#f57c00,stroke-width:3px,stroke-dasharray: 5 5
+    classDef mainNav fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef logo fill:#e0f2f1,stroke:#00695c,stroke-width:2px,stroke-dasharray: 5 5
     
-    class RootPage,WorksPage sameContent
-    class BlogPage,BlogDetailPage page
-    class LogoLink1,LogoLink2,LogoLink3,LogoLink4 logo
+    class WorksPage,BlogPage,BlogDetailPage mainNav
+    class LogoLink logo
 ```
 
 ## 技術スタック

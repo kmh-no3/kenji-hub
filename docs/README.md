@@ -8,8 +8,8 @@
 - **[DEVELOPMENT.md](./DEVELOPMENT.md)** - 開発環境のセットアップと使用方法
 
 ### 仕様書
-- **[page-navigation-flow.md](./page-navigation-flow.md)** - ページ遷移の詳細な仕様書
-- **[simple-navigation.md](./simple-navigation.md)** - ページ遷移の簡易仕様書
+- **[navigation-details.md](./navigation-details.md)** - ナビゲーションの詳細な仕様書
+- **[navigation-overview.md](./navigation-overview.md)** - ナビゲーションの概要仕様書
 
 ## 🏗️ プロジェクト構成
 
