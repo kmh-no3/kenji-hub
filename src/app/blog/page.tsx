@@ -16,8 +16,7 @@ export default function ArticlesPage() {
             BLOG
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            技術的な学びや開発体験について発信しています。<br/>
-            実践的な内容を中心に、開発者にとって役立つ情報をお届けします。
+          実践的な内容を中心に技術的な学びや開発体験について発信しています。<br/>
           </p>
         </section>
         

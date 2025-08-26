@@ -26,7 +26,14 @@ export default function Header() {
           <nav className="hidden md:flex space-x-4 lg:space-x-6">
             {navigationConfig.main.map((item) => (
               <strong key={item.href}>
-                {item.isActive ? (
+                {item.href === '#' ? (
+                  <span 
+                    className="text-gray-400 cursor-not-allowed text-sm lg:text-base"
+                    title="準備中"
+                  >
+                    {item.title}
+                  </span>
+                ) : item.isActive ? (
                   <span className="text-gray-700 text-sm lg:text-base">{item.title}</span>
                 ) : (
                   <Link 
@@ -92,7 +99,15 @@ export default function Header() {
         <div className="md:hidden bg-white border-t border-gray-200">
           <nav className="px-4 py-2 space-y-1">
             {navigationConfig.main.map((item) => (
-              item.isActive ? (
+              item.href === '#' ? (
+                <span 
+                  key={item.href}
+                  className="block px-3 py-2 text-gray-400 text-sm lg:text-base cursor-not-allowed"
+                  title="準備中"
+                >
+                  {item.title}
+                </span>
+              ) : item.isActive ? (
                 <span 
                   key={item.href}
                   className="block px-3 py-2 text-gray-700 text-sm lg:text-base"

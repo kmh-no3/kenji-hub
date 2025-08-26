@@ -2,8 +2,8 @@ import { NavItem } from '@/types';
 
 export const navigationConfig = {
   main: [
-    { title: 'ABOUT', href: '/', isActive: true },
-    { title: 'WORKS', href: '/works' },
+    { title: 'ABOUT', href: '#', isActive: false },
+    { title: 'WORKS', href: '/works', isActive: false },
     { title: 'BLOG', href: '/blog' },
   ] as NavItem[],
   social: {
