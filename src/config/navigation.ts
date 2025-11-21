@@ -3,7 +3,7 @@ import { NavItem } from '@/types';
 export const navigationConfig = {
   main: [
     { title: 'ABOUT', href: '#', isActive: false },
-    { title: 'WORKS', href: '/works', isActive: false },
+    { title: 'PROJECTS', href: '/projects', isActive: false },
     { title: 'BLOG', href: '/blog' },
   ] as NavItem[],
   social: {

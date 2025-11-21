@@ -18,7 +18,7 @@ export default function Header() {
         <div className="flex items-center">
           {/* サイトタイトル */}
           <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mr-4 sm:mr-8 whitespace-nowrap tracking-widest">
-            <Link href="/works" className="hover:text-blue-600 transition-colors">
+            <Link href="/projects" className="hover:text-blue-600 transition-colors">
               HOSODA KENJI
             </Link>
           </h1>

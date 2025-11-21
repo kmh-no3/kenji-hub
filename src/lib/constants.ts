@@ -1,7 +1,7 @@
 // ナビゲーション設定
 export const NAV_ITEMS = [
   { title: 'Home', href: '/' },
-  { title: 'Works', href: '/works' },
+  { title: 'Projects', href: '/projects' },
   { title: 'Articles', href: '/articles' },
   { title: 'About', href: '/about' },
 ] as const;

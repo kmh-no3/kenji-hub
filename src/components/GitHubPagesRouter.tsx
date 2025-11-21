@@ -7,8 +7,12 @@ export function GitHubPagesRouter() {
   const router = useRouter()
 
   useEffect(() => {
-    // GitHub Pages環境でのみ実行
-    if (typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
+    // GitHub Pages環境でのみ実行（開発環境では無効化）
+    if (typeof window === 'undefined') return;
+    if (window.location.hostname.includes('localhost') || 
+        window.location.hostname.includes('127.0.0.1')) return;
+    
+    if (window.location.hostname.includes('github.io')) {
       const search = window.location.search
       
       // URLに/?/が含まれている場合（404.htmlからのリダイレクト）

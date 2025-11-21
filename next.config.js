@@ -1,11 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 開発環境では静的エクスポートを無効化
+  // basePathは開発環境と本番環境の両方で適用
+  basePath: '/kenji-hub',
+  assetPrefix: '/kenji-hub/',
+  trailingSlash: true,
+  
+  // 本番環境でのみ静的エクスポートを有効化
   ...(process.env.NODE_ENV === 'production' && {
     output: 'export',
-    basePath: '/kenji-hub',
-    assetPrefix: '/kenji-hub/',
-    trailingSlash: true,
     images: {
       unoptimized: true,
     },

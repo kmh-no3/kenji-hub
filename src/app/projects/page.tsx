@@ -4,7 +4,7 @@ import { ProjectCard } from '@/components/features/projects';
 import Header from '@/components/layout/Header';
 import { projects } from '@/config/projects';
 
-export default function WorksPage() {
+export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -13,7 +13,7 @@ export default function WorksPage() {
         {/* ページヘッダー */}
         <section className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            WORKS
+            PROJECTS
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             作成したWebアプリケーションやプロジェクトの一覧です。<br/>
