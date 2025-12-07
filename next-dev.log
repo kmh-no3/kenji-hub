@@ -1,0 +1,87 @@
+  ▲ Next.js 14.2.32
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 5.5s
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'G:\マイドライブ\ポートフォリオ\kenji-hub\.next\cache\webpack\client-development\0.pack.gz_' -> 'G:\マイドライブ\ポートフォリオ\kenji-hub\.next\cache\webpack\client-development\0.pack.gz'
+ ⚠ Found a change in next.config.js. Restarting the server to apply the changes...
+  ▲ Next.js 14.2.32
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 5.6s
+ ○ Compiling /_not-found ...
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving 'next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node' in G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc for build dependencies doesn't lead to expected result 'G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node', but to 'SyntaxError: G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\package.json (directory description file): SyntaxError: Unexpected end of JSON input' instead. Resolving dependencies are ignored for this path.
+<w>  at unknown 4 next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\parse-module.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\parse-module.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\get-page-static-info.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\get-page-static-info.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-client-module-loader.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-client-module-loader.js
+<w>  at resolve commonjs G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-client-module-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving 'next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node' in G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc for build dependencies doesn't lead to expected result 'G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node', but to 'SyntaxError: G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\package.json (directory description file): SyntaxError: Unexpected end of JSON input' instead. Resolving dependencies are ignored for this path.
+<w>  at unknown 4 next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack-config.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack-config.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\handle-externals.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\handle-externals.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+ ✓ Compiled /projects in 20.4s (550 modules)
+ GET /projects/ 404 in 20653ms
+ GET /projects/ 200 in 2905ms
+ ○ Compiling /blog ...
+ ✓ Compiled /blog in 635ms (548 modules)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving 'next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node' in G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc for build dependencies doesn't lead to expected result 'G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node', but to 'SyntaxError: G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\package.json (directory description file): SyntaxError: Unexpected end of JSON input' instead. Resolving dependencies are ignored for this path.
+<w>  at unknown 4 next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\parse-module.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\parse-module.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\get-page-static-info.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\get-page-static-info.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w>  at resolve commonjs G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving 'next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node' in G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc for build dependencies doesn't lead to expected result 'G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node', but to 'SyntaxError: G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\package.json (directory description file): SyntaxError: Unexpected end of JSON input' instead. Resolving dependencies are ignored for this path.
+<w>  at unknown 4 next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+ GET /blog/ 200 in 128ms
+ ✓ Compiled in 972ms (559 modules)
+ ✓ Compiled in 580ms (559 modules)
+ GET /blog/ 200 in 300ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving 'next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node' in G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc for build dependencies doesn't lead to expected result 'G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node', but to 'SyntaxError: G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\package.json (directory description file): SyntaxError: Unexpected end of JSON input' instead. Resolving dependencies are ignored for this path.
+<w>  at unknown 4 next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\parse-module.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\parse-module.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\get-page-static-info.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\analysis\get-page-static-info.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w>  at resolve commonjs G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-flight-loader\index.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving 'next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node' in G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc for build dependencies doesn't lead to expected result 'G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node', but to 'SyntaxError: G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\next-swc-fallback\@next\swc-win32-x64-msvc\package.json (directory description file): SyntaxError: Unexpected end of JSON input' instead. Resolving dependencies are ignored for this path.
+<w>  at unknown 4 next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\swc\index.js
+<w>  at file dependencies G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs G:\マイドライブ\ポートフォリオ\kenji-hub\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+ GET /blog/ 200 in 418ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: Unable to snapshot resolve dependencies
