@@ -9,7 +9,7 @@ flowchart LR
     
     %% メインナビゲーション
     subgraph "メインナビゲーション"
-        Works[💼 作品一覧<br/>/works]
+        Projects[💼 プロジェクト一覧<br/>/projects]
         Blog[📚 記事一覧<br/>/blog]
         About[ℹ️ About<br/>/about]
     end
@@ -24,26 +24,26 @@ flowchart LR
     end
     
     %% ルートページのリダイレクト
-    Root -.->|リダイレクト| Works
+    Root -.->|リダイレクト| Projects
     
     %% メインナビゲーション間の双方向遷移
-    Works <--> Blog
-    Works <--> About
+    Projects <--> Blog
+    Projects <--> About
     Blog <--> About
     
     %% ブログ関連の遷移（双方向1本）
     Blog <--> ArticleDetail
     
     %% 記事詳細からの遷移
-    ArticleDetail --> Works
+    ArticleDetail --> Projects
     ArticleDetail --> About
     
     %% 外部リンク
-    Works --> GitHub
-    Works --> Demo
+    Projects --> GitHub
+    Projects --> Demo
     
     %% スタイル設定
-    style Works fill:#f3e5f5
+    style Projects fill:#f3e5f5
     style Blog fill:#f3e5f5
     style About fill:#f3e5f5
     style ArticleDetail fill:#e8f5e8
@@ -56,9 +56,9 @@ flowchart LR
 
 ```mermaid
 graph LR
-    Logo[HOSODA KENJI<br/>/works] --> Nav[ナビゲーション]
+    Logo[HOSODA KENJI<br/>/projects] --> Nav[ナビゲーション]
     Nav --> About[ABOUT<br/>準備中]
-    Nav --> Works[WORKS<br/>/works]
+    Nav --> Projects[PROJECTS<br/>/projects]
     Nav --> Blog[BLOG<br/>/blog]
     
     SNS[SNS] --> Twitter[🐦 Twitter<br/>準備中]
@@ -68,7 +68,7 @@ graph LR
     style Logo fill:#e3f2fd
     style Nav fill:#e1f5fe
     style About fill:#f3e5f5
-    style Works fill:#f3e5f5
+    style Projects fill:#f3e5f5
     style Blog fill:#f3e5f5
     style SNS fill:#fff3e0
 ```
@@ -77,8 +77,8 @@ graph LR
 
 | ページ | URL | 説明 |
 |--------|-----|------|
-| 🏠 ルート | `/` | `/works`にリダイレクト |
-| 💼 作品一覧 | `/works` | メインページ（プロジェクト一覧と自己紹介） |
+| 🏠 ルート | `/` | `/projects`にリダイレクト |
+| 💼 プロジェクト一覧 | `/projects` | メインページ（プロジェクト一覧と自己紹介） |
 | 📚 記事一覧 | `/blog` | ブログ記事の一覧 |
 | 📄 記事詳細 | `/blog/container-vm-development-comparison` | Container VM比較記事 |
 | ℹ️ About | `/about` | 準備中（現在は無効） |
@@ -99,15 +99,15 @@ graph LR
 
 | ページ | ロゴリンク先 | 説明 |
 |--------|-------------|------|
-| 🏠 ルート (`/`) | `/works` | 作品一覧ページへ（リダイレクト後） |
-| 💼 作品一覧 (`/works`) | `/works` | 自己参照（現在ページ） |
-| 📚 記事一覧 (`/blog`) | `/works` | 作品一覧ページへ |
-| 📄 記事詳細 (`/blog/[id]`) | `/works` | 作品一覧ページへ |
+| 🏠 ルート (`/`) | `/projects` | プロジェクト一覧ページへ（リダイレクト後） |
+| 💼 プロジェクト一覧 (`/projects`) | `/projects` | 自己参照（現在ページ） |
+| 📚 記事一覧 (`/blog`) | `/projects` | プロジェクト一覧ページへ |
+| 📄 記事詳細 (`/blog/[id]`) | `/projects` | プロジェクト一覧ページへ |
 
 ## ナビゲーション構造の特徴
 
 - **全ページ共通ヘッダー**: 全てのページで同じナビゲーションメニューが表示される
 - **双方向遷移**: どのページからでも他のページに遷移可能
-- **メインページ**: `/works`が実質的なメインページ
+- **メインページ**: `/projects`が実質的なメインページ
 - **準備中ページ**: ABOUTページは現在準備中（無効）
-- **外部リンク**: 作品ページからGitHubやDemoへの外部リンク
+- **外部リンク**: プロジェクトページからGitHubやDemoへの外部リンク

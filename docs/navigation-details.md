@@ -9,7 +9,7 @@ flowchart LR
     
     %% メインナビゲーション
     subgraph "メインナビゲーション"
-        Works[💼 作品一覧<br/>/works]
+        Projects[💼 プロジェクト一覧<br/>/projects]
         Blog[📚 記事一覧<br/>/blog]
         About[ℹ️ About<br/>/about]
     end
@@ -24,26 +24,26 @@ flowchart LR
     end
     
     %% ルートページのリダイレクト
-    Root -.->|リダイレクト| Works
+    Root -.->|リダイレクト| Projects
     
     %% メインナビゲーション間の双方向遷移
-    Works <--> Blog
-    Works <--> About
+    Projects <--> Blog
+    Projects <--> About
     Blog <--> About
     
     %% ブログ関連の遷移（双方向1本）
     Blog <--> ArticleDetail
     
     %% 記事詳細からの遷移
-    ArticleDetail --> Works
+    ArticleDetail --> Projects
     ArticleDetail --> About
     
     %% 外部リンク
-    Works --> GitHub
-    Works --> Demo
+    Projects --> GitHub
+    Projects --> Demo
     
     %% スタイル設定
-    style Works fill:#f3e5f5
+    style Projects fill:#f3e5f5
     style Blog fill:#f3e5f5
     style About fill:#f3e5f5
     style ArticleDetail fill:#e8f5e8
@@ -58,12 +58,12 @@ flowchart LR
 graph TD
     %% ルート構造
     Root[🌐 Kenji Hub] --> EntryPoint[🏠 ルート<br/>/]
-    Root --> Works[💼 作品一覧<br/>/works]
+    Root --> Projects[💼 プロジェクト一覧<br/>/projects]
     Root --> Articles[📚 記事セクション<br/>/blog]
     Root --> About[ℹ️ About<br/>/about]
     
     %% ルートページのリダイレクト
-    EntryPoint -.->|リダイレクト| Works
+    EntryPoint -.->|リダイレクト| Projects
     
     %% 記事セクション詳細
     Articles --> ArticleList[📋 記事一覧<br/>/blog]
@@ -72,11 +72,11 @@ graph TD
     %% 記事詳細の内容
     ArticleDetail --> ContainerVM[🐳 Container VM比較<br/>/blog/container-vm-development-comparison]
     
-    %% 作品セクション詳細
-    Works --> WorksList[📋 作品一覧<br/>/works]
-    Works --> Project1[🔐 PWAパスワードジェネレーター<br/>完了]
-    Works --> Project2[📊💰 JournAPI<br/>開発中]
-    Works --> Project3[λ⛓️ Haskell Web App<br/>計画中]
+    %% プロジェクトセクション詳細
+    Projects --> ProjectsList[📋 プロジェクト一覧<br/>/projects]
+    Projects --> Project1[🔐 PWAパスワードジェネレーター<br/>完了]
+    Projects --> Project2[📊💰 JournAPI<br/>開発中]
+    Projects --> Project3[λ⛓️ Haskell Web App<br/>計画中]
     
     %% 外部リンク
     Project1 --> Demo1[🌐 Demo<br/>https://kmh-no3.github.io/pwa-password-generator]
@@ -94,9 +94,9 @@ graph TD
     classDef entryPoint fill:#e0f2f1,stroke:#00695c,stroke-width:2px,stroke-dasharray: 5 5
     
     class Root root
-    class Works,About mainNav
+    class Projects,About mainNav
     class ArticleList,ArticleDetail,ContainerVM article
-    class WorksList,Project1,Project2,Project3 project
+    class ProjectsList,Project1,Project2,Project3 project
     class Demo1,GitHub1,GitHub2,GitHub3,GitHub4 external
     class EntryPoint entryPoint
 ```
@@ -106,12 +106,12 @@ graph TD
 ```mermaid
 graph LR
     %% ヘッダーナビゲーション
-    Header[📱 ヘッダー] --> Logo[HOSODA KENJI<br/>ロゴ → /works]
+    Header[📱 ヘッダー] --> Logo[HOSODA KENJI<br/>ロゴ → /projects]
     Header --> Nav[🧭 ナビゲーション]
     
     %% メインナビゲーション
     Nav --> AboutLink[ABOUT<br/>準備中]
-    Nav --> WorksLink[WORKS<br/>/works]
+    Nav --> ProjectsLink[PROJECTS<br/>/projects]
     Nav --> BlogLink[BLOG<br/>/blog]
     
     %% SNSリンク
@@ -127,7 +127,7 @@ graph LR
     classDef disabled fill:#f5f5f5,stroke:#9e9e9e,stroke-width:1px
     
     class Header,Logo header
-    class Nav,WorksLink,BlogLink nav
+    class Nav,ProjectsLink,BlogLink nav
     class GitHub sns
     class AboutLink,Twitter,Zenn disabled
 ```
@@ -153,9 +153,9 @@ graph TD
     %% データ表示
     Article1Content --> ArticlePage[📄 記事詳細ページ]
     Article1Meta --> ArticleListPage[📋 記事一覧ページ]
-    Project1 --> WorksPage[💼 作品一覧ページ]
-    Project2 --> WorksPage
-    Project3 --> WorksPage
+    Project1 --> ProjectsPage[💼 プロジェクト一覧ページ]
+    Project2 --> ProjectsPage
+    Project3 --> ProjectsPage
     
     %% スタイル設定
     classDef data fill:#e0f2f1,stroke:#004d40,stroke-width:2px
@@ -164,7 +164,7 @@ graph TD
     
     class Data,ArticlesData,ProjectsData data
     class Article1Content,Article1Meta,Project1,Project2,Project3 content
-    class ArticlePage,ArticleListPage,WorksPage page
+    class ArticlePage,ArticleListPage,ProjectsPage page
 ```
 
 ## レスポンシブ対応
@@ -208,7 +208,7 @@ graph TD
 ```mermaid
 graph TD
     %% 各ページでのロゴリンク先
-    LogoLink[HOSODA KENJI<br/>→ /works] -.->|リダイレクト| WorksPage[💼 作品ページ<br/>/works]
+    LogoLink[HOSODA KENJI<br/>→ /projects] -.->|リダイレクト| ProjectsPage[💼 プロジェクトページ<br/>/projects]
     BlogPage[📚 ブログページ<br/>/blog] --> LogoLink
     BlogDetailPage[📄 記事詳細<br/>/blog/id] --> LogoLink
     
@@ -216,7 +216,7 @@ graph TD
     classDef mainNav fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
     classDef logo fill:#e0f2f1,stroke:#00695c,stroke-width:2px,stroke-dasharray: 5 5
     
-    class WorksPage,BlogPage,BlogDetailPage mainNav
+    class ProjectsPage,BlogPage,BlogDetailPage mainNav
     class LogoLink logo
 ```
 

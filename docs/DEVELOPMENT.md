@@ -1,19 +1,52 @@
 # 開発ガイド
 
-## フォルダ構成
+## プロジェクト概要
+
+Kenji Hubは、エンジニアとしての経験と技術を共有するポートフォリオサイトです。
+
+## アプリケーション詳細
+
+### ページ構成
+
+- **ホームページ** (`/`) - プロジェクト紹介
+- **プロジェクトページ** (`/projects`) - プロジェクト一覧
+- **記事一覧** (`/blog`) - ブログ記事一覧
+- **記事詳細** (`/blog/[id]`) - 個別記事
+
+### 機能
+
+- レスポンシブデザイン
+- 静的サイト生成
+- 共通ヘッダーコンポーネント
+- 記事管理システム
+
+## プロジェクト構造
 
 このプロジェクトは、TypeScript開発のベストプラクティスに従った構成になっています。
+
+### ルートレベル構造
+
+```
+kenji-hub/
+├── src/                    # ソースコード
+├── public/                 # 静的ファイル
+├── docs/                   # ドキュメント
+├── scripts/                # スクリプト
+├── .github/                # GitHub設定
+└── 設定ファイル
+```
+
+### ソースコード構造
 
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── (routes)/          # ルートグループ
-│   │   ├── blog/
-│   │   │   ├── [id]/
-│   │   │   │   └── page.tsx
+│   ├── blog/
+│   │   ├── [id]/
 │   │   │   └── page.tsx
-│   │   └── works/
-│   │       └── page.tsx
+│   │   └── page.tsx
+│   ├── projects/
+│   │   └── page.tsx
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx
@@ -25,17 +58,21 @@ src/
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
 │   │   └── index.ts
-│   └── features/         # 機能別コンポーネント
-│       ├── blog/
-│       │   ├── ArticleCard.tsx
-│       │   └── index.ts
-│       └── projects/
-│           ├── ProjectCard.tsx
-│           └── index.ts
+│   ├── features/         # 機能別コンポーネント
+│   │   ├── blog/
+│   │   │   ├── ArticleCard.tsx
+│   │   │   └── index.ts
+│   │   ├── projects/
+│   │   │   ├── ProjectCard.tsx
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   └── utils/            # ユーティリティコンポーネント
+│       ├── GitHubPagesRouter.tsx
+│       └── index.ts
 ├── hooks/                # カスタムフック
 │   ├── useLocalStorage.ts
 │   └── index.ts
-├── lib/                  # ユーティリティと設定
+├── lib/                  # ユーティリティ関数
 │   ├── constants.ts
 │   ├── utils.ts
 │   └── project-utils.ts
@@ -51,7 +88,12 @@ src/
     └── articles.ts
 ```
 
-## 開発環境のセットアップ
+## セットアップ
+
+### 前提条件
+
+- Node.js 22.0.0以上
+- Docker (オプション)
 
 ### 1. ローカル開発
 
@@ -62,6 +104,8 @@ npm install
 # 開発サーバーの起動
 npm run dev
 ```
+
+開発サーバーは `http://localhost:3000` で起動します。
 
 ### 2. Docker開発環境
 
@@ -179,31 +223,62 @@ docker-compose exec dev npm run lint
 - **コンテナ化**: Docker & Docker Compose
 - **デプロイ**: GitHub Pages
 
-## 開発コマンド
+## 利用可能なスクリプト
+
+### 開発
 
 ```bash
-# ローカル開発
+# 開発サーバー起動
 npm run dev
 
-# Docker開発
+# Dockerでの開発サーバー起動
 npm run docker:dev
-npm run docker:dev:clean
+```
 
+### ビルド
+
+```bash
 # ビルド
 npm run build
 
-# リント
+# 静的サイト生成（GitHub Pages用）
+npm run build:static
+```
+
+### 品質管理
+
+```bash
+# リント実行
 npm run lint
 
-# 静的ビルド（GitHub Pages用）
-npm run build:static
+# クリーンアップ
+npm run clean
+```
 
-# デプロイ
-npm run deploy
+### Docker関連
 
-# Docker関連
+```bash
+# 開発環境
+npm run docker:dev
+
+# 本番環境
+npm run docker:prod
+
+# イメージビルド
 npm run docker:build
+
+# コンテナ停止
 npm run docker:down
+
+# クリーンな起動（既存プロセスを停止してから起動）
+npm run docker:dev:clean
+```
+
+### デプロイ
+
+```bash
+# GitHub Pagesデプロイ
+npm run deploy
 ```
 
 ## トラブルシューティング

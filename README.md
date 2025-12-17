@@ -5,7 +5,6 @@
 
 ## 🌐 アクセス
 
-- **開発環境**: http://localhost:3000
 - **本番環境**: https://kmh-no3.github.io/kenji-hub/
 
 

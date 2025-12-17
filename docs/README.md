@@ -5,7 +5,7 @@
 ## 📋 ドキュメント一覧
 
 ### 開発ガイド
-- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - 開発環境のセットアップと使用方法
+- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - プロジェクト構造、セットアップ、開発フロー、利用可能なスクリプト
 
 ### 仕様書
 - **[navigation-details.md](./navigation-details.md)** - ナビゲーションの詳細な仕様書
@@ -18,10 +18,17 @@ kenji-hub/
 ├── src/                    # ソースコード
 │   ├── app/               # Next.js App Router
 │   ├── components/        # 共通コンポーネント
+│   │   ├── layout/        # レイアウトコンポーネント
+│   │   ├── ui/           # UIコンポーネント
+│   │   ├── features/      # 機能別コンポーネント
+│   │   └── utils/        # ユーティリティコンポーネント
 │   ├── hooks/            # カスタムフック
-│   └── lib/              # ユーティリティ
+│   ├── lib/              # ユーティリティ関数
+│   ├── types/            # 型定義
+│   └── config/           # 設定ファイル
 ├── public/               # 静的ファイル
 ├── docs/                 # ドキュメント（このディレクトリ）
+├── scripts/              # スクリプト
 ├── .github/              # GitHub設定
 └── 設定ファイル
 ```
