@@ -18,7 +18,7 @@ kenji-hub/
 ├── src/                    # ソースコード
 │   ├── app/               # Next.js App Router
 │   │   ├── blog/          # 記事関連ページ
-│   │   ├── projects/      # プロジェクトページ
+│   │   ├── works/         # 作品ページ
 │   │   └── layout.tsx     # ルートレイアウト
 │   ├── components/        # 共通コンポーネント
 │   │   ├── layout/        # レイアウトコンポーネント
@@ -84,7 +84,7 @@ npm run deploy          # GitHub Pagesデプロイ
 ### ページ構成
 
 - **ホームページ** (`/`) - プロジェクト紹介
-- **プロジェクトページ** (`/projects`) - プロジェクト一覧
+- **作品ページ** (`/works`) - プロジェクト一覧
 - **記事一覧** (`/blog`) - ブログ記事一覧
 - **記事詳細** (`/blog/[id]`) - 個別記事
 
@@ -100,8 +100,8 @@ npm run deploy          # GitHub Pagesデプロイ
 詳細なドキュメントは [`docs/`](./docs/) ディレクトリを参照してください：
 
 - [開発ガイド](./docs/DEVELOPMENT.md)
-- [ナビゲーション詳細仕様書](./docs/navigation-details.md)
-- [ナビゲーション概要仕様書](./docs/navigation-overview.md)
+- [ページ遷移仕様書](./docs/page-navigation-flow.md)
+- [簡易ナビゲーション仕様書](./docs/simple-navigation.md)
 
 ## 🌐 アクセス
 
