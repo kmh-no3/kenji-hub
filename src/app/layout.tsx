@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { GitHubPagesRouter } from '@/components/utils';
+import { GitHubPagesRouter } from '@/components/GitHubPagesRouter';
 import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {

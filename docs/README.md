@@ -5,7 +5,14 @@
 ## 📋 ドキュメント一覧
 
 ### 開発ガイド
-- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - プロジェクト構造、セットアップ、開発フロー、利用可能なスクリプト
+- **[DEVELOPMENT.md](./DEVELOPMENT.md)**  
+  プロジェクト構造、セットアップ、ローカル開発、利用可能なスクリプトなど「開発者向け」の情報をまとめたガイド。
+
+### 運用ガイド
+- **[OPERATION.md](./OPERATION.md)**  
+  ブランチ戦略、デプロイフロー、運用フロー、コミットルールなど「運用・リリース時の手順」をまとめたガイド。
+- **[BRANCH_SETUP.md](./BRANCH_SETUP.md)**  
+  GitHub上でのブランチ保護ルールやブランチ命名規則など、ブランチ戦略を実際に設定するための手順書。
 
 ### 仕様書
 - **[navigation-details.md](./navigation-details.md)** - ナビゲーションの詳細な仕様書
