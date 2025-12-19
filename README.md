@@ -38,7 +38,6 @@
 詳細なドキュメントは [`docs/`](./docs/) ディレクトリを参照してください：
 
 - [開発ガイド](./docs/DEVELOPMENT.md)
-- [運用ガイド](./docs/OPERATION.md) - ブランチ戦略とデプロイフロー
 - [ページ遷移仕様書](./docs/navigation-details.md)
 - [簡易ナビゲーション仕様書](./docs/navigation-overview.md)
 
