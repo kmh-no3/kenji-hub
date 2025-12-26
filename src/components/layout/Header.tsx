@@ -122,8 +122,8 @@ export default function Header() {
       {/* フルスクリーンメニュー - メニューが開いている間は画面サイズに関係なく表示、下から上へスライド */}
       <div
         className={`fixed inset-0 bg-white z-[60] transition-all duration-500 ease-in-out ${isMenuOpen
-            ? 'opacity-100 visible translate-y-0'
-            : 'opacity-0 invisible translate-y-full'
+          ? 'opacity-100 visible translate-y-0'
+          : 'opacity-0 invisible translate-y-full'
           }`}
         onClick={closeMenu}
       >
