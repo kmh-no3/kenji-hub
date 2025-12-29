@@ -9,14 +9,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
       {/* プロジェクトサムネイル（絵文字） */}
-      <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-6xl">
+      <div className="relative h-36 sm:h-48 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-5xl sm:text-6xl">
           {project.image}
         </div>
         {/* ステータスバッジ */}
-        <div className="absolute top-4 right-4 z-10">
+        <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
           <span 
-            className={`px-3 py-1.5 text-xs font-bold rounded-full shadow-lg ${getStatusColor(project.status)}`}
+            className={`px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold rounded-full shadow-lg ${getStatusColor(project.status)}`}
             style={{
               backgroundColor: 
                 project.status === 'completed' ? '#15803d' :
@@ -30,23 +30,23 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
       </div>
       
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-4 sm:p-6 flex flex-col flex-grow">
         {/* プロジェクトタイトル */}
-        <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+        <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
           {project.title}
         </h2>
         
         {/* プロジェクト説明 */}
-        <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">
+        <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 line-clamp-3 flex-grow">
           {project.description}
         </p>
         
         {/* 使用技術 */}
-        <div className="flex flex-wrap gap-2 mb-4 min-h-[2rem]">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4 min-h-[1.5rem] sm:min-h-[2rem]">
           {project.technologies.map((tech) => (
             <span
               key={tech}
-              className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+              className="px-2 py-0.5 sm:py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
             >
               {tech}
             </span>
@@ -54,12 +54,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
         
         {/* リンクボタン */}
-        <div className="flex space-x-3 mt-auto">
+        <div className="flex space-x-2 sm:space-x-3 mt-auto">
           <a
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex-1 text-center py-2 px-4 rounded-md transition-colors text-sm ${
+            className={`flex-1 text-center py-1.5 sm:py-2 px-3 sm:px-4 rounded-md transition-colors text-xs sm:text-sm ${
               project.status === 'planned' 
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
                 : 'bg-gray-900 text-white hover:bg-gray-800'
@@ -72,7 +72,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             href={project.demoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex-1 text-center py-2 px-4 rounded-md transition-colors text-sm ${
+            className={`flex-1 text-center py-1.5 sm:py-2 px-3 sm:px-4 rounded-md transition-colors text-xs sm:text-sm ${
               project.status === 'planned' || !project.demoAvailable
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : getDemoButtonClass(project.demoUrl)

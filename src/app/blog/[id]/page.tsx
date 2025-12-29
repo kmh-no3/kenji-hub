@@ -259,11 +259,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">記事が見つかりません</h1>
-          <p className="text-gray-600 mb-8">指定された記事は存在しないか、削除された可能性があります。</p>
-          <Link href="/" className="text-blue-600 hover:text-blue-800 font-medium">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <div className="text-center max-w-md">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">記事が見つかりません</h1>
+          <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">指定された記事は存在しないか、削除された可能性があります。</p>
+          <Link href="/" className="text-sm sm:text-base text-blue-600 hover:text-blue-800 font-medium">
             ← ホームに戻る
           </Link>
         </div>
@@ -276,46 +276,46 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
       {/* ヘッダー */}
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-8 relative">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 relative">
           {/* メインコンテンツ */}
-          <div className="flex-1 max-w-4xl">
+          <div className="flex-1 w-full lg:max-w-4xl">
             {/* 記事ヘッダー */}
             <article className="bg-white rounded-lg shadow-md overflow-hidden">
               {article.image && (
                 <Link href={`/blog/${article.id}`}>
-                  <div className="relative h-64 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center hover:from-blue-100 hover:to-indigo-200 transition-all duration-300 cursor-pointer">
-                    <div className="text-7xl">
+                  <div className="relative h-48 sm:h-64 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center hover:from-blue-100 hover:to-indigo-200 transition-all duration-300 cursor-pointer">
+                    <div className="text-5xl sm:text-7xl">
                       {article.image}
                     </div>
                   </div>
                 </Link>
               )}
 
-              <div className="p-8">
+              <div className="p-4 sm:p-6 lg:p-8">
                 {/* 記事メタ情報 */}
-                <div className="flex items-center mb-6">
-                  <div className="text-sm text-gray-500">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <div className="text-xs sm:text-sm text-gray-500">
                     {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
                   </div>
                 </div>
 
                 {/* 記事タイトル */}
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
                   {article.title}
                 </h1>
 
                 {/* 記事説明 */}
-                <p className="text-lg text-gray-600 mb-6">
+                <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 sm:mb-6">
                   {article.description}
                 </p>
 
                 {/* タグ */}
-                <div className="flex flex-wrap gap-2 mb-8">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-6 sm:mb-8">
                   {article.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full"
+                      className="px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm bg-blue-100 text-blue-800 rounded-full"
                     >
                       {tag}
                     </span>
@@ -324,16 +324,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
                 {/* 記事本文 */}
                 <div
-                  className="prose prose-lg max-w-none article-content"
+                  className="prose prose-sm sm:prose-base lg:prose-lg max-w-none article-content"
                   dangerouslySetInnerHTML={{ __html: article.content }}
                 />
               </div>
             </article>
 
             {/* 関連記事セクション */}
-            <section className="mt-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">関連記事</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section className="mt-8 sm:mt-12">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">関連記事</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {articles
                   .filter(a => a.id !== article.id)
                   .slice(0, 2)
@@ -344,20 +344,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                       className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100"
                     >
                       {relatedArticle.image && (
-                        <div className="relative h-32 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-                          <div className="text-3xl">
+                        <div className="relative h-24 sm:h-32 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+                          <div className="text-2xl sm:text-3xl">
                             {relatedArticle.image}
                           </div>
                         </div>
                       )}
-                      <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                      <div className="p-3 sm:p-4">
+                        <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1 sm:mb-2 line-clamp-2">
                           {relatedArticle.title}
                         </h3>
-                        <p className="text-sm text-gray-600 line-clamp-2">
+                        <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
                           {relatedArticle.description}
                         </p>
-                        <div className="flex items-center mt-3 text-xs text-gray-500">
+                        <div className="flex items-center mt-2 sm:mt-3 text-xs text-gray-500">
                           <span>{new Date(relatedArticle.publishedAt).toLocaleDateString('ja-JP')}</span>
                         </div>
                       </div>
@@ -367,12 +367,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             </section>
 
             {/* 戻るボタン */}
-            <div className="mt-8 text-center">
+            <div className="mt-6 sm:mt-8 text-center">
               <Link
                 href="/"
-                className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                className="inline-flex items-center text-sm sm:text-base text-blue-600 hover:text-blue-800 font-medium"
               >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
                 ホームに戻る

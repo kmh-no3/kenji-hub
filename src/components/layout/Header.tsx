@@ -31,11 +31,11 @@ export default function Header() {
   return (
     <>
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 sm:h-20">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-20">
           {/* 左側: サイトタイトルとナビゲーション */}
           <div className="flex items-center">
             {/* サイトタイトル */}
-            <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mr-4 sm:mr-8 whitespace-nowrap tracking-widest">
+            <h1 className="text-base sm:text-2xl lg:text-3xl font-bold text-gray-900 mr-2 sm:mr-8 whitespace-nowrap tracking-wide sm:tracking-widest">
               <Link href="/projects" className="hover:text-blue-600 transition-colors">
                 HOSODA KENJI
               </Link>
