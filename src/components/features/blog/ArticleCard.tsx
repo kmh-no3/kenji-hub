@@ -18,7 +18,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           </div>
         </Link>
       )}
-      
+
       <div className="p-4 sm:p-6">
         {/* 記事タイトル */}
         <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
@@ -26,12 +26,12 @@ export function ArticleCard({ article }: ArticleCardProps) {
             {article.title}
           </Link>
         </h2>
-        
+
         {/* 記事説明 */}
         <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 line-clamp-3">
           {article.description}
         </p>
-        
+
         {/* タグ */}
         <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
           {article.tags.map((tag) => (
@@ -43,13 +43,13 @@ export function ArticleCard({ article }: ArticleCardProps) {
             </span>
           ))}
         </div>
-        
+
         {/* 記事メタ情報 */}
         <div className="flex items-center justify-between">
           <div className="text-xs text-gray-500">
             {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
           </div>
-          
+
           {/* 読むボタン */}
           <Link
             href={`/blog/${article.id}`}

@@ -15,11 +15,18 @@ interface TableOfContentsProps {
 export function TableOfContents({ content }: TableOfContentsProps) {
     const [tocItems, setTocItems] = useState<TocItem[]>([])
     const [activeId, setActiveId] = useState<string>('')
+    const [isMobileOpen, setIsMobileOpen] = useState(false)
+    const [recentlyChangedId, setRecentlyChangedId] = useState<string | null>(null)
+    const [compactStyle, setCompactStyle] = useState<{ maxWidth?: string; minWidth?: string }>({})
     const observerRef = useRef<IntersectionObserver | null>(null)
     const itemsRef = useRef<TocItem[]>([])
     const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
     const isScrollingRef = useRef(false)
     const activeIdRef = useRef<string>('')
+    const mobileMenuRef = useRef<HTMLDivElement>(null)
+    const mobileNavRef = useRef<HTMLElement>(null)
+    const activeItemRefs = useRef<{ [key: string]: HTMLAnchorElement | null }>({})
+    const overlayRef = useRef<HTMLDivElement>(null)
 
     // スクロール位置に基づいてアクティブなセクションを検出
     const updateActiveIdFromScroll = useCallback(() => {
@@ -341,45 +348,448 @@ export function TableOfContents({ content }: TableOfContentsProps) {
         }, 600)
     }, [updateActiveIdFromScroll])
 
+    // アクティブなアイテムのテキストを取得
+    const activeItem = tocItems.find(item => item.id === activeId)
+
+    // アクティブアイテムが変更されたときに一時的にハイライト
+    useEffect(() => {
+        if (activeId && isMobileOpen) {
+            setRecentlyChangedId(activeId)
+            const timer = setTimeout(() => {
+                setRecentlyChangedId(null)
+            }, 1500)
+            return () => clearTimeout(timer)
+        }
+    }, [activeId, isMobileOpen])
+
+    // 外部クリックでモバイルメニューを閉じる & ボディのスクロールを制御
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+                setIsMobileOpen(false)
+            }
+        }
+
+        if (isMobileOpen) {
+            // ボディのスクロールを無効化
+            document.body.style.overflow = 'hidden'
+            document.addEventListener('mousedown', handleClickOutside)
+        } else {
+            // ボディのスクロールを有効化
+            document.body.style.overflow = ''
+        }
+
+        return () => {
+            document.body.style.overflow = ''
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [isMobileOpen])
+
+    // ドロップダウンが開いている時、アクティブアイテムにスクロール
+    useEffect(() => {
+        if (isMobileOpen && activeId && activeItemRefs.current[activeId] && mobileNavRef.current) {
+            const activeElement = activeItemRefs.current[activeId]
+            const navElement = mobileNavRef.current
+
+            // アクティブアイテムの位置を計算
+            const elementTop = activeElement.offsetTop
+            const elementHeight = activeElement.offsetHeight
+            const navHeight = navElement.clientHeight
+            const scrollTop = navElement.scrollTop
+
+            // アクティブアイテムが見えていない場合はスクロール
+            if (elementTop < scrollTop || elementTop + elementHeight > scrollTop + navHeight) {
+                // アクティブアイテムを中央に配置
+                const targetScroll = elementTop - (navHeight / 2) + (elementHeight / 2)
+                navElement.scrollTo({
+                    top: Math.max(0, targetScroll),
+                    behavior: 'smooth'
+                })
+            }
+        }
+    }, [activeId, isMobileOpen])
+
+    // ドロップダウンを開いた直後にアクティブアイテムにスクロール
+    useEffect(() => {
+        if (isMobileOpen && activeId && activeItemRefs.current[activeId] && mobileNavRef.current) {
+            setTimeout(() => {
+                const activeElement = activeItemRefs.current[activeId]
+                const navElement = mobileNavRef.current
+                if (activeElement && navElement) {
+                    const elementTop = activeElement.offsetTop
+                    const elementHeight = activeElement.offsetHeight
+                    const navHeight = navElement.clientHeight
+                    const targetScroll = elementTop - (navHeight / 2) + (elementHeight / 2)
+
+                    navElement.scrollTo({
+                        top: Math.max(0, targetScroll),
+                        behavior: 'smooth'
+                    })
+                }
+            }, 100)
+        }
+    }, [isMobileOpen, activeId])
+    // #region agent log
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const updateCompactStyle = () => {
+                const width = window.innerWidth
+                if (width < 1024) {
+                    setCompactStyle({
+                        maxWidth: width >= 640 ? '160px' : '140px',
+                        minWidth: '80px'
+                    })
+                } else {
+                    setCompactStyle({})
+                }
+            }
+            updateCompactStyle()
+            window.addEventListener('resize', updateCompactStyle)
+            return () => window.removeEventListener('resize', updateCompactStyle)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const tocElement = document.querySelector('.mobile-toc-compact')
+            const menuDiv = mobileMenuRef.current
+            if (tocElement) {
+                const rect = tocElement.getBoundingClientRect()
+                const computedStyle = window.getComputedStyle(tocElement)
+                const menuRect = menuDiv?.getBoundingClientRect()
+                const menuComputedStyle = menuDiv ? window.getComputedStyle(menuDiv) : null
+                const inlineStyle = (tocElement as HTMLElement).style
+                fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        location: 'TableOfContents.tsx:430',
+                        message: 'コンパクト目次のサイズ確認',
+                        data: {
+                            isMobileOpen: isMobileOpen,
+                            tocWidth: rect.width,
+                            tocHeight: rect.height,
+                            tocTop: rect.top,
+                            tocRight: rect.right,
+                            tocLeft: rect.left,
+                            tocComputedWidth: computedStyle.width,
+                            tocComputedMaxWidth: computedStyle.maxWidth,
+                            tocComputedRight: computedStyle.right,
+                            tocComputedLeft: computedStyle.left,
+                            tocInlineWidth: inlineStyle.width,
+                            tocInlineMaxWidth: inlineStyle.maxWidth,
+                            tocInlineRight: inlineStyle.right,
+                            tocInlineLeft: inlineStyle.left,
+                            tocInlineMarginLeft: inlineStyle.marginLeft,
+                            tocInlineMarginRight: inlineStyle.marginRight,
+                            hasMobileTocOpenClass: tocElement.classList.contains('mobile-toc-open'),
+                            menuWidth: menuRect?.width,
+                            menuHeight: menuRect?.height,
+                            menuTop: menuRect?.top,
+                            menuRight: menuRect?.right,
+                            menuLeft: menuRect?.left,
+                            menuComputedWidth: menuComputedStyle?.width,
+                            menuComputedMaxWidth: menuComputedStyle?.maxWidth,
+                            menuComputedRight: menuComputedStyle?.right,
+                            menuComputedLeft: menuComputedStyle?.left,
+                            menuComputedMarginLeft: menuComputedStyle?.marginLeft,
+                            menuComputedMarginRight: menuComputedStyle?.marginRight,
+                            inlineMaxWidth: compactStyle.maxWidth,
+                            inlineMinWidth: compactStyle.minWidth,
+                            windowWidth: window.innerWidth,
+                            expectedWidth: isMobileOpen ? '80vw' : compactStyle.maxWidth,
+                            expectedMenuRight: isMobileOpen ? window.innerWidth * 0.2 : null,
+                            hasCompactClass: tocElement.classList.contains('mobile-toc-compact'),
+                            hasFixedClass: tocElement.classList.contains('mobile-toc-fixed'),
+                            visualCheck: {
+                                isRightAligned: rect.right >= window.innerWidth * 0.8,
+                                is80PercentWidth: Math.abs(rect.width - window.innerWidth * 0.8) < 10,
+                                isVisible: rect.width > 0 && rect.height > 0,
+                                isOverlappingContent: (() => {
+                                    const mainEl = document.querySelector('main')
+                                    if (!mainEl) return false
+                                    const mainRect = mainEl.getBoundingClientRect()
+                                    const mainComputedStyle = window.getComputedStyle(mainEl)
+                                    const paddingTop = parseFloat(mainComputedStyle.paddingTop) || 0
+                                    const contentStart = mainRect.top + paddingTop
+                                    return rect.bottom > contentStart
+                                })()
+                            },
+                            mainElement: (() => {
+                                const mainEl = document.querySelector('main')
+                                const mainRect = mainEl?.getBoundingClientRect()
+                                const mainComputedStyle = mainEl ? window.getComputedStyle(mainEl) : null
+                                return {
+                                    exists: !!mainEl,
+                                    top: mainRect?.top,
+                                    bottom: mainRect?.bottom,
+                                    height: mainRect?.height,
+                                    paddingTop: mainComputedStyle?.paddingTop,
+                                    paddingBottom: mainComputedStyle?.paddingBottom,
+                                    marginTop: mainComputedStyle?.marginTop,
+                                    marginBottom: mainComputedStyle?.marginBottom
+                                }
+                            })(),
+                            headerElement: (() => {
+                                const headerEl = document.querySelector('header')
+                                const headerRect = headerEl?.getBoundingClientRect()
+                                return {
+                                    exists: !!headerEl,
+                                    top: headerRect?.top,
+                                    bottom: headerRect?.bottom,
+                                    height: headerRect?.height
+                                }
+                            })(),
+                            tocBottom: rect.bottom,
+                            mainTop: document.querySelector('main')?.getBoundingClientRect().top || 0,
+                            mainContentStart: (() => {
+                                const mainEl = document.querySelector('main')
+                                if (!mainEl) return 0
+                                const mainRect = mainEl.getBoundingClientRect()
+                                const mainComputedStyle = window.getComputedStyle(mainEl)
+                                const paddingTop = parseFloat(mainComputedStyle.paddingTop) || 0
+                                return mainRect.top + paddingTop
+                            })(),
+                            overlapAmount: rect.bottom - (document.querySelector('main')?.getBoundingClientRect().top || 0),
+                            overlapAmountWithPadding: (() => {
+                                const mainEl = document.querySelector('main')
+                                if (!mainEl) return 0
+                                const mainRect = mainEl.getBoundingClientRect()
+                                const mainComputedStyle = window.getComputedStyle(mainEl)
+                                const paddingTop = parseFloat(mainComputedStyle.paddingTop) || 0
+                                const contentStart = mainRect.top + paddingTop
+                                return rect.bottom - contentStart
+                            })()
+                        },
+                        timestamp: Date.now(),
+                        sessionId: 'debug-session',
+                        runId: 'overlap-check-v1',
+                        hypothesisId: 'D'
+                    })
+                }).catch(() => { })
+            }
+        }
+    }, [isMobileOpen, compactStyle])
+    // #endregion agent log
+
+    // #region agent log - オーバーレイのサイズ確認
+    useEffect(() => {
+        if (isMobileOpen && overlayRef.current && typeof window !== 'undefined') {
+            const rect = overlayRef.current.getBoundingClientRect()
+            const computedStyle = window.getComputedStyle(overlayRef.current)
+            const headerEl = document.querySelector('header')
+            const headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 0
+            fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    location: 'TableOfContents.tsx:overlay-effect',
+                    message: 'オーバーレイのサイズ確認（useEffect）',
+                    data: {
+                        overlayWidth: rect.width,
+                        overlayHeight: rect.height,
+                        overlayTop: rect.top,
+                        overlayRight: rect.right,
+                        overlayBottom: rect.bottom,
+                        overlayLeft: rect.left,
+                        overlayComputedWidth: computedStyle.width,
+                        overlayComputedHeight: computedStyle.height,
+                        overlayComputedTop: computedStyle.top,
+                        overlayComputedRight: computedStyle.right,
+                        overlayComputedBottom: computedStyle.bottom,
+                        overlayComputedLeft: computedStyle.left,
+                        overlayComputedPosition: computedStyle.position,
+                        overlayComputedZIndex: computedStyle.zIndex,
+                        overlayComputedBackgroundColor: computedStyle.backgroundColor,
+                        overlayComputedOpacity: computedStyle.opacity,
+                        overlayInlineOpacity: (overlayRef.current as HTMLElement)?.style.opacity || '',
+                        overlayComputedDisplay: computedStyle.display,
+                        overlayComputedVisibility: computedStyle.visibility,
+                        overlayComputedPointerEvents: computedStyle.pointerEvents,
+                        overlayComputedAnimation: computedStyle.animation,
+                        overlayComputedAnimationName: computedStyle.animationName,
+                        overlayComputedAnimationDuration: computedStyle.animationDuration,
+                        overlayComputedAnimationFillMode: computedStyle.animationFillMode,
+                        windowWidth: window.innerWidth,
+                        windowHeight: window.innerHeight,
+                        headerHeight: headerHeight,
+                        expectedWidth: window.innerWidth,
+                        expectedHeight: window.innerHeight - headerHeight,
+                        isOverlayVisible: rect.width > 0 && rect.height > 0 && computedStyle.display !== 'none' && computedStyle.visibility !== 'hidden'
+                    },
+                    timestamp: Date.now(),
+                    sessionId: 'debug-session',
+                    runId: 'overlay-check-v2',
+                    hypothesisId: 'A'
+                })
+            }).catch(() => { })
+        }
+    }, [isMobileOpen])
+    // #endregion agent log
+
     return (
-        <div className="hidden lg:block">
-            {tocItems.length === 0 ? (
-                <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-                    <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">
-                        目次
-                    </h3>
-                    <p className="text-sm text-gray-500">読み込み中...</p>
-                </div>
-            ) : (
-                <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-                    <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wide">
-                        目次
-                    </h3>
-                    <nav className="relative border-l-2 border-gray-200">
-                        {tocItems.map((item) => {
-                            const isActive = activeId === item.id
-                            return (
-                                <a
-                                    key={item.id}
-                                    href={`#${item.id}`}
-                                    onClick={(e) => handleClick(e, item.id)}
-                                    className={`relative block text-sm transition-all duration-200 py-2 ${item.level === 2
-                                        ? 'pl-4 font-medium'
-                                        : item.level === 3
-                                            ? 'pl-6 text-sm'
-                                            : 'pl-8 text-xs'
-                                        } ${isActive
-                                            ? 'text-blue-600 font-semibold before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-blue-600 before:-ml-0.5'
-                                            : 'text-gray-600 hover:text-blue-600'
-                                        }`}
-                                >
-                                    {item.text}
-                                </a>
-                            )
-                        })}
-                    </nav>
-                </div>
+        <>
+            {/* オーバーレイ背景（展開時のみ、親要素の外に配置） */}
+            {isMobileOpen && tocItems.length > 0 && (
+                <div
+                    ref={overlayRef}
+                    className="toc-overlay fixed backdrop-blur-sm z-30"
+                    style={{ opacity: 1 }}
+                    onClick={() => setIsMobileOpen(false)}
+                    aria-label="目次を閉じる"
+                />
             )}
-        </div>
+            {/* モバイル用ドロップダウン目次（小さく右寄せ） */}
+            <div
+                className={`lg:hidden mobile-toc-sticky mobile-toc-fixed mobile-toc-compact ${isMobileOpen ? 'mobile-toc-open' : ''}`}
+                style={isMobileOpen ? {
+                    width: '80vw',
+                    maxWidth: '80vw',
+                    right: '0.5rem',
+                    left: 'auto',
+                    marginLeft: 'auto',
+                    marginRight: '0'
+                } : compactStyle}
+            >
+                {tocItems.length > 0 && (
+                    <>
+
+                        <div
+                            ref={mobileMenuRef}
+                            className={`bg-white rounded-lg border border-gray-200 relative z-40 transition-shadow duration-200 ${isMobileOpen ? 'mobile-toc-open shadow-lg' : 'shadow-md'
+                                }`}
+                            style={isMobileOpen ? { width: '80vw', maxWidth: '80vw', marginLeft: 'auto', marginRight: '0' } : compactStyle}
+                        >
+                            <button
+                                onClick={() => setIsMobileOpen(!isMobileOpen)}
+                                className="w-full px-2 py-1.5 flex items-center justify-between text-left hover:bg-gray-50 transition-all duration-200 rounded-t-lg"
+                                aria-expanded={isMobileOpen}
+                                aria-label={isMobileOpen ? '目次を閉じる' : '目次を開く'}
+                            >
+                                <div className="flex items-center space-x-1.5 flex-1 min-w-0">
+                                    <svg className="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                    </svg>
+                                    <span className="text-xs font-semibold text-gray-900 flex-shrink-0 whitespace-nowrap">目次</span>
+                                    {activeItem && isMobileOpen && (
+                                        <span className="text-xs text-gray-400 flex-shrink-0 whitespace-nowrap">
+                                            {tocItems.findIndex(item => item.id === activeId) + 1}/{tocItems.length}
+                                        </span>
+                                    )}
+                                </div>
+                                <svg
+                                    className={`w-4 h-4 text-gray-600 transition-transform duration-200 flex-shrink-0 ml-1 ${isMobileOpen ? 'rotate-180' : ''}`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            {isMobileOpen && (
+                                <div className="border-t border-gray-200 bg-white rounded-b-lg">
+                                    <nav
+                                        ref={mobileNavRef}
+                                        className="mobile-toc-dropdown mobile-toc-nav px-3 py-2 max-h-[calc(100vh-12rem)] overflow-y-auto relative z-50"
+                                    >
+                                        {tocItems.map((item) => {
+                                            const isActive = activeId === item.id
+                                            const isRecentlyChanged = recentlyChangedId === item.id
+                                            return (
+                                                <a
+                                                    key={item.id}
+                                                    ref={(el) => {
+                                                        activeItemRefs.current[item.id] = el
+                                                    }}
+                                                    href={`#${item.id}`}
+                                                    onClick={(e) => {
+                                                        handleClick(e, item.id)
+                                                        setIsMobileOpen(false)
+                                                    }}
+                                                    className={`block text-xs py-1.5 transition-all duration-200 rounded-md ${item.level === 2
+                                                        ? 'pl-2 font-medium'
+                                                        : item.level === 3
+                                                            ? 'pl-4 text-xs'
+                                                            : 'pl-6 text-xs'
+                                                        } ${isActive
+                                                            ? `text-blue-600 font-bold shadow-sm border-l-2 border-blue-600 pl-2 ${isRecentlyChanged ? 'mobile-toc-active-pulse' : 'bg-blue-50'}`
+                                                            : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                                                        }`}
+                                                >
+                                                    <span className={`flex items-center ${isActive ? 'ml-2' : ''}`}>
+                                                        {isActive && (
+                                                            <svg className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                                            </svg>
+                                                        )}
+                                                        {item.text}
+                                                    </span>
+                                                </a>
+                                            )
+                                        })}
+                                    </nav>
+
+                                    {/* 閉じるボタン */}
+                                    <div className="border-t border-gray-200 px-3 py-1.5 bg-gray-50">
+                                        <button
+                                            onClick={() => setIsMobileOpen(false)}
+                                            className="w-full py-1.5 px-3 text-xs text-gray-600 hover:text-gray-900 hover:bg-white font-medium transition-all duration-200 flex items-center justify-center space-x-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                            aria-label="目次を閉じる"
+                                        >
+                                            <span>閉じる</span>
+                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </>
+                )}
+            </div>
+
+            {/* デスクトップ用Sticky目次 */}
+            <div className="hidden lg:block">
+                {tocItems.length === 0 ? (
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+                        <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">
+                            目次
+                        </h3>
+                        <p className="text-sm text-gray-500">読み込み中...</p>
+                    </div>
+                ) : (
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+                        <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wide">
+                            目次
+                        </h3>
+                        <nav className="relative border-l-2 border-gray-200">
+                            {tocItems.map((item) => {
+                                const isActive = activeId === item.id
+                                return (
+                                    <a
+                                        key={item.id}
+                                        href={`#${item.id}`}
+                                        onClick={(e) => handleClick(e, item.id)}
+                                        className={`relative block text-sm transition-all duration-200 py-2 ${item.level === 2
+                                            ? 'pl-4 font-medium'
+                                            : item.level === 3
+                                                ? 'pl-6 text-sm'
+                                                : 'pl-8 text-xs'
+                                            } ${isActive
+                                                ? 'text-blue-600 font-semibold before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-blue-600 before:-ml-0.5'
+                                                : 'text-gray-600 hover:text-blue-600'
+                                            }`}
+                                    >
+                                        {item.text}
+                                    </a>
+                                )
+                            })}
+                        </nav>
+                    </div>
+                )}
+            </div>
+        </>
     )
 }

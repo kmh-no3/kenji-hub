@@ -5,12 +5,23 @@
 :root {
   --foreground: #000000;
   --background: #ffffff;
+  --header-height-mobile: 3.5rem;
+  /* h-14 (56px) */
+  --header-height-sm: 5rem;
+  /* sm:h-20 (80px) */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground: #ffffff;
     --background: #000000;
+  }
+}
+
+@media (min-width: 640px) {
+  :root {
+    --header-height-mobile: 5rem;
+    /* sm:h-20 (80px) */
   }
 }
 
@@ -75,7 +86,7 @@ body {
 }
 
 /* テーブル内部要素の表示 */
-.article-content table > * {
+.article-content table>* {
   display: table;
   width: 100%;
   border-collapse: collapse;
@@ -136,14 +147,76 @@ body {
   background: #555;
 }
 
-/* コードブロックのレスポンシブ対応 */
-.article-content pre {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin: 1rem 0;
-  padding: 1rem;
-  border-radius: 0.375rem;
-  background-color: #f3f4f6;
+/* コードブロックのレスポンシブ対応 - すべてのproseクラスの組み合わせに対応 */
+/* より強力なセレクタで確実に適用 */
+.article-content pre,
+.prose pre,
+.prose-sm pre,
+.prose-base pre,
+.prose-lg pre,
+.article-content.prose pre,
+.article-content.prose-sm pre,
+.article-content.prose-base pre,
+.article-content.prose-lg pre,
+div.prose pre,
+div.prose-sm pre,
+div.prose-base pre,
+div.prose-lg pre,
+div.article-content.prose pre,
+div.article-content.prose-sm pre,
+div.article-content.prose-base pre,
+div.article-content.prose-lg pre,
+.prose.prose-sm pre,
+.prose.prose-base pre,
+.prose.prose-lg pre,
+.article-content.prose.prose-sm pre,
+.article-content.prose.prose-base pre,
+.article-content.prose.prose-lg pre,
+main .article-content pre,
+main .prose pre {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  margin: 1rem 0 !important;
+  padding: 1rem !important;
+  border-radius: 0.375rem !important;
+  background-color: #1f2937 !important;
+  background-image: none !important;
+  color: #f9fafb !important;
+  opacity: 1 !important;
+}
+
+.article-content pre code,
+.prose pre code,
+.prose-sm pre code,
+.prose-base pre code,
+.prose-lg pre code,
+.article-content.prose pre code,
+.article-content.prose-sm pre code,
+.article-content.prose-base pre code,
+.article-content.prose-lg pre code,
+div.prose pre code,
+div.prose-sm pre code,
+div.prose-base pre code,
+div.prose-lg pre code,
+div.article-content.prose pre code,
+div.article-content.prose-sm pre code,
+div.article-content.prose-base pre code,
+div.article-content.prose-lg pre code,
+.prose.prose-sm pre code,
+.prose.prose-base pre code,
+.prose.prose-lg pre code,
+.article-content.prose.prose-sm pre code,
+.article-content.prose.prose-base pre code,
+.article-content.prose.prose-lg pre code,
+main .article-content pre code,
+main .prose pre code {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #f9fafb !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+  opacity: 1 !important;
 }
 
 .article-content code {
@@ -170,8 +243,8 @@ body {
   line-height: 1.75;
 }
 
-.article-content li > ul,
-.article-content li > ol {
+.article-content li>ul,
+.article-content li>ol {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
 }
@@ -209,7 +282,7 @@ body {
 }
 
 /* コードのインライン表示 */
-.article-content :not(pre) > code {
+.article-content :not(pre)>code {
   background-color: #f3f4f6;
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
@@ -232,6 +305,349 @@ body {
   margin: 2rem 0;
   border: 0;
   border-top: 1px solid #e5e7eb;
+}
+
+/* 目次のスムーズスクロール */
+html {
+  scroll-behavior: smooth;
+}
+
+/* スクロール中のアニメーションをスムーズに */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* モーション削減設定を尊重 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mobile-toc-active-pulse {
+    animation: none;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* モバイル目次のドロップダウンアニメーション */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* モバイル目次のスタイル */
+.mobile-toc-dropdown {
+  animation: slideDown 0.25s ease-out;
+}
+
+/* オーバーレイ背景のアニメーション（削除：opacity: 1 !important;と競合するため） */
+/* .toc-overlay {
+  animation: fadeIn 0.2s ease-out forwards;
+} */
+
+/* モバイル目次のFixed配置の調整（小さく右寄せ） */
+@media (max-width: 1023px) {
+  .mobile-toc-fixed {
+    position: fixed !important;
+    top: calc(3.5rem + 1.25rem) !important;
+    /* ヘッダー（3.5rem = 56px）から1.25rem（20px）下に配置して余白を確保 = 76px */
+    right: 0.5rem !important;
+    /* 右から0.5rem（8px）の位置に配置してより右寄せに */
+    left: auto !important;
+    z-index: 40 !important;
+    /* ヘッダーより低いが、コンテンツよりは高い */
+    margin-bottom: 0.5rem !important;
+    /* 下の要素との余白 */
+  }
+
+  /* コンパクトなサイズの目次 - より強力なセレクタで確実に適用 */
+  div.mobile-toc-fixed.mobile-toc-compact,
+  div.mobile-toc-sticky.mobile-toc-compact,
+  .mobile-toc-fixed.mobile-toc-compact,
+  .mobile-toc-sticky.mobile-toc-compact,
+  .mobile-toc-compact,
+  div.mobile-toc-compact {
+    width: auto !important;
+    max-width: 140px !important;
+    min-width: 80px !important;
+    /* 最大幅を140px、最小幅を80pxに制限（「xx/xx」が見える程度） */
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 展開時は画面幅の80%で右寄せ - より強力なセレクタで確実に適用（通常のスタイルの後に定義して優先順位を上げる） */
+  div.mobile-toc-fixed.mobile-toc-compact.mobile-toc-open,
+  div.mobile-toc-sticky.mobile-toc-compact.mobile-toc-open,
+  .mobile-toc-fixed.mobile-toc-compact.mobile-toc-open,
+  .mobile-toc-sticky.mobile-toc-compact.mobile-toc-open,
+  .mobile-toc-compact.mobile-toc-open,
+  div.mobile-toc-compact.mobile-toc-open {
+    width: 80vw !important;
+    max-width: 80vw !important;
+    min-width: 80vw !important;
+    right: 0.5rem !important;
+    left: auto !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .mobile-toc-compact>div {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* コンパクトな目次のボタンテキストを短く */
+  .mobile-toc-compact button {
+    white-space: nowrap !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .mobile-toc-compact button>div {
+    overflow: hidden !important;
+    max-width: 100% !important;
+  }
+
+  .mobile-toc-compact button span {
+    white-space: nowrap !important;
+    display: inline-block !important;
+  }
+
+  /* コンパクトな目次のドロップダウンメニューを展開時は画面幅の80%に */
+  .mobile-toc-compact .mobile-toc-dropdown {
+    max-width: 80vw !important;
+    width: 80vw !important;
+    box-sizing: border-box !important;
+  }
+
+  /* コンパクトな目次の全体の幅を展開時は画面幅の80%に、右寄せを維持 */
+  .mobile-toc-compact.mobile-toc-open>div,
+  .mobile-toc-compact>div.mobile-toc-open {
+    max-width: 80vw !important;
+    width: 80vw !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 640px以上ではヘッダーが5rem（80px）になるため、それに合わせて調整 */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .mobile-toc-fixed {
+      top: calc(5rem + 1.25rem) !important;
+      /* ヘッダー（5rem = 80px）から1.25rem（20px）下に配置 = 100px */
+      right: 1rem !important;
+      /* 右から1rem（16px）の位置に配置 */
+    }
+
+    .mobile-toc-fixed.mobile-toc-compact,
+    .mobile-toc-sticky.mobile-toc-compact,
+    .mobile-toc-compact {
+      max-width: 160px !important;
+      /* タブレットサイズでは少し大きく（160px） */
+    }
+  }
+
+  /* 旧クラス名との互換性維持 */
+  .mobile-toc-sticky {
+    position: fixed !important;
+    top: calc(3.5rem + 1.25rem) !important;
+    /* ヘッダー（3.5rem = 56px）から1.25rem（20px）下に配置して余白を確保 = 76px */
+    right: 0.5rem !important;
+    /* 右から0.5rem（8px）の位置に配置してより右寄せに */
+    left: auto !important;
+    z-index: 40 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .mobile-toc-sticky {
+      top: calc(5rem + 1.25rem) !important;
+      /* ヘッダー（5rem = 80px）から1.25rem（20px）下に配置 = 100px */
+      right: 1rem !important;
+      /* 右から1rem（16px）の位置に配置 */
+    }
+  }
+
+  /* ドロップダウンが開いている時の影 */
+  .mobile-toc-open {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* ドロップダウンメニューが開いている時、ボディのスクロールを無効化 */
+  body.toc-open {
+    overflow: hidden;
+  }
+}
+
+/* オーバーレイのトランジション効果（opacityを除外） */
+.toc-overlay {
+  transition: backdrop-filter 0.2s ease-out;
+}
+
+/* オーバーレイが画面全体を覆うようにする */
+@media (max-width: 1023px) {
+
+  div.toc-overlay,
+  .toc-overlay {
+    position: fixed !important;
+    top: var(--header-height-mobile) !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - var(--header-height-mobile)) !important;
+    z-index: 30 !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    opacity: 1 !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    animation: none !important;
+    transition: backdrop-filter 0.2s ease-out !important;
+  }
+
+  @media (min-width: 640px) {
+
+    div.toc-overlay,
+    .toc-overlay {
+      top: var(--header-height-sm) !important;
+      height: calc(100vh - var(--header-height-sm)) !important;
+    }
+  }
+}
+
+/* タッチデバイスでのスムーズスクロール */
+@media (hover: none) and (pointer: coarse) {
+  .mobile-toc-nav {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* タッチデバイスでのタップハイライト無効化 */
+  .mobile-toc-nav a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* モバイル目次のアクティブアイテムのパルスアニメーション */
+@keyframes tocPulse {
+
+  0%,
+  100% {
+    background-color: rgb(239 246 255);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+
+  50% {
+    background-color: rgb(219 234 254);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0);
+  }
+}
+
+.mobile-toc-active-pulse {
+  animation: tocPulse 1.5s ease-in-out;
+}
+
+/* モバイル目次のスクロールバー */
+.mobile-toc-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mobile-toc-nav::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.mobile-toc-nav::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.mobile-toc-nav::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* モバイル用main要素のpadding-top調整（目次との被りを防ぐ） */
+@media (max-width: 1023px) {
+
+  main.max-w-7xl.mx-auto.px-3,
+  main.max-w-7xl.mx-auto.px-4,
+  main.max-w-7xl.mx-auto.px-6,
+  main.max-w-7xl.mx-auto.px-8,
+  main.max-w-7xl.mx-auto,
+  main.max-w-7xl {
+    padding-top: 4rem !important;
+    /* pt-16 (64px) に変更して記事をさらに上に移動、目次との被りを防ぐ */
+  }
+}
+
+/* デスクトップ目次のsticky位置調整 */
+@media (min-width: 1024px) {
+  .toc-desktop-sticky {
+    position: sticky;
+    top: 5.5rem;
+    max-height: calc(100vh - 7rem);
+  }
+
+  /* デスクトップ目次のスクロールバー */
+  .toc-desktop-sticky::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .toc-desktop-sticky::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .toc-desktop-sticky::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 3px;
+  }
+
+  .toc-desktop-sticky::-webkit-scrollbar-thumb:hover {
+    background: #d1d5db;
+  }
+}
+
+/* 目次のアクティブアイテムのハイライト */
+.toc-active-item {
+  position: relative;
+}
+
+.toc-active-item::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #2563eb;
+  border-radius: 0 2px 2px 0;
 }
 
 /* 段落のスタイル */
@@ -260,10 +676,52 @@ body {
 }
 
 /* アラートボックス（警告・情報）のレスポンシブ対応 */
-.article-content .bg-yellow-50,
+.article-content div.bg-yellow-50,
+.article-content .bg-yellow-50 {
+  background-color: #fefce8 !important;
+  /* yellow-50 */
+  padding: 0.75rem !important;
+  margin: 1rem 0 !important;
+  border-radius: 0.5rem !important;
+}
+
+.article-content div.bg-blue-50,
 .article-content .bg-blue-50 {
-  padding: 0.75rem;
-  margin: 1rem 0;
+  background-color: #eff6ff !important;
+  /* blue-50 */
+  padding: 0.75rem !important;
+  margin: 1rem 0 !important;
+  border-radius: 0.5rem !important;
+}
+
+.article-content .border-yellow-400 {
+  border-left-color: #facc15 !important;
+  /* yellow-400 */
+}
+
+.article-content .border-blue-400 {
+  border-left-color: #60a5fa !important;
+  /* blue-400 */
+}
+
+.article-content .text-yellow-700 {
+  color: #a16207 !important;
+  /* yellow-700 */
+}
+
+.article-content .text-blue-700 {
+  color: #1d4ed8 !important;
+  /* blue-700 */
+}
+
+.article-content .text-yellow-400 {
+  color: #facc15 !important;
+  /* yellow-400 */
+}
+
+.article-content .text-blue-400 {
+  color: #60a5fa !important;
+  /* blue-400 */
 }
 
 .article-content .bg-yellow-50 .flex,
@@ -280,13 +738,14 @@ body {
 
 /* モバイル専用スタイル */
 @media (max-width: 640px) {
+
   /* テーブル */
   .article-content table {
     font-size: 0.7rem;
     margin: 1rem 0;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   }
-  
+
   .article-content table th,
   .article-content table td {
     padding: 0.375rem 0.5rem !important;
@@ -294,58 +753,78 @@ body {
     min-width: 70px;
     line-height: 1.4;
   }
-  
+
   .article-content table th {
     font-size: 0.65rem;
     font-weight: 700;
   }
-  
+
   .article-content table td {
     font-size: 0.7rem;
   }
-  
+
   /* テーブルのスクロールバーを小さく */
   .article-content table::-webkit-scrollbar {
     height: 6px;
   }
-  
+
   /* コードブロック */
-  .article-content pre {
+  .article-content pre,
+  .prose pre,
+  .prose-sm pre,
+  .prose-base pre,
+  .prose-lg pre,
+  .article-content.prose pre,
+  .article-content.prose-sm pre,
+  .article-content.prose-base pre,
+  .article-content.prose-lg pre {
     font-size: 0.7rem;
     padding: 0.75rem;
     margin: 0.75rem 0;
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
   }
-  
-  .article-content pre code {
+
+  .article-content pre code,
+  .prose pre code,
+  .prose-sm pre code,
+  .prose-base pre code,
+  .prose-lg pre code,
+  .article-content.prose pre code,
+  .article-content.prose-sm pre code,
+  .article-content.prose-base pre code,
+  .article-content.prose-lg pre code {
     font-size: 0.7rem;
+    background-color: transparent !important;
+    color: #f9fafb !important;
   }
-  
+
   /* 見出し */
   .article-content h2 {
     font-size: 1.25rem;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
   }
-  
+
   .article-content h3 {
     font-size: 1.125rem;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .article-content h4 {
     font-size: 1rem;
     margin-top: 0.75rem;
     margin-bottom: 0.5rem;
   }
-  
+
   /* 段落 */
   .article-content p {
     font-size: 0.875rem;
     line-height: 1.6;
     margin: 0.75rem 0;
   }
-  
+
   /* リスト */
   .article-content ul,
   .article-content ol {
@@ -353,31 +832,42 @@ body {
     padding-left: 1.25rem;
     margin: 0.75rem 0;
   }
-  
+
   .article-content li {
     margin: 0.375rem 0;
   }
-  
+
   /* アラートボックス */
-  .article-content .bg-yellow-50,
-  .article-content .bg-blue-50 {
-    padding: 0.625rem;
-    margin: 0.75rem 0;
-    border-radius: 0.375rem;
+  .article-content div.bg-yellow-50,
+  .article-content .bg-yellow-50 {
+    background-color: #fefce8 !important;
+    /* yellow-50 */
+    padding: 0.625rem !important;
+    margin: 0.75rem 0 !important;
+    border-radius: 0.375rem !important;
   }
-  
+
+  .article-content div.bg-blue-50,
+  .article-content .bg-blue-50 {
+    background-color: #eff6ff !important;
+    /* blue-50 */
+    padding: 0.625rem !important;
+    margin: 0.75rem 0 !important;
+    border-radius: 0.375rem !important;
+  }
+
   .article-content .bg-yellow-50 p,
   .article-content .bg-blue-50 p {
     font-size: 0.75rem;
     line-height: 1.5;
     margin: 0;
   }
-  
+
   .article-content .bg-yellow-50 strong,
   .article-content .bg-blue-50 strong {
     font-size: 0.75rem;
   }
-  
+
   .article-content .bg-yellow-50 svg,
   .article-content .bg-blue-50 svg {
     width: 1rem;
@@ -385,35 +875,35 @@ body {
     margin-right: 0.375rem;
     flex-shrink: 0;
   }
-  
+
   .article-content .bg-yellow-50 .ml-3,
   .article-content .bg-blue-50 .ml-3 {
     margin-left: 0.375rem;
   }
-  
+
   .article-content .bg-yellow-50 .flex,
   .article-content .bg-blue-50 .flex {
     gap: 0.375rem;
   }
-  
+
   /* インラインコード */
-  .article-content :not(pre) > code {
+  .article-content :not(pre)>code {
     font-size: 0.75rem;
     padding: 0.125rem 0.25rem;
   }
-  
+
   /* ブロッククォート */
   .article-content blockquote {
     font-size: 0.875rem;
     padding-left: 0.75rem;
     margin: 0.75rem 0;
   }
-  
+
   /* 水平線 */
   .article-content hr {
     margin: 1.5rem 0;
   }
-  
+
   /* 画像 */
   .article-content img,
   .article-content video {
@@ -427,49 +917,82 @@ body {
   .article-content table {
     font-size: 0.875rem;
   }
-  
+
   .article-content table th,
   .article-content table td {
     padding: 0.5rem 0.75rem !important;
     line-height: 1.5;
   }
-  
-  .article-content pre {
+
+  .article-content pre,
+  .prose pre,
+  .prose-sm pre,
+  .prose-base pre,
+  .prose-lg pre,
+  .article-content.prose pre,
+  .article-content.prose-sm pre,
+  .article-content.prose-base pre,
+  .article-content.prose-lg pre {
     font-size: 0.875rem;
     padding: 0.875rem;
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
   }
-  
+
+  .article-content pre code,
+  .prose pre code,
+  .prose-sm pre code,
+  .prose-base pre code,
+  .prose-lg pre code,
+  .article-content.prose pre code,
+  .article-content.prose-sm pre code,
+  .article-content.prose-base pre code,
+  .article-content.prose-lg pre code {
+    background-color: transparent !important;
+    color: #f9fafb !important;
+  }
+
+
   .article-content h2 {
     font-size: 1.5rem;
     margin-top: 1.75rem;
   }
-  
+
   .article-content h3 {
     font-size: 1.25rem;
     margin-top: 1.25rem;
   }
-  
+
   .article-content h4 {
     font-size: 1.125rem;
   }
-  
+
   .article-content p {
     font-size: 0.9375rem;
   }
-  
+
   .article-content ul,
   .article-content ol {
     font-size: 0.9375rem;
     padding-left: 1.375rem;
   }
-  
-  .article-content .bg-yellow-50,
-  .article-content .bg-blue-50 {
-    padding: 0.625rem 0.75rem;
+
+  .article-content div.bg-yellow-50,
+  .article-content .bg-yellow-50 {
+    background-color: #fefce8 !important;
+    /* yellow-50 */
+    padding: 0.625rem 0.75rem !important;
   }
-  
+
+  .article-content div.bg-blue-50,
+  .article-content .bg-blue-50 {
+    background-color: #eff6ff !important;
+    /* blue-50 */
+    padding: 0.625rem 0.75rem !important;
+  }
+
   .article-content .bg-yellow-50 p,
   .article-content .bg-blue-50 p {
     font-size: 0.875rem;
   }
-} 
+}

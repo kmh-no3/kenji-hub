@@ -276,15 +276,68 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
       {/* ヘッダー */}
       <Header />
 
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+      {/* モバイル用Sticky目次（記事の外に配置） */}
+      <div className="lg:hidden" id="toc-wrapper">
+        <TableOfContents content={article.content} />
+      </div>
+
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8 lg:pt-4">
+        {/* #region agent log */}
+        {typeof window !== 'undefined' && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  const main = document.querySelector('main');
+                  const toc = document.querySelector('.mobile-toc-fixed');
+                  const header = document.querySelector('header');
+                  if (main && toc && header) {
+                    const mainRect = main.getBoundingClientRect();
+                    const tocRect = toc.getBoundingClientRect();
+                    const headerRect = header.getBoundingClientRect();
+                    const mainComputedStyle = window.getComputedStyle(main);
+                    fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        location: 'page.tsx:284',
+                        message: 'main要素とTOCの位置関係（記事を上に移動する前）',
+                        data: {
+                          mainTop: mainRect.top,
+                          mainPaddingTop: mainComputedStyle.paddingTop,
+                          mainPaddingTopValue: parseFloat(mainComputedStyle.paddingTop) || 0,
+                          tocTop: tocRect.top,
+                          tocBottom: tocRect.bottom,
+                          tocHeight: tocRect.height,
+                          headerHeight: headerRect.height,
+                          headerBottom: headerRect.bottom,
+                          gapBetweenTocAndMain: mainRect.top - tocRect.bottom,
+                          overlap: tocRect.bottom > mainRect.top,
+                          windowHeight: window.innerHeight,
+                          suggestedPaddingTop: Math.max(tocRect.bottom - headerRect.bottom + 20, 80) + 'px'
+                        },
+                        timestamp: Date.now(),
+                        sessionId: 'debug-session',
+                        runId: 'padding-top-adjustment',
+                        hypothesisId: 'A'
+                      })
+                    }).catch(() => {});
+                  }
+                })();
+              `
+            }}
+          />
+        )}
+        {/* #endregion agent log */}
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 relative">
           {/* メインコンテンツ */}
           <div className="flex-1 w-full lg:max-w-4xl">
+
             {/* 記事ヘッダー */}
             <article className="bg-white rounded-lg shadow-md overflow-hidden">
               {article.image && (
                 <Link href={`/blog/${article.id}`}>
-                  <div className="relative h-48 sm:h-64 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center hover:from-blue-100 hover:to-indigo-200 transition-all duration-300 cursor-pointer">
+                  <div className="relative h-64 sm:h-80 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center hover:from-blue-100 hover:to-indigo-200 transition-all duration-300 cursor-pointer">
                     <div className="text-5xl sm:text-7xl">
                       {article.image}
                     </div>
@@ -325,7 +378,49 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                 {/* 記事本文 */}
                 <div
                   className="prose prose-sm sm:prose-base lg:prose-lg max-w-none article-content"
-                  dangerouslySetInnerHTML={{ __html: article.content }}
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      ${article.content}
+                      <script>
+                        (function() {
+                          if (typeof window !== 'undefined') {
+                            setTimeout(function() {
+                              const preElements = document.querySelectorAll('.article-content pre, .prose pre');
+                              if (preElements.length > 0) {
+                                const firstPre = preElements[0];
+                                const computedStyle = window.getComputedStyle(firstPre);
+                                fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({
+                                    location: 'page.tsx:code-block-styles',
+                                    message: 'コードブロックのスタイル確認',
+                                    data: {
+                                      preCount: preElements.length,
+                                      backgroundColor: computedStyle.backgroundColor,
+                                      color: computedStyle.color,
+                                      backgroundImage: computedStyle.backgroundImage,
+                                      opacity: computedStyle.opacity,
+                                      classes: firstPre.className,
+                                      parentClasses: firstPre.parentElement?.className || '',
+                                      codeElement: firstPre.querySelector('code') ? {
+                                        backgroundColor: window.getComputedStyle(firstPre.querySelector('code')).backgroundColor,
+                                        color: window.getComputedStyle(firstPre.querySelector('code')).color
+                                      } : null
+                                    },
+                                    timestamp: Date.now(),
+                                    sessionId: 'debug-session',
+                                    runId: 'code-block-styles-check',
+                                    hypothesisId: 'A'
+                                  })
+                                }).catch(() => {});
+                              }
+                            }, 1000);
+                          }
+                        })();
+                      </script>
+                    `
+                  }}
                 />
               </div>
             </article>
@@ -380,9 +475,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             </div>
           </div>
 
-          {/* TOC（デスクトップのみ表示） - Zenn風sticky配置 */}
-          <aside className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto">
+          {/* TOC（デスクトップのみ表示） - Sticky配置 */}
+          <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0">
+            <div className="toc-desktop-sticky overflow-y-auto">
               <TableOfContents content={article.content} />
             </div>
           </aside>
