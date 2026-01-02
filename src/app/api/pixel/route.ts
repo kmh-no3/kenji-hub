@@ -23,11 +23,14 @@ export async function GET(req: Request) {
     };
 
     // #region agent log
-    fetch(new URL('/api/agent-log', url.origin), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-agent-log': '1' },
-        body: JSON.stringify(payload),
-    }).catch(() => { });
+    if (typeof window !== 'undefined' || process.env.NODE_ENV !== 'production') {
+        // 非同期でログを送信（エラーは無視）
+        fetch(new URL('/api/agent-log', url.origin), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-agent-log': '1' },
+            body: JSON.stringify(payload),
+        }).catch(() => { });
+    }
     // #endregion agent log
 
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"><rect width="1" height="1" fill="transparent"/></svg>`;
