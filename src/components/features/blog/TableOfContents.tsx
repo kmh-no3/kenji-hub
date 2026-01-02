@@ -656,29 +656,29 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
                         <div
                             ref={mobileMenuRef}
-                            className={`bg-white rounded-lg border border-gray-200 relative z-40 transition-shadow duration-200 ${isMobileOpen ? 'mobile-toc-open shadow-lg' : 'shadow-md'
+                            className={`bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-border)] relative z-40 transition-shadow duration-200 ${isMobileOpen ? 'mobile-toc-open shadow-lg' : 'shadow-md'
                                 }`}
                             style={isMobileOpen ? { width: '80vw', maxWidth: '80vw', marginLeft: 'auto', marginRight: '0' } : compactStyle}
                         >
                             <button
                                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                                className="w-full px-2 py-1.5 flex items-center justify-between text-left hover:bg-gray-50 transition-all duration-200 rounded-t-lg"
+                                className="w-full px-2 py-1.5 flex items-center justify-between text-left hover:bg-[color:rgba(255,255,255,0.06)] transition-all duration-200 rounded-t-lg"
                                 aria-expanded={isMobileOpen}
                                 aria-label={isMobileOpen ? '目次を閉じる' : '目次を開く'}
                             >
                                 <div className="flex items-center space-x-1.5 flex-1 min-w-0">
-                                    <svg className="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 text-[color:var(--color-muted)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                     </svg>
-                                    <span className="text-xs font-semibold text-gray-900 flex-shrink-0 whitespace-nowrap">目次</span>
+                                    <span className="text-xs font-semibold text-[color:var(--color-fg)] flex-shrink-0 whitespace-nowrap">目次</span>
                                     {activeItem && isMobileOpen && (
-                                        <span className="text-xs text-gray-400 flex-shrink-0 whitespace-nowrap">
+                                        <span className="text-xs text-[color:var(--color-muted)] flex-shrink-0 whitespace-nowrap">
                                             {tocItems.findIndex(item => item.id === activeId) + 1}/{tocItems.length}
                                         </span>
                                     )}
                                 </div>
                                 <svg
-                                    className={`w-4 h-4 text-gray-600 transition-transform duration-200 flex-shrink-0 ml-1 ${isMobileOpen ? 'rotate-180' : ''}`}
+                                    className={`w-4 h-4 text-[color:var(--color-muted)] transition-transform duration-200 flex-shrink-0 ml-1 ${isMobileOpen ? 'rotate-180' : ''}`}
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -688,7 +688,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                             </button>
 
                             {isMobileOpen && (
-                                <div className="border-t border-gray-200 bg-white rounded-b-lg">
+                                <div className="border-t border-[color:var(--color-border)] bg-[color:var(--color-surface)] rounded-b-lg">
                                     <nav
                                         ref={mobileNavRef}
                                         className="mobile-toc-dropdown mobile-toc-nav px-3 py-2 max-h-[calc(100vh-12rem)] overflow-y-auto relative z-50"
@@ -713,8 +713,8 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                                                             ? 'pl-4 text-xs'
                                                             : 'pl-6 text-xs'
                                                         } ${isActive
-                                                            ? `text-blue-600 font-bold shadow-sm border-l-2 border-blue-600 pl-2 ${isRecentlyChanged ? 'mobile-toc-active-pulse' : 'bg-blue-50'}`
-                                                            : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                                                            ? `text-[color:var(--color-link)] font-bold shadow-sm border-l-2 border-[color:var(--color-link)] pl-2 ${isRecentlyChanged ? 'mobile-toc-active-pulse' : 'bg-[color:var(--color-accent-alpha-12)]'}`
+                                                            : 'text-[color:var(--color-muted)] hover:text-[color:var(--color-link)] hover:bg-[color:rgba(255,255,255,0.06)]'
                                                         }`}
                                                 >
                                                     <span className={`flex items-center ${isActive ? 'ml-2' : ''}`}>
@@ -731,10 +731,10 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                                     </nav>
 
                                     {/* 閉じるボタン */}
-                                    <div className="border-t border-gray-200 px-3 py-1.5 bg-gray-50">
+                                    <div className="border-t border-[color:var(--color-border)] px-3 py-1.5 bg-[color:rgba(255,255,255,0.04)]">
                                         <button
                                             onClick={() => setIsMobileOpen(false)}
-                                            className="w-full py-1.5 px-3 text-xs text-gray-600 hover:text-gray-900 hover:bg-white font-medium transition-all duration-200 flex items-center justify-center space-x-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                            className="w-full py-1.5 px-3 text-xs text-[color:var(--color-muted)] hover:text-[color:var(--color-fg)] hover:bg-[color:rgba(255,255,255,0.06)] font-medium transition-all duration-200 flex items-center justify-center space-x-1 rounded-md focus:outline-none focus:ring-2 focus:ring-[color:var(--color-link)] focus:ring-offset-2"
                                             aria-label="目次を閉じる"
                                         >
                                             <span>閉じる</span>
@@ -753,18 +753,18 @@ export function TableOfContents({ content }: TableOfContentsProps) {
             {/* デスクトップ用Sticky目次 */}
             <div className="hidden lg:block">
                 {tocItems.length === 0 ? (
-                    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-                        <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">
+                    <div className="bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-border)] p-6 shadow-sm">
+                        <h3 className="text-sm font-semibold text-[color:var(--color-fg)] mb-4 uppercase tracking-wide">
                             目次
                         </h3>
-                        <p className="text-sm text-gray-500">読み込み中...</p>
+                        <p className="text-sm text-[color:var(--color-muted)]">読み込み中...</p>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-                        <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wide">
+                    <div className="bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-border)] p-6 shadow-sm">
+                        <h3 className="text-sm font-bold text-[color:var(--color-fg)] mb-4 uppercase tracking-wide">
                             目次
                         </h3>
-                        <nav className="relative border-l-2 border-gray-200">
+                        <nav className="relative border-l-2 border-[color:var(--color-border)]">
                             {tocItems.map((item) => {
                                 const isActive = activeId === item.id
                                 return (
@@ -778,8 +778,8 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                                                 ? 'pl-6 text-sm'
                                                 : 'pl-8 text-xs'
                                             } ${isActive
-                                                ? 'text-blue-600 font-semibold before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-blue-600 before:-ml-0.5'
-                                                : 'text-gray-600 hover:text-blue-600'
+                                                ? 'text-[color:var(--color-link)] font-semibold before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-[color:var(--color-link)] before:-ml-0.5'
+                                                : 'text-[color:var(--color-muted)] hover:text-[color:var(--color-link)]'
                                             }`}
                                     >
                                         {item.text}

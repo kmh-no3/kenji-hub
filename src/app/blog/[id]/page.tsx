@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { headers } from 'next/headers'
 import { TableOfContents } from '@/components/features/blog'
 
 // 記事データの型定義
@@ -196,15 +197,15 @@ npm install express pg
         <li><strong>Docker環境</strong>は、チーム開発や本番環境との一貫性が重要な場合に適しており、現代的な開発プラクティスに合致しています。</li>
       </ul>
       
-      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+      <div class="callout callout-warn">
         <div class="flex">
           <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+            <svg class="callout-icon" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
             </svg>
           </div>
-          <div class="ml-3">
-            <p class="text-sm text-yellow-700">
+          <div class="callout-body">
+            <p class="callout-text">
               <strong>注意：</strong>VM環境の比較検証はまだ完了していません。完全な3環境比較は今後の更新で提供予定です。
             </p>
           </div>
@@ -212,15 +213,15 @@ npm install express pg
       </div>
 
       <h2>今後の予定</h2>
-      <div class="bg-blue-50 border-l-4 border-blue-400 p-4 my-6">
+      <div class="callout callout-info">
         <div class="flex">
           <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+            <svg class="callout-icon" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
             </svg>
           </div>
-          <div class="ml-3">
-            <p class="text-sm text-blue-700">
+          <div class="callout-body">
+            <p class="callout-text">
               <strong>進行中：</strong>VM環境での開発パターン実装と3環境の包括的比較を準備中です。
             </p>
           </div>
@@ -236,7 +237,7 @@ npm install express pg
       </ul>
 
       <h2>参考リンク</h2>
-      <p>この検証で使用したリポジトリは <a href="https://github.com/kmh-no3/Container_VM" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800">GitHub - kmh-no3/Container_VM</a> で公開されています。</p>
+      <p>この検証で使用したリポジトリは <a href="https://github.com/kmh-no3/Container_VM" target="_blank" rel="noopener noreferrer" class="callout-link">GitHub - kmh-no3/Container_VM</a> で公開されています。</p>
     `,
     publishedAt: '2025-08-23',
     tags: ['Docker', '開発環境', '比較検証', 'Node.js', 'PostgreSQL'],
@@ -256,13 +257,57 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
   const { id } = await params
   const article = articles.find(a => a.id === id)
 
+  // #region agent log
+  try {
+    const h = await headers()
+    await fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: 'debug-session',
+        runId: 'pre-fix',
+        hypothesisId: 'SRV_BLOG_HIT',
+        location: 'src/app/blog/[id]/page.tsx:ArticlePage',
+        message: 'Server render blog detail',
+        data: {
+          id,
+          found: !!article,
+          ua: h.get('user-agent') ? 'present' : 'missing',
+          referer: h.get('referer') ?? null,
+        },
+        timestamp: Date.now(),
+      }),
+    })
+
+    // どのコード版がサーバーで動いているかをログで確定する
+    await fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: 'debug-session',
+        runId: 'pre-fix',
+        hypothesisId: 'H14',
+        location: 'src/app/blog/[id]/page.tsx:ArticlePage',
+        message: 'Server build marker',
+        data: {
+          buildMarker: 'hardcoded-probe-v4',
+          id,
+        },
+        timestamp: Date.now(),
+      }),
+    })
+  } catch {
+    // ignore
+  }
+  // #endregion agent log
+
   if (!article) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[color:var(--color-bg)] flex items-center justify-center px-4">
         <div className="text-center max-w-md">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">記事が見つかりません</h1>
-          <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">指定された記事は存在しないか、削除された可能性があります。</p>
-          <Link href="/" className="text-sm sm:text-base text-blue-600 hover:text-blue-800 font-medium">
+          <h1 className="text-xl sm:text-2xl font-bold text-[color:var(--color-fg)] mb-3 sm:mb-4">記事が見つかりません</h1>
+          <p className="text-sm sm:text-base text-[color:var(--color-muted)] mb-6 sm:mb-8">指定された記事は存在しないか、削除された可能性があります。</p>
+          <Link href="/" className="text-sm sm:text-base text-[color:var(--color-link)] hover:text-[color:var(--color-link-hover)] font-medium">
             ← ホームに戻る
           </Link>
         </div>
@@ -326,15 +371,70 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
           />
         )}
         {/* #endregion agent log */}
+        {/* #region agent log */}
+        {typeof window !== 'undefined' && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  try {
+                    const html = document.documentElement;
+                    const article = document.querySelector('article');
+                    const content = document.querySelector('.article-content');
+                    const table = content ? content.querySelector('table') : null;
+                    const inlineCode = content ? content.querySelector(':not(pre) > code') : null;
+                    const data = {
+                      htmlDataset: { theme: html.dataset.theme, themeMode: html.dataset.themeMode },
+                      article: article ? {
+                        bg: getComputedStyle(article).backgroundColor,
+                        color: getComputedStyle(article).color,
+                        borderColor: getComputedStyle(article).borderColor
+                      } : null,
+                      content: content ? {
+                        color: getComputedStyle(content).color,
+                        linkColor: (function(){
+                          const a = content.querySelector('a');
+                          return a ? getComputedStyle(a).color : null;
+                        })()
+                      } : null,
+                      table: table ? {
+                        bg: getComputedStyle(table).backgroundColor,
+                        borderColor: getComputedStyle(table).borderColor
+                      } : null,
+                      inlineCode: inlineCode ? {
+                        bg: getComputedStyle(inlineCode).backgroundColor,
+                        color: getComputedStyle(inlineCode).color
+                      } : null
+                    };
+                    fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        sessionId: 'debug-session',
+                        runId: 'pre-fix',
+                        hypothesisId: 'B1',
+                        location: 'src/app/blog/[id]/page.tsx:theme-styles',
+                        message: 'Article theme computed styles',
+                        data,
+                        timestamp: Date.now()
+                      })
+                    }).catch(()=>{});
+                  } catch (e) {}
+                })();
+              `
+            }}
+          />
+        )}
+        {/* #endregion agent log */}
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 relative">
           {/* メインコンテンツ */}
           <div className="flex-1 w-full lg:max-w-4xl">
 
             {/* 記事ヘッダー */}
-            <article className="bg-white rounded-lg shadow-md overflow-hidden">
+            <article className="bg-[color:var(--color-surface)] rounded-lg shadow-md overflow-hidden border border-[color:var(--color-border)]">
               {article.image && (
                 <Link href={`/blog/${article.id}`}>
-                  <div className="relative h-64 sm:h-80 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center hover:from-blue-100 hover:to-indigo-200 transition-all duration-300 cursor-pointer">
+                  <div className="relative h-64 sm:h-80 bg-gradient-to-br from-[color:var(--color-article-hero-from)] to-[color:var(--color-article-hero-to)] flex items-center justify-center transition-all duration-300 cursor-pointer">
                     <div className="text-5xl sm:text-7xl">
                       {article.image}
                     </div>
@@ -345,18 +445,18 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
               <div className="p-4 sm:p-6 lg:p-8">
                 {/* 記事メタ情報 */}
                 <div className="flex items-center mb-4 sm:mb-6">
-                  <div className="text-xs sm:text-sm text-gray-500">
+                  <div className="text-xs sm:text-sm text-[color:var(--color-muted)]">
                     {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
                   </div>
                 </div>
 
                 {/* 記事タイトル */}
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[color:var(--color-fg)] mb-3 sm:mb-4">
                   {article.title}
                 </h1>
 
                 {/* 記事説明 */}
-                <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 sm:mb-6">
+                <p className="text-sm sm:text-base lg:text-lg text-[color:var(--color-muted)] mb-4 sm:mb-6">
                   {article.description}
                 </p>
 
@@ -365,7 +465,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                   {article.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm bg-blue-100 text-blue-800 rounded-full"
+                      className="px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm rounded-full bg-[color:var(--color-accent-alpha-16)] text-[color:var(--color-fg)]"
                     >
                       {tag}
                     </span>
@@ -378,6 +478,66 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                   dangerouslySetInnerHTML={{
                     __html: `
                       ${article.content}
+                      <script>
+                        (function() {
+                          try {
+                            var html = document.documentElement;
+                            var articleEl = document.querySelector('article');
+                            var contentEl = document.querySelector('.article-content');
+                            var tableEl = contentEl ? contentEl.querySelector('table') : null;
+                            var inlineCodeEl = null;
+                            if (contentEl) {
+                              var anyCodeEl = contentEl.querySelector('code');
+                              if (anyCodeEl && !anyCodeEl.closest('pre')) {
+                                inlineCodeEl = anyCodeEl;
+                              }
+                            }
+                            var aEl = contentEl ? contentEl.querySelector('a') : null;
+                            var data = {
+                              htmlDataset: { theme: html.dataset.theme, themeMode: html.dataset.themeMode },
+                              article: articleEl ? {
+                                bg: getComputedStyle(articleEl).backgroundColor,
+                                color: getComputedStyle(articleEl).color,
+                                borderColor: getComputedStyle(articleEl).borderColor
+                              } : null,
+                              content: contentEl ? {
+                                color: getComputedStyle(contentEl).color,
+                                linkColor: aEl ? getComputedStyle(aEl).color : null
+                              } : null,
+                              table: tableEl ? {
+                                bg: getComputedStyle(tableEl).backgroundColor,
+                                borderColor: getComputedStyle(tableEl).borderColor
+                              } : null,
+                              inlineCode: inlineCodeEl ? {
+                                bg: getComputedStyle(inlineCodeEl).backgroundColor,
+                                color: getComputedStyle(inlineCodeEl).color
+                              } : null
+                            };
+                            var payload = {
+                              sessionId: 'debug-session',
+                              runId: 'pre-fix',
+                              hypothesisId: 'B1',
+                              location: 'src/app/blog/[id]/page.tsx:article-html',
+                              message: 'Article theme computed styles (html script)',
+                              data: data,
+                              timestamp: Date.now()
+                            };
+                            fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify(payload)
+                            }).catch(function(){
+                              try {
+                                fetch('/api/agent-log', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify(payload)
+                                }).catch(function(){});
+                              } catch (e) {}
+                            });
+                          } catch (e) {}
+                        })();
+                      </script>
                       <script>
                         (function() {
                           if (typeof window !== 'undefined') {
@@ -424,7 +584,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
             {/* 関連記事セクション */}
             <section className="mt-8 sm:mt-12">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">関連記事</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-[color:var(--color-fg)] mb-4 sm:mb-6">関連記事</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {articles
                   .filter(a => a.id !== article.id)
@@ -433,23 +593,23 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                     <Link
                       key={relatedArticle.id}
                       href={`/blog/${relatedArticle.id}`}
-                      className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100"
+                      className="block bg-[color:var(--color-surface)] rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-[color:var(--color-border)]"
                     >
                       {relatedArticle.image && (
-                        <div className="relative h-24 sm:h-32 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+                        <div className="relative h-24 sm:h-32 bg-gradient-to-br from-[color:var(--color-article-hero-from)] to-[color:var(--color-article-hero-to)] flex items-center justify-center">
                           <div className="text-2xl sm:text-3xl">
                             {relatedArticle.image}
                           </div>
                         </div>
                       )}
                       <div className="p-3 sm:p-4">
-                        <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1 sm:mb-2 line-clamp-2">
+                        <h3 className="text-sm sm:text-base font-semibold text-[color:var(--color-fg)] mb-1 sm:mb-2 line-clamp-2">
                           {relatedArticle.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
+                        <p className="text-xs sm:text-sm text-[color:var(--color-muted)] line-clamp-2">
                           {relatedArticle.description}
                         </p>
-                        <div className="flex items-center mt-2 sm:mt-3 text-xs text-gray-500">
+                        <div className="flex items-center mt-2 sm:mt-3 text-xs text-[color:var(--color-muted)]">
                           <span>{new Date(relatedArticle.publishedAt).toLocaleDateString('ja-JP')}</span>
                         </div>
                       </div>
@@ -462,7 +622,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             <div className="mt-6 sm:mt-8 text-center">
               <Link
                 href="/"
-                className="inline-flex items-center text-sm sm:text-base text-blue-600 hover:text-blue-800 font-medium"
+                className="inline-flex items-center text-sm sm:text-base text-[color:var(--color-link)] hover:text-[color:var(--color-link-hover)] font-medium"
               >
                 <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

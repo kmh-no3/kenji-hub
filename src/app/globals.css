@@ -13,18 +13,63 @@
   --color-accent-hover: #1d8cf8;
   --color-link: var(--color-accent);
   --color-link-hover: #1183f6;
+  /* アクセントの半透明（ピル背景など） */
+  --color-accent-alpha-16: rgba(62, 168, 255, 0.16);
+  --color-accent-alpha-12: rgba(62, 168, 255, 0.12);
+
+  /* ブログ本文（Zenn風の読みやすさ） */
+  --color-article-hero-from: #eef6ff;
+  --color-article-hero-to: #e0ecff;
+  --color-article-table-bg: var(--color-surface);
+  --color-article-table-head-bg: #f9fafb;
+  --color-article-table-row-alt-bg: #f3f4f6;
+  --color-article-table-border: var(--color-border);
+  --color-article-inlinecode-bg: #f3f4f6;
+  --color-article-inlinecode-fg: #dc2626;
+  --color-article-blockquote-border: var(--color-border);
+  --color-article-blockquote-fg: var(--color-muted);
+  --color-article-hr: var(--color-border);
+  --color-article-callout-warn-bg: #fefce8;
+  --color-article-callout-warn-border: #facc15;
+  --color-article-callout-warn-fg: #a16207;
+  --color-article-callout-info-bg: #eff6ff;
+  --color-article-callout-info-border: #60a5fa;
+  --color-article-callout-info-fg: #1d4ed8;
 
   /* ヘッダー（Zennっぽい濃紺） */
-  --color-header-bg: #0b2a43;
-  --color-header-fg: #ffffff;
-  --color-header-fg-muted: rgba(255, 255, 255, 0.75);
-  --color-header-hover-bg: rgba(255, 255, 255, 0.08);
+  /* ライト時は"前のライト配色"に戻す（白背景 + 濃い文字） */
+  --color-header-bg: #ffffff;
+  --color-header-fg: #0b1220;
+  --color-header-fg-muted: #0b1220;
+  /* ライトモード時はタイトルと同じ黒色に統一 */
+  --color-header-fg-disabled: rgba(11, 18, 32, 0.4);
+  /* 無効なアイコン用（薄い色） */
+  --color-header-hover-bg: rgba(11, 18, 32, 0.06);
+  --color-header-border: var(--color-border);
 
   /* ドロップダウン */
-  --color-popover-bg: #0f3556;
-  --color-popover-fg: #ffffff;
-  --color-popover-border: rgba(255, 255, 255, 0.14);
-  --color-popover-hover-bg: rgba(255, 255, 255, 0.08);
+  --color-popover-bg: #ffffff;
+  --color-popover-fg: #0b1220;
+  --color-popover-border: var(--color-border);
+  --color-popover-hover-bg: rgba(11, 18, 32, 0.06);
+
+  /* GitHubボタン（ライトモード） */
+  --color-button-github-bg: #0b1220;
+  --color-button-github-fg: #ffffff;
+  --color-button-github-hover-bg: #1a2332;
+  --color-button-github-disabled-bg: rgba(11, 18, 32, 0.12);
+  --color-button-github-disabled-fg: var(--color-muted);
+
+  /* デモボタン（ライトモード） */
+  --color-button-demo-bg: #3ea8ff;
+  --color-button-demo-fg: #ffffff;
+  --color-button-demo-hover-bg: #1d8cf8;
+  --color-button-demo-disabled-bg: rgba(11, 18, 32, 0.12);
+  --color-button-demo-disabled-fg: var(--color-muted);
+  /* ローカルデモボタン（ライトモード） */
+  --color-button-demo-local-bg: #f97316;
+  --color-button-demo-local-fg: #ffffff;
+  --color-button-demo-local-hover-bg: #ea580c;
 
   --header-height-mobile: 3.5rem;
   /* h-14 (56px) */
@@ -39,21 +84,66 @@ html[data-theme="dark"] {
   --color-fg: #e5e7eb;
   --color-muted: #9aa4b2;
   --color-border: #22324a;
-  --color-accent: #3ea8ff;
-  --color-accent-hover: #7cc4ff;
+  /* NOTE: リンクが --color-link ではなく --color-accent を参照してしまう経路が残っても
+     ダーク時にZenn風のライトブルーへ揃うよう、accent を link と同色に統一する */
+  --color-accent: #7cc4ff;
+  --color-accent-hover: #a5d8ff;
   --color-link: #7cc4ff;
   --color-link-hover: #a5d8ff;
+  /* アクセントの半透明（ピル背景など） */
+  --color-accent-alpha-16: rgba(124, 196, 255, 0.16);
+  --color-accent-alpha-12: rgba(124, 196, 255, 0.12);
+
+  /* ブログ本文（ネイビー基調） */
+  --color-article-hero-from: #0f1b2e;
+  --color-article-hero-to: #122845;
+  --color-article-table-bg: rgba(255, 255, 255, 0.04);
+  --color-article-table-head-bg: rgba(255, 255, 255, 0.06);
+  --color-article-table-row-alt-bg: rgba(255, 255, 255, 0.03);
+  --color-article-table-border: rgba(255, 255, 255, 0.10);
+  --color-article-inlinecode-bg: rgba(255, 255, 255, 0.06);
+  --color-article-inlinecode-fg: #ffb4b4;
+  --color-article-blockquote-border: rgba(255, 255, 255, 0.12);
+  --color-article-blockquote-fg: var(--color-muted);
+  --color-article-hr: rgba(255, 255, 255, 0.12);
+  --color-article-callout-warn-bg: rgba(250, 204, 21, 0.10);
+  --color-article-callout-warn-border: #facc15;
+  --color-article-callout-warn-fg: #fde68a;
+  --color-article-callout-info-bg: rgba(96, 165, 250, 0.12);
+  --color-article-callout-info-border: #60a5fa;
+  --color-article-callout-info-fg: #bfdbfe;
 
   /* ヘッダーはライト/ダークで共通（Zennの雰囲気寄せ） */
   --color-header-bg: #0b2a43;
   --color-header-fg: #ffffff;
   --color-header-fg-muted: rgba(255, 255, 255, 0.75);
+  --color-header-fg-disabled: rgba(255, 255, 255, 0.4);
+  /* 無効なアイコン用（薄い色） */
   --color-header-hover-bg: rgba(255, 255, 255, 0.08);
+  --color-header-border: rgba(255, 255, 255, 0.08);
 
   --color-popover-bg: #0f3556;
   --color-popover-fg: #ffffff;
   --color-popover-border: rgba(255, 255, 255, 0.14);
   --color-popover-hover-bg: rgba(255, 255, 255, 0.08);
+
+  /* GitHubボタン（ダークモード） */
+  --color-button-github-bg: #ffffff;
+  --color-button-github-fg: #0b1220;
+  --color-button-github-hover-bg: #e5e7eb;
+  --color-button-github-disabled-bg: rgba(255, 255, 255, 0.12);
+  --color-button-github-disabled-fg: var(--color-muted);
+
+  /* デモボタン（ダークモード） */
+  --color-button-demo-bg: #ffffff;
+  --color-button-demo-fg: #0b1220;
+  --color-button-demo-hover-bg: #e5e7eb;
+  --color-button-demo-disabled-bg: rgba(255, 255, 255, 0.12);
+  --color-button-demo-disabled-fg: var(--color-muted);
+  /* ローカルデモボタン（ダークモード） */
+  --color-button-demo-local-bg: #fb923c;
+  --color-button-demo-local-fg: #0b1220;
+  --color-button-demo-local-hover-bg: #fdba74;
 }
 
 @media (min-width: 640px) {
@@ -88,11 +178,33 @@ body {
   overflow-wrap: break-word;
   word-wrap: break-word;
   max-width: 100%;
+  /* prose のデフォルト本文色（gray-700など）を上書きしてテーマに追従させる */
+  color: var(--color-fg);
 }
 
 /* Tailwind proseクラスのオーバーライド */
 .article-content.prose {
   max-width: 100% !important;
+}
+
+/* Tailwind Typography(prose) が内部で参照する変数を、テーマ変数に接続する */
+.article-content.prose,
+.article-content.prose-sm,
+.article-content.prose-base,
+.article-content.prose-lg {
+  --tw-prose-body: var(--color-fg);
+  --tw-prose-headings: var(--color-fg);
+  --tw-prose-lead: var(--color-fg);
+  --tw-prose-links: var(--color-link);
+  --tw-prose-bold: var(--color-fg);
+  --tw-prose-counters: var(--color-muted);
+  --tw-prose-bullets: var(--color-muted);
+  --tw-prose-hr: var(--color-article-hr);
+  --tw-prose-quote-borders: var(--color-article-blockquote-border);
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-code: var(--color-article-inlinecode-fg);
+  --tw-prose-th-borders: var(--color-article-table-border);
+  --tw-prose-td-borders: var(--color-article-table-border);
 }
 
 .article-content.prose-sm {
@@ -112,27 +224,28 @@ body {
 
 /* テーブルのレスポンシブ対応 */
 .article-content table {
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  display: table;
+  table-layout: auto;
   width: 100%;
   margin: 1.5rem 0;
   border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  background-color: var(--color-article-table-bg);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10);
   border-radius: 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* テーブル内部要素の表示 */
 .article-content table>* {
-  display: table;
+  display: table-row-group;
   width: 100%;
   border-collapse: collapse;
 }
 
 .article-content thead {
   display: table-header-group;
-  background-color: #f9fafb;
+  background-color: var(--color-article-table-head-bg);
 }
 
 .article-content tbody {
@@ -141,7 +254,7 @@ body {
 
 .article-content tr {
   display: table-row;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-article-table-border);
 }
 
 .article-content tr:last-child {
@@ -153,17 +266,32 @@ body {
   display: table-cell;
   text-align: left;
   vertical-align: top;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-article-table-border);
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* 表の最初のカラム（項目）の幅を調整 */
+.article-content table th:first-child,
+.article-content table td:first-child {
+  min-width: 120px;
+  max-width: 200px;
+}
+
+/* 表の2番目以降のカラムの幅を調整 */
+.article-content table th:not(:first-child),
+.article-content table td:not(:first-child) {
+  min-width: 150px;
 }
 
 .article-content th {
   font-weight: 600;
-  color: #111827;
-  background-color: #f9fafb;
+  color: var(--color-fg);
+  background-color: var(--color-article-table-head-bg);
 }
 
 .article-content td {
-  color: #374151;
+  color: var(--color-fg);
 }
 
 /* テーブルのスクロールヒント */
@@ -290,18 +418,22 @@ main .prose pre code {
 /* 強調表示 */
 .article-content strong {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-fg);
 }
 
 /* リンク */
 .article-content a {
-  color: #2563eb;
+  color: var(--color-link) !important;
   text-decoration: underline;
   transition: color 0.2s;
 }
 
+.article-content a:visited {
+  color: var(--color-link) !important;
+}
+
 .article-content a:hover {
-  color: #1d4ed8;
+  color: var(--color-link-hover) !important;
 }
 
 /* 画像とメディアのレスポンシブ対応 */
@@ -321,28 +453,28 @@ main .prose pre code {
 
 /* コードのインライン表示 */
 .article-content :not(pre)>code {
-  background-color: #f3f4f6;
+  background-color: var(--color-article-inlinecode-bg);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   font-size: 0.875em;
   font-weight: 400;
-  color: #dc2626;
+  color: var(--color-article-inlinecode-fg);
 }
 
 /* ブロッククォート */
 .article-content blockquote {
-  border-left: 4px solid #e5e7eb;
+  border-left: 4px solid var(--color-article-blockquote-border);
   padding-left: 1rem;
   margin: 1rem 0;
   font-style: italic;
-  color: #6b7280;
+  color: var(--color-article-blockquote-fg);
 }
 
 /* 水平線 */
 .article-content hr {
   margin: 2rem 0;
   border: 0;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-article-hr);
 }
 
 /* 目次のスムーズスクロール */
@@ -684,7 +816,7 @@ html {
   top: 0;
   bottom: 0;
   width: 3px;
-  background-color: #2563eb;
+  background-color: var(--color-link);
   border-radius: 0 2px 2px 0;
 }
 
@@ -714,10 +846,63 @@ html {
 }
 
 /* アラートボックス（警告・情報）のレスポンシブ対応 */
+.article-content .callout {
+  padding: 0.75rem !important;
+  margin: 1rem 0 !important;
+  border-radius: 0.5rem !important;
+  border-left-width: 4px !important;
+  color: var(--color-fg) !important;
+}
+
+.article-content .callout .callout-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.article-content .callout .callout-body {
+  margin-left: 0.75rem;
+}
+
+.article-content .callout .callout-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: inherit !important;
+}
+
+.article-content .callout .callout-text strong {
+  color: inherit !important;
+}
+
+.article-content .callout-warn {
+  background-color: var(--color-article-callout-warn-bg) !important;
+  border-left-color: var(--color-article-callout-warn-border) !important;
+}
+
+.article-content .callout-warn .callout-icon {
+  color: var(--color-article-callout-warn-border) !important;
+}
+
+.article-content .callout-info {
+  background-color: var(--color-article-callout-info-bg) !important;
+  border-left-color: var(--color-article-callout-info-border) !important;
+}
+
+.article-content .callout-info .callout-icon {
+  color: var(--color-article-callout-info-border) !important;
+}
+
+.article-content .callout-link {
+  color: var(--color-link) !important;
+  text-decoration: underline;
+}
+
+.article-content .callout-link:hover {
+  color: var(--color-link-hover) !important;
+}
+
 .article-content div.bg-yellow-50,
 .article-content .bg-yellow-50 {
-  background-color: #fefce8 !important;
-  /* yellow-50 */
+  background-color: var(--color-article-callout-warn-bg) !important;
   padding: 0.75rem !important;
   margin: 1rem 0 !important;
   border-radius: 0.5rem !important;
@@ -725,31 +910,47 @@ html {
 
 .article-content div.bg-blue-50,
 .article-content .bg-blue-50 {
-  background-color: #eff6ff !important;
-  /* blue-50 */
+  background-color: var(--color-article-callout-info-bg) !important;
   padding: 0.75rem !important;
   margin: 1rem 0 !important;
   border-radius: 0.5rem !important;
 }
 
 .article-content .border-yellow-400 {
-  border-left-color: #facc15 !important;
-  /* yellow-400 */
+  border-left-color: var(--color-article-callout-warn-border) !important;
 }
 
 .article-content .border-blue-400 {
-  border-left-color: #60a5fa !important;
-  /* blue-400 */
+  border-left-color: var(--color-article-callout-info-border) !important;
 }
 
 .article-content .text-yellow-700 {
-  color: #a16207 !important;
-  /* yellow-700 */
+  color: var(--color-article-callout-warn-fg) !important;
 }
 
 .article-content .text-blue-700 {
-  color: #1d4ed8 !important;
-  /* blue-700 */
+  color: var(--color-article-callout-info-fg) !important;
+}
+
+/* 記事HTML内のTailwind色クラスを（可能な限り）テーマ変数へ寄せる */
+.article-content .bg-gray-50 {
+  background-color: var(--color-article-table-row-alt-bg) !important;
+}
+
+.article-content .bg-gray-100 {
+  background-color: var(--color-article-table-head-bg) !important;
+}
+
+.article-content .border-gray-300 {
+  border-color: var(--color-article-table-border) !important;
+}
+
+.article-content .text-blue-600 {
+  color: var(--color-link) !important;
+}
+
+.article-content .text-blue-800 {
+  color: var(--color-link-hover) !important;
 }
 
 .article-content .text-yellow-400 {

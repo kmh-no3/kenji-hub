@@ -10,6 +10,14 @@ export default function Header() {
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const [themeMode, setThemeMode] = useState<ThemeMode>('system');
 
+  const getRid = () => {
+    try {
+      return document.querySelector('meta[name="x-debug-rid"]')?.getAttribute('content') ?? null;
+    } catch {
+      return null;
+    }
+  };
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -23,6 +31,7 @@ export default function Header() {
       const next = !v;
       // #region agent log
       fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H7', location: 'src/components/layout/Header.tsx:toggleThemeMenu', message: 'Theme menu toggled', data: { open: next }, timestamp: Date.now() }) }).catch(() => fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H7', location: 'src/components/layout/Header.tsx:toggleThemeMenu', message: 'Theme menu toggled (fallback)', data: { open: next }, timestamp: Date.now() }) }).catch(() => { }));
+      fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H17', location: 'src/components/layout/Header.tsx:toggleThemeMenu', message: 'Theme menu toggled (rid)', data: { rid: getRid(), open: next, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => { });
       // #endregion agent log
       return next;
     });
@@ -37,6 +46,7 @@ export default function Header() {
 
     // #region agent log
     fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H2', location: 'src/components/layout/Header.tsx:selectThemeMode', message: 'User selected theme mode', data: { mode: mode, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H2', location: 'src/components/layout/Header.tsx:selectThemeMode', message: 'User selected theme mode (fallback)', data: { mode: mode, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => { }));
+    fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H17', location: 'src/components/layout/Header.tsx:selectThemeMode', message: 'User selected theme mode (rid)', data: { rid: getRid(), mode, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => { });
     // #endregion agent log
   };
 
@@ -97,7 +107,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-[color:var(--color-header-bg)] border-b border-[color:rgba(255,255,255,0.08)]">
+      <header className="sticky top-0 z-50 bg-[color:var(--color-header-bg)] border-b border-[color:var(--color-header-border)]">
         <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-20">
           {/* 左側: サイトタイトルとナビゲーション */}
           <div className="flex items-center">
@@ -183,11 +193,11 @@ export default function Header() {
             {/* SNSリンク - デスクトップのみ表示（モバイルでは非表示） */}
             <div className="hidden md:flex space-x-4 sm:space-x-6 lg:space-x-12">
               <span
-                className="text-[color:var(--color-header-fg-muted)] cursor-not-allowed"
-                aria-label="Twitter (未作成)"
+                className="text-[color:var(--color-header-fg-disabled)] cursor-not-allowed"
+                aria-label="X (未作成)"
               >
                 <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </span>
               <a
@@ -202,7 +212,7 @@ export default function Header() {
                 </svg>
               </a>
               <span
-                className="text-[color:var(--color-header-fg-muted)] cursor-not-allowed"
+                className="text-[color:var(--color-header-fg-disabled)] cursor-not-allowed"
                 aria-label="Zenn (未作成)"
               >
                 <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 24 24">

@@ -1,4 +1,5 @@
 import { ProjectStatus } from '@/types';
+import type { CSSProperties } from 'react';
 
 export function getStatusColor(status: ProjectStatus): string {
   switch (status) {
@@ -31,8 +32,30 @@ export function getDemoButtonText(demoUrl: string): string {
 }
 
 export function getDemoButtonClass(demoUrl: string): string {
-  return demoUrl.includes('localhost') 
-    ? 'bg-orange-600 hover:bg-orange-700 text-white' 
-    : 'bg-blue-600 hover:bg-blue-700 text-white';
+  return 'font-medium';
+}
+
+export function getDemoButtonStyle(demoUrl: string): CSSProperties {
+  if (typeof window === 'undefined') {
+    const isLocalhost = demoUrl.includes('localhost');
+    return {
+      backgroundColor: isLocalhost
+        ? 'var(--color-button-demo-local-bg)'
+        : 'var(--color-button-demo-bg)',
+      color: isLocalhost
+        ? 'var(--color-button-demo-local-fg)'
+        : 'var(--color-button-demo-fg)',
+    };
+  }
+  const isLocalhost = demoUrl.includes('localhost');
+  const html = document.documentElement;
+  const bgVar = isLocalhost ? '--color-button-demo-local-bg' : '--color-button-demo-bg';
+  const fgVar = isLocalhost ? '--color-button-demo-local-fg' : '--color-button-demo-fg';
+  const bgValue = getComputedStyle(html).getPropertyValue(bgVar).trim();
+  const fgValue = getComputedStyle(html).getPropertyValue(fgVar).trim();
+  return {
+    backgroundColor: bgValue || (isLocalhost ? 'var(--color-button-demo-local-bg)' : 'var(--color-button-demo-bg)'),
+    color: fgValue || (isLocalhost ? 'var(--color-button-demo-local-fg)' : 'var(--color-button-demo-fg)'),
+  };
 }
 

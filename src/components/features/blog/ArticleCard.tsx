@@ -37,7 +37,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           {article.tags.map((tag) => (
             <span
               key={tag}
-              className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-[color:rgba(62,168,255,0.16)] text-[color:var(--color-fg)]"
+              className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-[color:var(--color-accent-alpha-16)] text-[color:var(--color-fg)]"
             >
               {tag}
             </span>
