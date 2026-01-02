@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
 import { TableOfContents } from '@/components/features/blog'
 
 // 記事データの型定義
@@ -272,9 +271,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* ヘッダー */}
-      <Header />
+    <div className="min-h-screen bg-[color:var(--color-bg)]">
 
       {/* モバイル用Sticky目次（記事の外に配置） */}
       <div className="lg:hidden" id="toc-wrapper">

@@ -7,7 +7,7 @@ interface ArticleCardProps {
 
 export function ArticleCard({ article }: ArticleCardProps) {
   return (
-    <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100">
+    <article className="bg-[color:var(--color-surface)] rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-[color:var(--color-border)]">
       {/* 記事サムネイル（絵文字） */}
       {article.image && (
         <Link href={`/blog/${article.id}`}>
@@ -21,14 +21,14 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
       <div className="p-4 sm:p-6">
         {/* 記事タイトル */}
-        <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+        <h2 className="text-lg sm:text-xl font-bold text-[color:var(--color-fg)] mb-2 hover:text-[color:var(--color-link)] transition-colors">
           <Link href={`/blog/${article.id}`}>
             {article.title}
           </Link>
         </h2>
 
         {/* 記事説明 */}
-        <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 line-clamp-3">
+        <p className="text-sm sm:text-base text-[color:var(--color-muted)] mb-3 sm:mb-4 line-clamp-3">
           {article.description}
         </p>
 
@@ -37,7 +37,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           {article.tags.map((tag) => (
             <span
               key={tag}
-              className="px-2 py-0.5 sm:py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+              className="px-2 py-0.5 sm:py-1 text-xs rounded-full bg-[color:rgba(62,168,255,0.16)] text-[color:var(--color-fg)]"
             >
               {tag}
             </span>
@@ -46,14 +46,14 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
         {/* 記事メタ情報 */}
         <div className="flex items-center justify-between">
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-[color:var(--color-muted)]">
             {new Date(article.publishedAt).toLocaleDateString('ja-JP')}
           </div>
 
           {/* 読むボタン */}
           <Link
             href={`/blog/${article.id}`}
-            className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+            className="text-[color:var(--color-link)] hover:text-[color:var(--color-link-hover)] font-medium text-sm"
           >
             読む →
           </Link>

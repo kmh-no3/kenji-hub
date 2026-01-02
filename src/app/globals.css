@@ -3,19 +3,57 @@
 @tailwind utilities;
 
 :root {
-  --foreground: #000000;
-  --background: #ffffff;
+  /* Zenn参考: 青系アクセント + 読みやすいニュートラル */
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-fg: #0b1220;
+  --color-muted: #536471;
+  --color-border: #e5e7eb;
+  --color-accent: #3ea8ff;
+  --color-accent-hover: #1d8cf8;
+  --color-link: var(--color-accent);
+  --color-link-hover: #1183f6;
+
+  /* ヘッダー（Zennっぽい濃紺） */
+  --color-header-bg: #0b2a43;
+  --color-header-fg: #ffffff;
+  --color-header-fg-muted: rgba(255, 255, 255, 0.75);
+  --color-header-hover-bg: rgba(255, 255, 255, 0.08);
+
+  /* ドロップダウン */
+  --color-popover-bg: #0f3556;
+  --color-popover-fg: #ffffff;
+  --color-popover-border: rgba(255, 255, 255, 0.14);
+  --color-popover-hover-bg: rgba(255, 255, 255, 0.08);
+
   --header-height-mobile: 3.5rem;
   /* h-14 (56px) */
   --header-height-sm: 5rem;
   /* sm:h-20 (80px) */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: #ffffff;
-    --background: #000000;
-  }
+/* 有効テーマ（JSで html[data-theme] を切替） */
+html[data-theme="dark"] {
+  --color-bg: #0b1220;
+  --color-surface: #0f1b2e;
+  --color-fg: #e5e7eb;
+  --color-muted: #9aa4b2;
+  --color-border: #22324a;
+  --color-accent: #3ea8ff;
+  --color-accent-hover: #7cc4ff;
+  --color-link: #7cc4ff;
+  --color-link-hover: #a5d8ff;
+
+  /* ヘッダーはライト/ダークで共通（Zennの雰囲気寄せ） */
+  --color-header-bg: #0b2a43;
+  --color-header-fg: #ffffff;
+  --color-header-fg-muted: rgba(255, 255, 255, 0.75);
+  --color-header-hover-bg: rgba(255, 255, 255, 0.08);
+
+  --color-popover-bg: #0f3556;
+  --color-popover-fg: #ffffff;
+  --color-popover-border: rgba(255, 255, 255, 0.14);
+  --color-popover-hover-bg: rgba(255, 255, 255, 0.08);
 }
 
 @media (min-width: 640px) {
@@ -26,8 +64,8 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--color-fg);
+  background: var(--color-bg);
 }
 
 /* line-clamp ユーティリティ */
