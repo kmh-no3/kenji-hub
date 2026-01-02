@@ -14,10 +14,6 @@ export async function middleware(req: NextRequest) {
         path === '/projects/' ||
         path === '/blog' ||
         path === '/blog/' ||
-        path === '/api/build-info' ||
-        path === '/api/build-info/' ||
-        path === '/api/pixel' ||
-        path === '/api/pixel/' ||
         path === '/favicon.ico' ||
         // /api/agent-log 自体はログ送信先なので、ここでは対象にするが、実送信は除外する
         path.startsWith('/api/agent-log') ||
@@ -48,9 +44,7 @@ export async function middleware(req: NextRequest) {
                                 ? 'H15'
                                 : path.startsWith('/_next/static/css/')
                                     ? 'H15'
-                                    : path === '/api/pixel' || path === '/api/pixel/'
-                                        ? 'H16'
-                                        : 'H5',
+                                    : 'H5',
                     location: 'middleware.ts:middleware',
                     message: 'Request observed',
                     data: {

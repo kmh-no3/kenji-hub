@@ -39,10 +39,11 @@ export default function RootLayout({
       var RID=ridEl ? (ridEl.getAttribute('content')||null) : null;
       var ENDPOINT='http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d';
       // JSが本当に動いたかを、sendBeacon/fetchに依存せず画像リクエストで証拠化する
-      try{
-        var img=new Image();
-        img.src='/api/pixel?from=inline-js&rid='+encodeURIComponent(RID||'null')+'&t='+Date.now();
-      }catch(e0){}
+      // 静的エクスポートではAPIルートが使用できないため、コメントアウト
+      // try{
+      //   var img=new Image();
+      //   img.src='/api/pixel?from=inline-js&rid='+encodeURIComponent(RID||'null')+'&t='+Date.now();
+      // }catch(e0){}
       var bootPayload={sessionId:'debug-session',runId:RUN,hypothesisId:'INLINE_BOOT',location:'src/app/layout.tsx:INLINE_BOOT',message:'inline boot',data:{rid:RID,href:location.href,readyState:document.readyState,hasSendBeacon:!!navigator.sendBeacon,hasFetch:!!window.fetch},timestamp:Date.now()};
       try{
         if(navigator.sendBeacon){
@@ -124,7 +125,8 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         {/* JS無しでもブラウザ到達を証拠化するビーコン（非表示） */}
-        <img
+        {/* 静的エクスポートではAPIルートが使用できないため、コメントアウト */}
+        {/* <img
           src={`/api/pixel?from=layout&rid=${rid}`}
           alt=""
           width={1}
