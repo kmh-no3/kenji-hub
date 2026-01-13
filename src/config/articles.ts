@@ -8,6 +8,14 @@ export const articles: Article[] = [
     publishedAt: '2025-08-23',
     tags: ['Docker', '開発環境', '比較検証', 'Node.js', 'PostgreSQL'],
     image: '🐳⚡💻'
+  },
+  {
+    id: 'sap-introduction-1',
+    title: 'SAP Introduction #1｜なぜSAPは「高い」のに選ばれ続けるのか？',
+    description: 'SAPはなぜ『高い』と言われながらも選ばれ続けるのか。会計・IT・導入現場の視点から、その本質的な価値を解説する。',
+    publishedAt: '2026-01-13',
+    tags: ['SAP', 'ERP', 'SAP導入', 'ITコンサル', '会計システム'],
+    image: '💼📊'
   }
 ] as const;
 
