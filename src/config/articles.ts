@@ -16,6 +16,30 @@ export const articles: Article[] = [
     publishedAt: '2026-01-13',
     tags: ['SAP', 'ERP', 'SAP導入', 'ITコンサル', '会計システム'],
     image: '💼📊'
+  },
+  {
+    id: 'sap-introduction-2',
+    title: 'SAP Introduction #2｜SAP導入で会社は何が変わるのか？',
+    description: 'SAP導入によって企業の業務・会計・経営はどのように変わるのか。現場から経営層までの視点で具体的に解説する。',
+    publishedAt: '2026-01-14',
+    tags: ['SAP', 'ERP', 'SAP導入', '業務改革', '会計', 'ITコンサル'],
+    image: '💼📊'
+  },
+  {
+    id: 'sap-introduction-3',
+    title: 'SAP Introduction #3｜SAPは全社システムか？それとも会計システムか？',
+    description: 'SAPは全社システムなのか、それとも会計システムなのか。SAPの思想と導入実務の観点から、その本質と導入の入口としてのFI領域を解説する。',
+    publishedAt: '2026-01-15',
+    tags: ['SAP', 'ERP', 'SAP FI', '会計システム', '全社システム', 'ITコンサル'],
+    image: '💼📊'
+  },
+  {
+    id: 'sap-introduction-4',
+    title: 'SAP Introduction #4｜SAP導入が失敗する本当の理由',
+    description: 'SAP導入が失敗すると言われる理由は何か。システムではなく、導入の進め方に潜む本当の失敗要因を、導入現場の視点から解説する。',
+    publishedAt: '2026-01-16',
+    tags: ['SAP', 'SAP導入', 'ERP', 'プロジェクト管理', '業務改革', 'ITコンサル'],
+    image: '💼📊'
   }
 ] as const;
 
