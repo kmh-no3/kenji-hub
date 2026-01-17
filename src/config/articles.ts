@@ -40,6 +40,14 @@ export const articles: Article[] = [
     publishedAt: '2026-01-16',
     tags: ['SAP', 'SAP導入', 'ERP', 'プロジェクト管理', '業務改革', 'ITコンサル'],
     image: '💼📊'
+  },
+  {
+    id: 'sap-introduction-5',
+    title: 'SAP Introduction #5｜SAP導入はITプロジェクトではない',
+    description: 'SAP導入はITプロジェクトではなく、業務改革・経営改革のプロジェクトである。その理由と、成功に必要な視点を解説する。',
+    publishedAt: '2026-01-17',
+    tags: ['SAP', 'SAP導入', 'ERP', 'DX', '業務改革', 'ITコンサル'],
+    image: '💼📊'
   }
 ] as const;
 
