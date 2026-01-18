@@ -56,6 +56,14 @@ export const articles: Article[] = [
     publishedAt: '2026-01-18',
     tags: ['SAP', 'SAPコンサルタント', 'ERP', 'ITコンサル', '業務改革', 'キャリア'],
     image: '💼📊'
+  },
+  {
+    id: 'sap-introduction-7',
+    title: 'SAP Introduction #7｜SAP導入を成功させるために、最初に相談すべき人',
+    description: 'SAP導入を成功させるために最初に相談すべき人とは誰か。導入プロジェクトの成否を分ける視点と、相談相手に求められる役割を整理する。',
+    publishedAt: '2026-01-19',
+    tags: ['SAP', 'SAP導入', 'ERP', 'ITコンサル', '業務改革', 'プリセールス'],
+    image: '💼📊'
   }
 ] as const;
 
