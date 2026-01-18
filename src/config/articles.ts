@@ -48,6 +48,14 @@ export const articles: Article[] = [
     publishedAt: '2026-01-17',
     tags: ['SAP', 'SAP導入', 'ERP', 'DX', '業務改革', 'ITコンサル'],
     image: '💼📊'
+  },
+  {
+    id: 'sap-introduction-6',
+    title: 'SAP Introduction #6｜SAPコンサルタントは何をしているのか？',
+    description: 'SAPコンサルタントは何をしているのか。エンジニアとの違いや、導入プロジェクトにおける役割、価値が発揮される瞬間について解説する。',
+    publishedAt: '2026-01-18',
+    tags: ['SAP', 'SAPコンサルタント', 'ERP', 'ITコンサル', '業務改革', 'キャリア'],
+    image: '💼📊'
   }
 ] as const;
 
