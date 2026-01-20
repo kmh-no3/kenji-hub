@@ -151,6 +151,144 @@ export default function RootLayout({
         <ThemeDebugProbe />
         <Header />
         {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function renderMermaidGlobal() {
+                  if (typeof window === 'undefined') {
+                    setTimeout(renderMermaidGlobal, 100);
+                    return;
+                  }
+                  
+                  // Mermaid ライブラリが読み込まれるまで待機（最大10秒）
+                  if (!window.mermaid) {
+                    var retryCount = 0;
+                    var maxRetries = 100;
+                    var checkMermaid = setInterval(function() {
+                      retryCount++;
+                      if (window.mermaid) {
+                        clearInterval(checkMermaid);
+                        renderMermaidGlobal();
+                      } else if (retryCount >= maxRetries) {
+                        clearInterval(checkMermaid);
+                        console.warn('Mermaid library not loaded after 10 seconds');
+                      }
+                    }, 100);
+                    return;
+                  }
+                  
+                  try {
+                    // すべての .mermaid 要素から data-processed を削除して強制再描画
+                    var allMermaidElements = document.querySelectorAll('.mermaid');
+                    allMermaidElements.forEach(function(el) {
+                      el.removeAttribute('data-processed');
+                      var svg = el.querySelector('svg');
+                      if (svg) {
+                        svg.remove();
+                      }
+                    });
+                    
+                    if (allMermaidElements.length > 0) {
+                      window.mermaid.run({
+                        nodes: Array.from(allMermaidElements),
+                        suppressErrors: true
+                      });
+                    }
+                  } catch (e) {
+                    console.warn('Mermaid global render error:', e);
+                  }
+                }
+                
+                // 即座に実行（DOM が既に存在している可能性がある）
+                setTimeout(renderMermaidGlobal, 100);
+                
+                // DOMContentLoaded イベント
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(renderMermaidGlobal, 200);
+                  });
+                } else {
+                  setTimeout(renderMermaidGlobal, 200);
+                }
+                
+                // window.load イベント（すべてのリソースが読み込まれた後）
+                window.addEventListener('load', function() {
+                  setTimeout(renderMermaidGlobal, 200);
+                });
+                
+                // pageshow イベント（ページ遷移時）
+                window.addEventListener('pageshow', function(e) {
+                  // ページ遷移時は複数回実行して確実に描画（より積極的に）
+                  setTimeout(renderMermaidGlobal, 50);
+                  setTimeout(renderMermaidGlobal, 150);
+                  setTimeout(renderMermaidGlobal, 300);
+                  setTimeout(renderMermaidGlobal, 500);
+                  setTimeout(renderMermaidGlobal, 800);
+                  setTimeout(renderMermaidGlobal, 1200);
+                  setTimeout(renderMermaidGlobal, 2000);
+                });
+                
+                // MutationObserver で .mermaid 要素の追加を監視
+                var observer = new MutationObserver(function(mutations) {
+                  var shouldRender = false;
+                  mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                      if (node.nodeType === 1) {
+                        var element = node;
+                        if (element.classList && element.classList.contains('mermaid')) {
+                          shouldRender = true;
+                        } else if (element.querySelector && element.querySelector('.mermaid')) {
+                          shouldRender = true;
+                        }
+                      }
+                    });
+                  });
+                  if (shouldRender) {
+                    setTimeout(renderMermaidGlobal, 50);
+                  }
+                });
+                
+                // document.body 全体を監視
+                if (document.body) {
+                  observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                  });
+                } else {
+                  // document.body がまだ存在しない場合は、DOMContentLoaded を待つ
+                  document.addEventListener('DOMContentLoaded', function() {
+                    observer.observe(document.body, {
+                      childList: true,
+                      subtree: true
+                    });
+                  });
+                }
+                
+                // 定期的なポーリング（最大10秒間、より積極的に）
+                var pollCount = 0;
+                var maxPolls = 100;
+                var pollInterval = setInterval(function() {
+                  pollCount++;
+                  var allMermaidElements = document.querySelectorAll('.mermaid');
+                  
+                  // .mermaid 要素が存在する場合、常に再描画を試みる（確実性を優先）
+                  if (allMermaidElements.length > 0) {
+                    // 処理済み要素が全要素数より少ない場合、または処理済み要素が0の場合
+                    var processedElements = document.querySelectorAll('.mermaid[data-processed]');
+                    if (processedElements.length < allMermaidElements.length || processedElements.length === 0) {
+                      renderMermaidGlobal();
+                    }
+                  }
+                  
+                  if (pollCount >= maxPolls) {
+                    clearInterval(pollInterval);
+                  }
+                }, 100);
+              })();
+            `,
+          }}
+        />
       </body>
     </html>
   );
