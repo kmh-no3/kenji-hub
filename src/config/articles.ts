@@ -64,6 +64,14 @@ export const articles: Article[] = [
     publishedAt: '2026-01-19',
     tags: ['SAP', 'SAP導入', 'ERP', 'ITコンサル', '業務改革', 'プリセールス'],
     image: '💼📊'
+  },
+  {
+    id: 'sap-payment-terms',
+    title: '【SAP導入】支払条件（Payment Terms）の設定方法と、導入プロジェクトでハマりやすい注意点（日本の商習慣パターン付き）',
+    description: 'SAPの支払条件（OBB8）の設定方法と、導入プロジェクトでハマりやすい注意点を、日本の商習慣パターンとともに解説します。',
+    publishedAt: '2026-01-20',
+    tags: ['SAP', 'SAP導入', 'SAP FI', '支払条件', 'OBB8', 'Payment Terms', 'ITコンサル'],
+    image: '💼📊'
   }
 ] as const;
 
