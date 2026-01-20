@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { headers } from 'next/headers'
-import { TableOfContents } from '@/components/features/blog'
+import { TableOfContents, MermaidRenderer } from '@/components/features/blog'
 
 // 記事データの型定義
 interface Article {
@@ -2209,6 +2209,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                     `
                   }}
                 />
+                {/* Mermaid 描画（クライアントサイドナビゲーション対応） */}
+                <MermaidRenderer />
               </div>
             </article>
 
