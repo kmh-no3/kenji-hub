@@ -72,6 +72,14 @@ export const articles: Article[] = [
     publishedAt: '2026-01-20',
     tags: ['SAP', 'SAP導入', 'SAP FI', '支払条件', 'OBB8', 'Payment Terms', 'ITコンサル'],
     image: '💼📊'
+  },
+  {
+    id: 'sap-org-framework-1',
+    title: 'SAP導入で「組織構造」を最速で整理・定義するフレームワーク（第1回：全体像）',
+    description: 'SAP導入プロジェクトで最初につまずきがちな「組織構造」を、3つのレイヤーと3つの軸で整理するためのフレームワークの全体像を解説します。',
+    publishedAt: '2026-01-20',
+    tags: ['SAP', 'S/4HANA', 'SAP導入', '組織構造', 'FI', 'CO', 'SD', 'MM', 'PP', 'IBP'],
+    image: '🏛📊'
   }
 ] as const;
 

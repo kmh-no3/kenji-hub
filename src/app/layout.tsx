@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import { GitHubPagesRouter, ThemeDebugProbe } from '@/components/utils';
 import { siteConfig } from '@/config/site';
@@ -122,6 +123,18 @@ export default function RootLayout({
       <head>
         <meta name="x-debug-rid" content={rid} />
         <script dangerouslySetInnerHTML={{ __html: inlineThemeInit }} />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="mermaid-init"
+          strategy="afterInteractive"
+        >{`
+          if (typeof window !== 'undefined' && window.mermaid) {
+            window.mermaid.initialize({ startOnLoad: false, theme: 'default' });
+          }
+        `}</Script>
       </head>
       <body className="antialiased">
         {/* JS無しでもブラウザ到達を証拠化するビーコン（非表示） */}

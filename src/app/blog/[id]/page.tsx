@@ -1646,6 +1646,145 @@ npm install express pg
     publishedAt: '2026-01-20',
     tags: ['SAP', 'SAP導入', 'SAP FI', '支払条件', 'OBB8', 'Payment Terms', 'ITコンサル'],
     image: '💼📊'
+  },
+  {
+    id: 'sap-org-framework-1',
+    title: 'SAP導入で「組織構造」を最速で整理・定義するフレームワーク（第1回：全体像）',
+    description: 'SAP導入プロジェクトで最初につまずきがちな「組織構造」を、3つのレイヤーと3つの軸で整理するためのフレームワークの全体像を解説します。',
+    content: `
+      <h2>はじめに</h2>
+      <p>SAP導入プロジェクトに入った瞬間、初心者が最初に殴られる概念が「組織構造」です。会社コード、プラント、販売組織、管理領域……単語だけが飛び交い、頭の中では何も繋がらない。それにもかかわらず、設定・テスト・移行のあらゆる場面で「それ、どの組織単位？」と聞かれます。</p>
+      <p>ここで無理に暗記しようとすると、早い段階で限界が来ます。必要なのは暗記ではなく、<strong>毎回同じ手順で整理し、同じ成果物に落とす“型”</strong>です。</p>
+      <p>本シリーズは、その「型」を初心者向けに提供するものです。第1回は全体像（地図）を先に固定する回です。</p>
+      <blockquote>
+        <p>想定スコープ：SD / MM / PP / IBP / FI（AP, AR） / CO を含む導入案件でも破綻しない構成を前提とします。</p>
+      </blockquote>
+
+      <h2>このシリーズで到達したいゴール</h2>
+      <p>シリーズを読み終えたとき、読者が次のことをできる状態になることを目標とします。</p>
+      <ul>
+        <li>新しい案件でも、組織構造を短時間でキャッチアップできる</li>
+        <li>組織要素を漏れなく列挙し、採用 / 保留 / 不採用を判断できる</li>
+        <li>図と表を使い分け、読みやすい「組織構造定義」を作れる</li>
+        <li>設定・テスト・移行で「それはどこで決まる？」に答えられる</li>
+      </ul>
+
+      <h2>結論：組織構造は「3レイヤー」で整理すべきである</h2>
+      <p>組織構造を1枚の図に詰め込むと、ほぼ確実に破綻します。SAP導入で強い整理法は、次の3レイヤーに分けることです。</p>
+      <ul>
+        <li><strong>Layer1：樹形図（階層）</strong> —— 骨格（上位→下位の所属）</li>
+        <li><strong>Layer2：関係図（ER的）</strong> —— 横のつながり（割当・参照・カーディナリティ）</li>
+        <li><strong>Layer3：割当マトリクス（表）</strong> —— 例外・制約・判断基準・根拠</li>
+      </ul>
+      <div class="mermaid">flowchart TB
+  A["Layer1: 樹形図（階層） = 骨格"] --> B["Layer2: 関係図（割当/参照） = 横のつながり"]
+  B --> C["Layer3: 割当マトリクス（表） = 例外/制約/根拠"]
+  C --> D["成果物: 組織構造定義（設定・テスト・移行で使える）"]
+</div>
+      <p>この3レイヤーを分けるだけで、理解スピードと事故耐性が上がります。理由はシンプルです。</p>
+
+      <h2>なぜ「3レイヤー」が効くのか</h2>
+
+      <h3>樹形図は「所属関係」に強い</h3>
+      <p>樹形図は、上位→下位の所属を直感的に示せます。初心者が最初に掴むべき骨格は、まず樹形図で十分です。</p>
+      <p>例：会社コード → プラント → 保管場所（このあたりの単語が何であれ、「上に行くほど大きい単位」という感覚が掴めれば十分です）。</p>
+
+      <h3>しかしSAPの地雷は「横断の割当」である</h3>
+      <p>SAPの設計で揉めるのは、階層ではなく<strong>割当（Assignment）</strong>であることが多いです。たとえば次のようなものです。</p>
+      <ul>
+        <li>販売組織 ↔ 会社コード（請求・売上計上に直結）</li>
+        <li>販売組織 ↔ プラント（出荷元に直結）</li>
+        <li>管理領域 ↔ 会社コード（CO全体に直結）</li>
+        <li>評価領域（会社単位かプラント単位か）など</li>
+      </ul>
+      <p>これらは樹形図では表しにくいため、<strong>関係図（ER的）</strong>を使うべきです。</p>
+
+      <h3>例外は図を殺すので、表に隔離すべきである</h3>
+      <p>最後に残るのが「例外」と「運用ルール」です。</p>
+      <ul>
+        <li>原則は1:1だが、一部だけ例外</li>
+        <li>特定製品だけ別出荷</li>
+        <li>特定取引先だけ別請求</li>
+      </ul>
+      <p>例外を図に入れると、図は一瞬で読めなくなります。だからこそ例外は<strong>割当マトリクス（表）に隔離</strong>し、図は読みやすく保つべきです。</p>
+
+      <h2>初心者が迷子にならない「3つの軸」</h2>
+      <p>スコープが広い案件（SD / MM / PP / IBP / FI / CO）ほど、最初に「軸」で整理すると理解が速くなります。</p>
+      <ul>
+        <li><strong>法定・会計軸（FI/CO）</strong>：決算、税、責任単位</li>
+        <li><strong>モノの流れ軸（MM/PP/IBP）</strong>：拠点、在庫、計画単位</li>
+        <li><strong>商流軸（SD）</strong>：販売責任、請求、出荷</li>
+      </ul>
+      <div class="mermaid">flowchart LR
+  FI["法定・会計軸 FI/CO"] --- MM["モノの流れ軸 MM/PP/IBP"]
+  MM --- SD["商流軸 SD"]
+  FI --- SD
+  note1(("設計の肝は 軸どうしの割当"))
+</div>
+      <p>初心者が最初にやるべきことは、<strong>自分の案件の「中心軸」を宣言すること</strong>です。全部を同じ熱量で追うと、必ず散らかります。</p>
+
+      <h2>このシリーズの手順（毎回これで回す）</h2>
+      <p>このシリーズでは、以下の手順を固定し、毎回同じ型で組織構造を作ります。</p>
+      <div class="mermaid">flowchart TB
+  S0["Step0: スコープ宣言（今回の中心軸を決める）"] --> S1["Step1: 組織要素を候補として全部出す"]
+  S1 --> S2["Step2: 採用/保留/不採用を決める"]
+  S2 --> S3["Step3: 樹形図（階層）で骨格を描く"]
+  S2 --> S4["Step4: 関係図（ER的）で割当を描く"]
+  S4 --> S5["Step5: 割当マトリクス（表）で例外/根拠を残す"]
+  S5 --> S6["Done: 組織構造定義（設定・テスト・移行で使える）"]
+</div>
+      <p>重要なのは、<strong>Step2（採用確定）より先に図を描かない</strong>ことです。先に図を描くと、要素が増殖して破綻します。</p>
+
+      <h2>成果物はこの3点セットである</h2>
+      <p>最終的に出す成果物は、次の3つだけです。</p>
+      <ul>
+        <li>樹形図（階層）：骨格を見せる</li>
+        <li>関係図（ER的）：割当を見せる</li>
+        <li>割当マトリクス（表）：例外と根拠を残す</li>
+      </ul>
+      <p>この3つが揃うと、設計の会話が急に通じるようになります。初心者でも戦える状態になります。</p>
+
+      <h2>Done基準（この状態なら「完成」である）</h2>
+      <p>以下が満たせたら、組織構造は「完成」とみなしてよいでしょう。</p>
+      <ul>
+        <li>[ ] スコープ（中心軸）が明文化されている</li>
+        <li>[ ] 採用する組織要素が確定している（採用 / 保留 / 不採用が付いている）</li>
+        <li>[ ] 樹形図で階層が一目でわかる</li>
+        <li>[ ] 関係図で割当がカーディナリティ付きでわかる（1:1 / 1:N / N:M）</li>
+        <li>[ ] 表に例外・制約・決定者・根拠が残っている</li>
+        <li>[ ] 実データ（コード値：会社コード / プラント / 販売組織など）を追記できる器がある</li>
+      </ul>
+
+      <h2>初心者がやりがちな失敗（先に回避する）</h2>
+
+      <h3>失敗1：図を1枚に詰め込み、誰も読めない</h3>
+      <p>対策：階層（樹形）／割当（関係）／例外（表）を分離するべきです。</p>
+
+      <h3>失敗2：割当が口頭で決まり、後で崩壊する</h3>
+      <p>対策：表に「決定者・根拠」を残すべきです。</p>
+
+      <h3>失敗3：モジュール観点が混ざって論点がぶれる</h3>
+      <p>対策：Step0で中心軸を宣言するべきです（FI/CO、モノ、商流）。</p>
+
+      <h2>次回（第2回）：組織要素リストを作る（候補→採用に絞る）</h2>
+      <p>次回は、組織要素をモジュール横断で列挙し、判断基準で採用を確定する回です。ここが固まると、樹形図・関係図が一気に描けるようになります。</p>
+      <ul>
+        <li>候補カタログ（FI / CO / SD / MM / PP / IBP）</li>
+        <li>採用判断の基準（法定・在庫評価・統制・KPI責任）</li>
+        <li>質問セット（最短で埋めるための聞き方）</li>
+      </ul>
+
+      <h2>おまけ：1分セルフチェック（読者の手が動く仕掛け）</h2>
+      <p>この記事を読んだ直後に、次の2つだけ書ければ前進です。</p>
+      <ul>
+        <li>自分の案件の中心軸はどれか（FI/CO・モノ・商流）</li>
+        <li>組織構造を「樹形図・関係図・表」に分ける理由を1行で言えるか</li>
+      </ul>
+      <p>ここまでできれば、次回のStep2に進めます。</p>
+    `,
+    publishedAt: '2026-01-20',
+    tags: ['SAP', 'S/4HANA', 'SAP導入', '組織構造', 'FI', 'CO', 'SD', 'MM', 'PP', 'IBP'],
+    image: '🏛📊'
   }
 ]
 
@@ -1977,6 +2116,93 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                                 }).catch(() => {});
                               }
                             }, 1000);
+                          }
+                        })();
+                      </script>
+                      <script>
+                        (function() {
+                          // #region agent log (mermaid-debug)
+                          var MERMAID_DEBUG_ENDPOINT = 'http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d';
+                          function mermaidDebugLog(hypothesisId, message, data) {
+                            try {
+                              fetch(MERMAID_DEBUG_ENDPOINT, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                  sessionId: 'debug-session',
+                                  runId: 'mermaid-debug-1',
+                                  hypothesisId: hypothesisId,
+                                  location: 'src/app/blog/[id]/page.tsx:renderMermaid',
+                                  message: message,
+                                  data: data,
+                                  timestamp: Date.now()
+                                })
+                              }).catch(function () { });
+                            } catch (e) { }
+                          }
+                          // #endregion agent log (mermaid-debug)
+
+                          function renderMermaid() {
+                            if (typeof window !== 'undefined' && window.mermaid) {
+                              try {
+                                var mermaidNodeList = document.querySelectorAll('.mermaid');
+                                var mermaidElements = Array.from(mermaidNodeList);
+                                mermaidDebugLog('H1', 'found mermaid elements', {
+                                  count: mermaidElements.length,
+                                  texts: mermaidElements.map(function (el) {
+                                    return (el.textContent || '').slice(0, 120);
+                                  })
+                                });
+
+                                if (mermaidElements.length > 0) {
+                                  window.mermaid.run({
+                                    nodes: mermaidElements,
+                                    suppressErrors: true
+                                  });
+                                  mermaidDebugLog('H2', 'mermaid.run completed', {
+                                    processedCount: mermaidElements.length
+                                  });
+
+                                  // run 実行後にエラーアイコンが付いている要素を特定
+                                  var errorIcons = document.querySelectorAll('.mermaid svg .error-icon, .mermaid .error-icon');
+                                  var errorDetails = Array.from(errorIcons).map(function (icon) {
+                                    var container = icon.closest('.mermaid');
+                                    return {
+                                      snippet: container && container.textContent ? container.textContent.slice(0, 160) : null
+                                    };
+                                  });
+                                  mermaidDebugLog('H3', 'error icons after run', {
+                                    errorCount: errorIcons.length,
+                                    errors: errorDetails
+                                  });
+                                }
+                              } catch (e) {
+                                console.warn('Mermaid render error:', e);
+                                mermaidDebugLog('H4', 'mermaid.run threw exception', {
+                                  error: String(e)
+                                });
+                                // フォールバック: 古いAPIを試す
+                                try {
+                                  window.mermaid.init(undefined, '.mermaid');
+                                  mermaidDebugLog('H5', 'fallback mermaid.init executed', {});
+                                } catch (e2) {
+                                  console.warn('Mermaid fallback also failed:', e2);
+                                  mermaidDebugLog('H6', 'fallback mermaid.init failed', {
+                                    error: String(e2)
+                                  });
+                                }
+                              }
+                            } else {
+                              // Mermaid 未ロード時はリトライ
+                              mermaidDebugLog('H7', 'mermaid not yet available, retry scheduled', {});
+                              setTimeout(renderMermaid, 100);
+                            }
+                          }
+
+                          if (document.readyState === 'loading') {
+                            document.addEventListener('DOMContentLoaded', renderMermaid);
+                          } else {
+                            setTimeout(renderMermaid, 0);
                           }
                         })();
                       </script>
