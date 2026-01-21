@@ -1676,10 +1676,15 @@ npm install express pg
         <li><strong>Layer2：関係図（ER的）</strong> —— 横のつながり（割当・参照・カーディナリティ）</li>
         <li><strong>Layer3：割当マトリクス（表）</strong> —— 例外・制約・判断基準・根拠</li>
       </ul>
-      <div class="mermaid">flowchart TB
-  A["Layer1: 樹形図（階層） = 骨格"] --> B["Layer2: 関係図（割当/参照） = 横のつながり"]
-  B --> C["Layer3: 割当マトリクス（表） = 例外/制約/根拠"]
-  C --> D["成果物: 組織構造定義（設定・テスト・移行で使える）"]
+      <div class="mermaid">
+graph TB
+    A["Layer1: 樹形図<br/>階層 = 骨格"] --> B["Layer2: 関係図<br/>割当/参照 = 横のつながり"]
+    B --> C["Layer3: 割当マトリクス<br/>表 = 例外/制約/根拠"]
+    C --> D["成果物:<br/>組織構造定義<br/>設定・テスト・移行で使える"]
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#ffe1e1
+    style D fill:#e1ffe1
 </div>
       <p>この3レイヤーを分けるだけで、理解スピードと事故耐性が上がります。理由はシンプルです。</p>
 
@@ -1715,23 +1720,42 @@ npm install express pg
         <li><strong>モノの流れ軸（MM/PP/IBP）</strong>：拠点、在庫、計画単位</li>
         <li><strong>商流軸（SD）</strong>：販売責任、請求、出荷</li>
       </ul>
-      <div class="mermaid">flowchart LR
-  FI["法定・会計軸 FI/CO"] --- MM["モノの流れ軸 MM/PP/IBP"]
-  MM --- SD["商流軸 SD"]
-  FI --- SD
-  note1(("設計の肝は 軸どうしの割当"))
+      <div class="mermaid">
+graph TD
+    subgraph "3つの軸"
+    FI["法定・会計軸<br/>FI/CO"]
+    MM["モノの流れ軸<br/>MM/PP/IBP"]
+    SD["商流軸<br/>SD"]
+    end
+    FI -.割当.- MM
+    MM -.割当.- SD
+    FI -.割当.- SD
+    Note["💡 設計の肝は<br/>軸どうしの割当"]
+    style FI fill:#e1f5ff
+    style MM fill:#fff4e1
+    style SD fill:#ffe1e1
+    style Note fill:#f0f0f0,stroke:#666,stroke-dasharray: 5 5
 </div>
       <p>初心者が最初にやるべきことは、<strong>自分の案件の「中心軸」を宣言すること</strong>です。全部を同じ熱量で追うと、必ず散らかります。</p>
 
       <h2>このシリーズの手順（毎回これで回す）</h2>
       <p>このシリーズでは、以下の手順を固定し、毎回同じ型で組織構造を作ります。</p>
-      <div class="mermaid">flowchart TB
-  S0["Step0: スコープ宣言（今回の中心軸を決める）"] --> S1["Step1: 組織要素を候補として全部出す"]
-  S1 --> S2["Step2: 採用/保留/不採用を決める"]
-  S2 --> S3["Step3: 樹形図（階層）で骨格を描く"]
-  S2 --> S4["Step4: 関係図（ER的）で割当を描く"]
-  S4 --> S5["Step5: 割当マトリクス（表）で例外/根拠を残す"]
-  S5 --> S6["Done: 組織構造定義（設定・テスト・移行で使える）"]
+      <div class="mermaid">
+graph TB
+    S0["Step0:<br/>スコープ宣言<br/>中心軸を決める"] --> S1["Step1:<br/>組織要素を<br/>候補として全部出す"]
+    S1 --> S2["Step2:<br/>採用/保留/不採用<br/>を決める"]
+    S2 --> S3["Step3:<br/>樹形図で<br/>骨格を描く"]
+    S2 --> S4["Step4:<br/>関係図で<br/>割当を描く"]
+    S4 --> S5["Step5:<br/>割当マトリクスで<br/>例外/根拠を残す"]
+    S3 --> S6["✅ Done:<br/>組織構造定義<br/>設定・テスト・移行で使える"]
+    S5 --> S6
+    style S0 fill:#e1f5ff
+    style S1 fill:#fff4e1
+    style S2 fill:#ffe1f5
+    style S3 fill:#e1ffe1
+    style S4 fill:#e1ffe1
+    style S5 fill:#fff4e1
+    style S6 fill:#90EE90
 </div>
       <p>重要なのは、<strong>Step2（採用確定）より先に図を描かない</strong>ことです。先に図を描くと、要素が増殖して破綻します。</p>
 
