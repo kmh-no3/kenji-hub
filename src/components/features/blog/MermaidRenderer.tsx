@@ -134,7 +134,7 @@ export function MermaidRenderer() {
     }
 
     // 初回実行（常に強制処理で、既存の data-processed をクリアして再描画）
-    // 即座に実行（DOM は既に存在しているはず）
+    // beforeInteractiveでライブラリが読み込まれているため、より短い遅延で実行
     mermaidDebugLog('H16', 'initial render (forced) - before call', { 
       pathname: currentPathname,
       pathnameChanged,
@@ -157,11 +157,13 @@ export function MermaidRenderer() {
       })
     }
     
-    renderMermaid(true)
-    
-    mermaidDebugLog('H22', 'initial render (forced) - after call', {
-      pathname: currentPathname
-    })
+    // 50ms遅延で初回実行（ライブラリは既に準備済みのはず）
+    setTimeout(() => {
+      mermaidDebugLog('H22', 'initial render (forced) - executing', {
+        pathname: currentPathname
+      })
+      renderMermaid(true)
+    }, 50)
     
     // 念のため、少し遅延して再実行（DOM 更新を待つ）
     setTimeout(() => {
@@ -169,11 +171,11 @@ export function MermaidRenderer() {
         pathname: currentPathname
       })
       renderMermaid(true)
-    }, 200)
+    }, 150)
 
     // ポーリング: 定期的に .mermaid 要素をチェック（GitHub Pages の静的サイト対応）
     let pollCount = 0
-    const maxPolls = 30 // 最大3秒間（100ms × 30）
+    const maxPolls = 100 // 最大5秒間（50ms × 100）
     pollIntervalRef.current = setInterval(() => {
       pollCount++
       const unprocessedElements = document.querySelectorAll('.mermaid:not([data-processed])')
@@ -204,7 +206,7 @@ export function MermaidRenderer() {
           pollIntervalRef.current = null
         }
       }
-    }, 100)
+    }, 50)
 
     // MutationObserver で新しい .mermaid 要素の追加を監視
     const observer = new MutationObserver((mutations) => {
