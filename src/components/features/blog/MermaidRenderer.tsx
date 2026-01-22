@@ -3,26 +3,13 @@
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
-// #region agent log (mermaid-client-debug)
-const MERMAID_DEBUG_ENDPOINT = 'http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d'
+// デバッグログ関数（本番環境では何もしない）
 function mermaidDebugLog(hypothesisId: string, message: string, data: any) {
-  try {
-    fetch(MERMAID_DEBUG_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId: 'debug-session',
-        runId: 'mermaid-client-debug',
-        hypothesisId,
-        location: 'src/components/features/blog/MermaidRenderer.tsx:useEffect',
-        message,
-        data,
-        timestamp: Date.now()
-      })
-    }).catch(() => {})
-  } catch (e) {}
+  // 本番環境ではデバッグログを無効化
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    console.log(`[Mermaid Debug ${hypothesisId}]`, message, data)
+  }
 }
-// #endregion agent log (mermaid-client-debug)
 
 export function MermaidRenderer() {
   const pathname = usePathname()
