@@ -76,7 +76,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article className="bg-[color:var(--color-surface)] rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-[color:var(--color-border)] flex flex-col">
       {/* プロジェクトサムネイル（絵文字） */}
-      <div className="relative h-36 sm:h-48 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="relative h-36 sm:h-48 emoji-thumbnail-bg flex items-center justify-center">
         <div className="text-5xl sm:text-6xl">
           {project.image}
         </div>

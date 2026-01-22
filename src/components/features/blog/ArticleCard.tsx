@@ -11,7 +11,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
       {/* 記事サムネイル（絵文字） */}
       {article.image && (
         <Link href={`/blog/${article.id}`}>
-          <div className="relative h-36 sm:h-48 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center hover:from-blue-100 hover:to-indigo-200 transition-all duration-300 cursor-pointer">
+          <div className="relative h-36 sm:h-48 emoji-thumbnail-bg flex items-center justify-center transition-all duration-300 cursor-pointer">
             <div className="text-5xl sm:text-6xl">
               {article.image}
             </div>

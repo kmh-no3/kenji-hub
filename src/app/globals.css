@@ -445,6 +445,60 @@ main .prose pre code {
   margin: 1rem 0;
 }
 
+/* ダークモード時の画像コントラスト調整 */
+/* 画像を白背景で表示し、画像内の文字色を保持 */
+html[data-theme="dark"] .article-content img {
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  /* 画像の色を反転させない（元の色を保持） */
+  filter: none;
+}
+
+/* 絵文字サムネイル背景（ライト/ダーク共通で明るい色を維持） */
+.emoji-thumbnail-bg {
+  background: linear-gradient(to bottom right, #dbeafe, #e0e7ff) !important;
+  /* 絵文字の文字色を黒色に固定（ライト/ダーク共通） */
+  color: #000000 !important;
+}
+
+.emoji-thumbnail-bg:hover {
+  background: linear-gradient(to bottom right, #bfdbfe, #c7d2fe) !important;
+}
+
+/* 図表内の文字色をダークモード時も黒色に固定 */
+html[data-theme="dark"] .article-content .diagram-flow strong,
+html[data-theme="dark"] .article-content .diagram-flow span,
+html[data-theme="dark"] .article-content .diagram-flow font,
+html[data-theme="dark"] .article-content .diagram-axes strong,
+html[data-theme="dark"] .article-content .diagram-axes span,
+html[data-theme="dark"] .article-content .diagram-axes font,
+html[data-theme="dark"] .article-content .diagram-steps strong,
+html[data-theme="dark"] .article-content .diagram-steps span,
+html[data-theme="dark"] .article-content .diagram-steps font {
+  color: #000000 !important;
+}
+
+/* 図表内のボックス（div）の文字色も黒色に（ただし矢印を除く） */
+html[data-theme="dark"] .article-content .diagram-flow > div > div:not([style*="text-align: center"]),
+html[data-theme="dark"] .article-content .diagram-axes > div > div:not([style*="text-align: center"]),
+html[data-theme="dark"] .article-content .diagram-steps > div > div:not([style*="text-align: center"]),
+html[data-theme="dark"] .article-content .diagram-flow > div > div:not([style*="text-align: center"]) *,
+html[data-theme="dark"] .article-content .diagram-axes > div > div:not([style*="text-align: center"]) *,
+html[data-theme="dark"] .article-content .diagram-steps > div > div:not([style*="text-align: center"]) * {
+  color: #000000 !important;
+}
+
+/* 図表内の矢印（↓）はダークモード時に白色で表示 */
+html[data-theme="dark"] .article-content .diagram-flow div[style*="text-align: center"],
+html[data-theme="dark"] .article-content .diagram-axes div[style*="text-align: center"],
+html[data-theme="dark"] .article-content .diagram-steps div[style*="text-align: center"],
+html[data-theme="dark"] .article-content .diagram-flow > div > div[style*="font-size: 1.5rem"],
+html[data-theme="dark"] .article-content .diagram-axes > div > div[style*="font-size: 1.5rem"],
+html[data-theme="dark"] .article-content .diagram-steps > div > div[style*="font-size: 1.5rem"] {
+  color: #ffffff !important;
+}
+
 /* 横スクロールコンテナ */
 .article-content .overflow-x-auto {
   overflow-x: auto;
@@ -1149,6 +1203,11 @@ html {
     margin: 0.75rem 0;
     border-radius: 0.375rem;
   }
+
+  /* ダークモード時の画像コントラスト調整（モバイル） */
+  html[data-theme="dark"] .article-content img {
+    padding: 0.75rem;
+  }
 }
 
 /* タブレット用スタイル */
@@ -1233,5 +1292,10 @@ html {
   .article-content .bg-yellow-50 p,
   .article-content .bg-blue-50 p {
     font-size: 0.875rem;
+  }
+
+  /* ダークモード時の画像コントラスト調整（タブレット） */
+  html[data-theme="dark"] .article-content img {
+    padding: 0.875rem;
   }
 }

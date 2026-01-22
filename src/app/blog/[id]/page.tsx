@@ -1906,7 +1906,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             <article className="bg-[color:var(--color-surface)] rounded-lg shadow-md overflow-hidden border border-[color:var(--color-border)]">
               {article.image && (
                 <Link href={`/blog/${article.id}`}>
-                  <div className="relative h-64 sm:h-80 bg-gradient-to-br from-[color:var(--color-article-hero-from)] to-[color:var(--color-article-hero-to)] flex items-center justify-center transition-all duration-300 cursor-pointer">
+                  <div className="relative h-64 sm:h-80 emoji-thumbnail-bg flex items-center justify-center transition-all duration-300 cursor-pointer">
                     <div className="text-5xl sm:text-7xl">
                       {article.image}
                     </div>
