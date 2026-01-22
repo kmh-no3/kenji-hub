@@ -51,54 +51,12 @@ export default function RootLayout({
     <html lang="ja">
       <head>
         <script dangerouslySetInnerHTML={{ __html: inlineThemeInit }} />
-        {/* 静的エクスポート対応: next/Script の代わりに通常の script タグを使用 */}
-        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if (typeof window !== 'undefined' && window.mermaid) {
-                window.mermaid.initialize({ 
-                  startOnLoad: false, 
-                  theme: 'default',
-                  securityLevel: 'loose'
-                });
-              }
-            `,
-          }}
-        />
       </head>
       <body className="antialiased">
         <GitHubPagesRouter />
         <ThemeDebugProbe />
         <Header />
         {children}
-        {/* Mermaidレンダリングのフォールバック（MermaidRendererコンポーネントで主に処理） */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                // beforeInteractiveでライブラリが読み込まれているため、シンプルなフォールバック
-                window.addEventListener('load', function() {
-                  if (typeof window !== 'undefined' && window.mermaid) {
-                    setTimeout(function() {
-                      var unprocessedElements = document.querySelectorAll('.mermaid:not([data-processed])');
-                      if (unprocessedElements.length > 0) {
-                        try {
-                          window.mermaid.run({
-                            nodes: Array.from(unprocessedElements),
-                            suppressErrors: true
-                          });
-                        } catch (e) {
-                          console.warn('Mermaid fallback render error:', e);
-                        }
-                      }
-                    }, 100);
-                  }
-                });
-              })();
-            `,
-          }}
-        />
       </body>
     </html>
   );

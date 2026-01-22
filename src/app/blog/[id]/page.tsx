@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { headers } from 'next/headers'
-import { TableOfContents, MermaidRenderer } from '@/components/features/blog'
+import { TableOfContents } from '@/components/features/blog'
 
 // 記事データの型定義
 interface Article {
@@ -1676,16 +1676,29 @@ npm install express pg
         <li><strong>Layer2：関係図（ER的）</strong> —— 横のつながり（割当・参照・カーディナリティ）</li>
         <li><strong>Layer3：割当マトリクス（表）</strong> —— 例外・制約・判断基準・根拠</li>
       </ul>
-      <div class="mermaid">
-graph TB
-    A["Layer1: 樹形図<br/>階層 = 骨格"] --> B["Layer2: 関係図<br/>割当/参照 = 横のつながり"]
-    B --> C["Layer3: 割当マトリクス<br/>表 = 例外/制約/根拠"]
-    C --> D["成果物:<br/>組織構造定義<br/>設定・テスト・移行で使える"]
-    style A fill:#e1f5ff
-    style B fill:#fff4e1
-    style C fill:#ffe1e1
-    style D fill:#e1ffe1
-</div>
+      <div class="diagram-flow" style="margin: 2rem 0; padding: 1.5rem; background: var(--color-surface); border-radius: 0.5rem; border: 1px solid var(--color-border);">
+        <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+          <div style="background: #e1f5ff; padding: 1rem 1.5rem; border-radius: 0.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-width: 200px;">
+            <strong>Layer1: 樹形図</strong><br/>
+            <span style="font-size: 0.9em; color: #555;">階層 = 骨格</span>
+          </div>
+          <div style="font-size: 1.5rem; color: var(--color-muted);">↓</div>
+          <div style="background: #fff4e1; padding: 1rem 1.5rem; border-radius: 0.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-width: 200px;">
+            <strong>Layer2: 関係図</strong><br/>
+            <span style="font-size: 0.9em; color: #555;">割当/参照 = 横のつながり</span>
+          </div>
+          <div style="font-size: 1.5rem; color: var(--color-muted);">↓</div>
+          <div style="background: #ffe1e1; padding: 1rem 1.5rem; border-radius: 0.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-width: 200px;">
+            <strong>Layer3: 割当マトリクス</strong><br/>
+            <span style="font-size: 0.9em; color: #555;">表 = 例外/制約/根拠</span>
+          </div>
+          <div style="font-size: 1.5rem; color: var(--color-muted);">↓</div>
+          <div style="background: #e1ffe1; padding: 1rem 1.5rem; border-radius: 0.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-width: 200px;">
+            <strong>成果物:</strong><br/>
+            <span style="font-size: 0.9em; color: #555;">組織構造定義<br/>設定・テスト・移行で使える</span>
+          </div>
+        </div>
+      </div>
       <p>この3レイヤーを分けるだけで、理解スピードと事故耐性が上がります。理由はシンプルです。</p>
 
       <h2>なぜ「3レイヤー」が効くのか</h2>
@@ -1720,43 +1733,79 @@ graph TB
         <li><strong>モノの流れ軸（MM/PP/IBP）</strong>：拠点、在庫、計画単位</li>
         <li><strong>商流軸（SD）</strong>：販売責任、請求、出荷</li>
       </ul>
-      <div class="mermaid">
-graph TD
-    subgraph "3つの軸"
-    FI["法定・会計軸<br/>FI/CO"]
-    MM["モノの流れ軸<br/>MM/PP/IBP"]
-    SD["商流軸<br/>SD"]
-    end
-    FI -.割当.- MM
-    MM -.割当.- SD
-    FI -.割当.- SD
-    Note["💡 設計の肝は<br/>軸どうしの割当"]
-    style FI fill:#e1f5ff
-    style MM fill:#fff4e1
-    style SD fill:#ffe1e1
-    style Note fill:#f0f0f0,stroke:#666,stroke-dasharray: 5 5
-</div>
+      <div class="diagram-axes" style="margin: 2rem 0; padding: 1.5rem; background: var(--color-surface); border-radius: 0.5rem; border: 1px solid var(--color-border);">
+        <h4 style="text-align: center; margin-bottom: 1.5rem; color: var(--color-fg);">3つの軸</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div style="background: #e1f5ff; padding: 1.5rem; border-radius: 0.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <strong style="font-size: 1.1em;">法定・会計軸</strong><br/>
+            <span style="font-size: 0.9em; color: #555;">FI/CO</span>
+          </div>
+          <div style="background: #fff4e1; padding: 1.5rem; border-radius: 0.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <strong style="font-size: 1.1em;">モノの流れ軸</strong><br/>
+            <span style="font-size: 0.9em; color: #555;">MM/PP/IBP</span>
+          </div>
+          <div style="background: #ffe1e1; padding: 1.5rem; border-radius: 0.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <strong style="font-size: 1.1em;">商流軸</strong><br/>
+            <span style="font-size: 0.9em; color: #555;">SD</span>
+          </div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: #f0f0f0; border-radius: 0.5rem; border: 2px dashed #666;">
+          <span style="font-size: 1.2em;">💡</span> <strong>設計の肝は軸どうしの割当</strong>
+        </div>
+      </div>
       <p>初心者が最初にやるべきことは、<strong>自分の案件の「中心軸」を宣言すること</strong>です。全部を同じ熱量で追うと、必ず散らかります。</p>
 
       <h2>このシリーズの手順（毎回これで回す）</h2>
       <p>このシリーズでは、以下の手順を固定し、毎回同じ型で組織構造を作ります。</p>
-      <div class="mermaid">
-graph TB
-    S0["Step0:<br/>スコープ宣言<br/>中心軸を決める"] --> S1["Step1:<br/>組織要素を<br/>候補として全部出す"]
-    S1 --> S2["Step2:<br/>採用/保留/不採用<br/>を決める"]
-    S2 --> S3["Step3:<br/>樹形図で<br/>骨格を描く"]
-    S2 --> S4["Step4:<br/>関係図で<br/>割当を描く"]
-    S4 --> S5["Step5:<br/>割当マトリクスで<br/>例外/根拠を残す"]
-    S3 --> S6["✅ Done:<br/>組織構造定義<br/>設定・テスト・移行で使える"]
-    S5 --> S6
-    style S0 fill:#e1f5ff
-    style S1 fill:#fff4e1
-    style S2 fill:#ffe1f5
-    style S3 fill:#e1ffe1
-    style S4 fill:#e1ffe1
-    style S5 fill:#fff4e1
-    style S6 fill:#90EE90
-</div>
+      <div class="diagram-steps" style="margin: 2rem 0; padding: 1.5rem; background: var(--color-surface); border-radius: 0.5rem; border: 1px solid var(--color-border);">
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background: #e1f5ff; padding: 1rem 1.5rem; border-radius: 0.5rem; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <strong>Step0:</strong> スコープ宣言<br/>
+              <span style="font-size: 0.9em; color: #555;">中心軸を決める</span>
+            </div>
+          </div>
+          <div style="text-align: center; font-size: 1.5rem; color: var(--color-muted);">↓</div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background: #fff4e1; padding: 1rem 1.5rem; border-radius: 0.5rem; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <strong>Step1:</strong> 組織要素を<br/>
+              <span style="font-size: 0.9em; color: #555;">候補として全部出す</span>
+            </div>
+          </div>
+          <div style="text-align: center; font-size: 1.5rem; color: var(--color-muted);">↓</div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background: #ffe1f5; padding: 1rem 1.5rem; border-radius: 0.5rem; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <strong>Step2:</strong> 採用/保留/不採用<br/>
+              <span style="font-size: 0.9em; color: #555;">を決める</span>
+            </div>
+          </div>
+          <div style="text-align: center; font-size: 1.5rem; color: var(--color-muted);">↓</div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div style="background: #e1ffe1; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <strong>Step3:</strong> 樹形図で<br/>
+              <span style="font-size: 0.9em; color: #555;">骨格を描く</span>
+            </div>
+            <div style="background: #e1ffe1; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <strong>Step4:</strong> 関係図で<br/>
+              <span style="font-size: 0.9em; color: #555;">割当を描く</span>
+            </div>
+          </div>
+          <div style="text-align: center; font-size: 1.5rem; color: var(--color-muted);">↓</div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background: #fff4e1; padding: 1rem 1.5rem; border-radius: 0.5rem; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <strong>Step5:</strong> 割当マトリクスで<br/>
+              <span style="font-size: 0.9em; color: #555;">例外/根拠を残す</span>
+            </div>
+          </div>
+          <div style="text-align: center; font-size: 1.5rem; color: var(--color-muted);">↓</div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background: #90EE90; padding: 1rem 1.5rem; border-radius: 0.5rem; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">
+              <strong>✅ Done:</strong> 組織構造定義<br/>
+              <span style="font-size: 0.9em; color: #333;">設定・テスト・移行で使える</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <p>重要なのは、<strong>Step2（採用確定）より先に図を描かない</strong>ことです。先に図を描くと、要素が増殖して破綻します。</p>
 
       <h2>成果物はこの3点セットである</h2>
@@ -1900,8 +1949,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
                   className="prose prose-sm sm:prose-base lg:prose-lg max-w-none article-content"
                   dangerouslySetInnerHTML={{ __html: article.content }}
                 />
-                {/* Mermaid 描画（クライアントサイドナビゲーション対応） */}
-                <MermaidRenderer />
               </div>
             </article>
 
