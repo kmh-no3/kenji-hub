@@ -420,35 +420,7 @@ export function ThemeDebugProbe() {
                     timestamp: Date.now(),
                 });
 
-                if (attempt === 1 && reason === 'route') {
-                    // #region agent log
-                    fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            sessionId: 'debug-session',
-                            runId: 'pre-fix',
-                            hypothesisId: 'H10',
-                            location: 'src/components/utils/ThemeDebugProbe.tsx:calloutPresence',
-                            message: 'Callout class presence (new vs legacy)',
-                            data: {
-                                path: pathname,
-                                htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode },
-                                exists: {
-                                    newWarn: !!calloutWarnEl,
-                                    newInfo: !!calloutInfoEl,
-                                    newLink: !!calloutLinkEl,
-                                    legacyWarn: !!legacyWarnEl,
-                                    legacyInfo: !!legacyInfoEl,
-                                    legacyLink: !!legacyLinkEl,
-                                },
-                                cssVars: readThemeVars(),
-                            },
-                            timestamp: Date.now(),
-                        }),
-                    }).catch(() => { });
-                    // #endregion agent log
-                }
+                // デバッグログは本番環境では無効化
             } catch (e) {
                 send({
                     sessionId: 'debug-session',

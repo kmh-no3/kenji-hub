@@ -21,14 +21,8 @@ export function ThemeScript() {
       var effective = mode === 'system' ? (prefersDark ? 'dark' : 'light') : mode;
       document.documentElement.dataset.theme = effective;
       document.documentElement.dataset.themeMode = mode;
-
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H1',location:'ThemeScript.tsx:INLINE',message:'ThemeScript applied initial theme',data:{raw:raw,mode:mode,effective:effective,prefersDark:!!prefersDark},timestamp:Date.now()})}).catch(function(){return fetch('/api/agent-log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H1',location:'ThemeScript.tsx:INLINE',message:'ThemeScript applied initial theme (fallback)',data:{raw:raw,mode:mode,effective:effective,prefersDark:!!prefersDark},timestamp:Date.now()})}).catch(function(){});});
-      // #endregion agent log
     } catch (e) {
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H2',location:'ThemeScript.tsx:INLINE',message:'ThemeScript error',data:{error:String(e)},timestamp:Date.now()})}).catch(function(){return fetch('/api/agent-log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H2',location:'ThemeScript.tsx:INLINE',message:'ThemeScript error (fallback)',data:{error:String(e)},timestamp:Date.now()})}).catch(function(){});});
-      // #endregion agent log
+      // テーマ初期化エラーは無視
     }
   })();
   `;

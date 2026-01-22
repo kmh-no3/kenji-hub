@@ -10,14 +10,6 @@ export default function Header() {
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const [themeMode, setThemeMode] = useState<ThemeMode>('system');
 
-  const getRid = () => {
-    try {
-      return document.querySelector('meta[name="x-debug-rid"]')?.getAttribute('content') ?? null;
-    } catch {
-      return null;
-    }
-  };
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -27,14 +19,7 @@ export default function Header() {
   };
 
   const toggleThemeMenu = () => {
-    setIsThemeMenuOpen((v) => {
-      const next = !v;
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H7', location: 'src/components/layout/Header.tsx:toggleThemeMenu', message: 'Theme menu toggled', data: { open: next }, timestamp: Date.now() }) }).catch(() => fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H7', location: 'src/components/layout/Header.tsx:toggleThemeMenu', message: 'Theme menu toggled (fallback)', data: { open: next }, timestamp: Date.now() }) }).catch(() => { }));
-      fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H17', location: 'src/components/layout/Header.tsx:toggleThemeMenu', message: 'Theme menu toggled (rid)', data: { rid: getRid(), open: next, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => { });
-      // #endregion agent log
-      return next;
-    });
+    setIsThemeMenuOpen((v) => !v);
   };
   const closeThemeMenu = () => setIsThemeMenuOpen(false);
 
@@ -43,11 +28,6 @@ export default function Header() {
     setStoredThemeMode(mode);
     applyThemeMode(mode);
     closeThemeMenu();
-
-    // #region agent log
-    fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H2', location: 'src/components/layout/Header.tsx:selectThemeMode', message: 'User selected theme mode', data: { mode: mode, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H2', location: 'src/components/layout/Header.tsx:selectThemeMode', message: 'User selected theme mode (fallback)', data: { mode: mode, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => { }));
-    fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: `ui-${Date.now()}`, hypothesisId: 'H17', location: 'src/components/layout/Header.tsx:selectThemeMode', message: 'User selected theme mode (rid)', data: { rid: getRid(), mode, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => { });
-    // #endregion agent log
   };
 
   // メニューが開いている間、ボディのスクロールを無効化
@@ -69,20 +49,12 @@ export default function Header() {
     setThemeMode(stored);
     applyThemeMode(stored);
 
-    // #region agent log
-    fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: 'pre-fix', hypothesisId: 'H1', location: 'src/components/layout/Header.tsx:useEffect(initTheme)', message: 'Header initialized theme from storage', data: { stored: stored, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: 'pre-fix', hypothesisId: 'H1', location: 'src/components/layout/Header.tsx:useEffect(initTheme)', message: 'Header initialized theme from storage (fallback)', data: { stored: stored, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => { }));
-    // #endregion agent log
-
     const mql = window.matchMedia?.('(prefers-color-scheme: dark)');
     if (!mql) return;
     const handler = () => {
       const current = getStoredThemeMode();
       if (current !== 'system') return;
       applyThemeMode('system');
-
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: 'pre-fix', hypothesisId: 'H4', location: 'src/components/layout/Header.tsx:matchMedia(handler)', message: 'System theme changed, re-applied theme', data: { storedMode: 'system', matchesDark: !!mql.matches, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: 'pre-fix', hypothesisId: 'H4', location: 'src/components/layout/Header.tsx:matchMedia(handler)', message: 'System theme changed, re-applied theme (fallback)', data: { storedMode: 'system', matchesDark: !!mql.matches, htmlDataset: { theme: document.documentElement.dataset.theme, themeMode: document.documentElement.dataset.themeMode } }, timestamp: Date.now() }) }).catch(() => { }));
-      // #endregion agent log
     };
     mql.addEventListener?.('change', handler);
     return () => mql.removeEventListener?.('change', handler);
@@ -96,10 +68,6 @@ export default function Header() {
       if (!target) return;
       if (target.closest?.('[data-theme-menu-root="true"]')) return;
       setIsThemeMenuOpen(false);
-
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/764ba7da-3ef9-4f32-8544-b52f5084563d', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: 'pre-fix', hypothesisId: 'H4', location: 'src/components/layout/Header.tsx:onDown', message: 'Theme menu closed by outside click', data: { tag: target.tagName }, timestamp: Date.now() }) }).catch(() => fetch('/api/agent-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: 'debug-session', runId: 'pre-fix', hypothesisId: 'H4', location: 'src/components/layout/Header.tsx:onDown', message: 'Theme menu closed by outside click (fallback)', data: { tag: target.tagName }, timestamp: Date.now() }) }).catch(() => { }));
-      // #endregion agent log
     };
     document.addEventListener('mousedown', onDown);
     return () => document.removeEventListener('mousedown', onDown);
