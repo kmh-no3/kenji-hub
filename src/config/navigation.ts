@@ -2,7 +2,7 @@ import { NavItem } from '@/types';
 
 export const navigationConfig = {
   main: [
-    { title: 'ABOUT', href: '#', isActive: false },
+    { title: 'ABOUT', href: '/about', isActive: false },
     { title: 'PROJECTS', href: '/projects', isActive: false },
     { title: 'BLOG', href: '/blog' },
   ] as NavItem[],
@@ -12,4 +12,3 @@ export const navigationConfig = {
     zenn: 'https://zenn.dev/your_zenn',
   },
 } as const;
-
